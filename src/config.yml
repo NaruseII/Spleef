@@ -1,0 +1,32 @@
+lang: english
+times:
+  wait: 10
+allow:
+  magmaCream: true
+  snowBalls: false
+  broadcast: true
+  lightning: true
+  showTime: true
+rewards:
+  command: null
+  win: 0
+  lose: 0
+scoreboard:
+  enable: true
+holograms:
+  enable: false
+gameMode:
+  decaying:
+    beforeMelt: 60
+    betweenMelt: 1
+  team:
+    glowing: false
+commands:
+  start: null
+  end: null
+v1_13:
+  blocks:
+    - "SNOW_BLOCK"
+v1_12:
+  blocks:
+    - "80:0"
