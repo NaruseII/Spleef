@@ -66,6 +66,8 @@ public class Configurations {
         }
         pl.getConfig().set("allow.showTime", pl.getConfig().getBoolean("allow.showTime"));
         pl.getConfig().set("allow.magmaCream", pl.getConfig().getBoolean("allow.magmaCream"));
+        pl.getConfig().set("commands.start", pl.getConfig().getString("commands.start"));
+        pl.getConfig().set("commands.end", pl.getConfig().getString("commands.end"));
         pl.saveConfig();
     }
 

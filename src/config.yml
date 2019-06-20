@@ -22,8 +22,8 @@ gameMode:
   team:
     glowing: false
 commands:
-  start: null
-  end: null
+  start: "null"
+  end: "null"
 v1_13:
   blocks:
     - "SNOW_BLOCK"
