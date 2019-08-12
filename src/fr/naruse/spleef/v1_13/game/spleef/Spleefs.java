@@ -51,7 +51,8 @@ public class Spleefs {
                                                     pl.getConfig().getInt("spleef."+i+".spawn.yaw"), pl.getConfig().getInt("spleef."+i+".spawn.pitch"));
                                             Location spleefLobby = null;
                                             if(pl.getConfig().getString("spleef."+i+".lobby") != null){
-                                                spleefLobby = new Location(wSpawn, pl.getConfig().getDouble("spleef."+i+".lobby.x"),
+                                                World wLob = Bukkit.getWorld(pl.getConfig().getString("spleef."+i+".lobby.world"));
+                                                spleefLobby = new Location(wLob, pl.getConfig().getDouble("spleef."+i+".lobby.x"),
                                                         pl.getConfig().getDouble("spleef."+i+".lobby.y"), pl.getConfig().getDouble("spleef."+i+".lobby.z"),
                                                         pl.getConfig().getInt("spleef."+i+".lobby.yaw"), pl.getConfig().getInt("spleef."+i+".lobby.pitch"));
                                             }
