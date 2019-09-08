@@ -1,6 +1,8 @@
 package fr.naruse.spleef.manager;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import fr.naruse.common.main.CommonPlugin;
+import fr.naruse.spleef.common.placeholder.SpleefPlaceholder;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.v1_12.api.SpleefAPI;
 import fr.naruse.spleef.v1_12.api.SpleefAPIEventInvoker;
@@ -16,6 +18,7 @@ import fr.naruse.spleef.v1_12.util.board.Holograms;
 import fr.naruse.spleef.v1_12.util.config.Configurations;
 import fr.naruse.spleef.v1_12.util.support.OtherPluginSupport;
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class SpleefPluginV1_12 extends AbstractSpleefPlugin {
     public Spleefs spleefs;
@@ -27,6 +30,8 @@ public class SpleefPluginV1_12 extends AbstractSpleefPlugin {
     public Holograms holograms;
     public SpleefAPI spleefAPI;
     public static SpleefPluginV1_12 INSTANCE;
+    public CommonPlugin commonPlugin;
+    private SpleefPlaceholder spleefPlaceholder;
     public SpleefPluginV1_12(SpleefPlugin spleefPlugin) {
         super(spleefPlugin);
     }
@@ -38,6 +43,7 @@ public class SpleefPluginV1_12 extends AbstractSpleefPlugin {
         this.otherPluginSupport = new OtherPluginSupport();
         this.saveConfig();
         this.configurations = new Configurations(this);
+        this.spleefPlaceholder = new SpleefPlaceholder(getSpleefPlugin());
         Bukkit.getScheduler().scheduleSyncDelayedTask(this.getSpleefPlugin(), new Runnable() {
             @Override
             public void run() {
@@ -54,6 +60,7 @@ public class SpleefPluginV1_12 extends AbstractSpleefPlugin {
                 Bukkit.getPluginManager().registerEvents(duels, INSTANCE.getSpleefPlugin());
                 new SpleefAPIEventInvoker(new SpleefEnablingEvent.Post(INSTANCE));
                 logs.stop();
+                commonPlugin = (CommonPlugin) Bukkit.getPluginManager().getPlugin("NaruseResourcesCommon");
             }
         });
     }

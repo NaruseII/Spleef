@@ -69,6 +69,9 @@ public class MessagesConfiguration {
         if(pl.getConfig().getString("lang").equalsIgnoreCase("french")){
             return "languages/french.yml";
         }
+        if(pl.getConfig().getString("lang").equalsIgnoreCase("polish")){
+            return "languages/polish.yml";
+        }
         return "languages/english.yml";
     }
 

@@ -1,0 +1,92 @@
+spleef: "&c&l[&3Spleef&c&l]"
+needANumber: "Plugin potrzebuje numeru."
+nameAlreadyUsed: "Nazwa używana."
+tooMuchSpleefs: "Maximum 1000 Spleefów"
+spleefCreated: "Spleef utworzony."
+spleefDeleted: "Spleef usunięty."
+spleefNotFound: "Spleef nie znaleziony."
+done: "Proces zakończony."
+greaterThan1: "Plugin potrzebuje liczby większej niż 1."
+numberSaved: "Numer zapisany."
+locationSaved: "Lokacja zapisana."
+spleefOpened: "Spleef otwarty."
+spleefClosed: "Zamknięty."
+ready: "Gotowość"
+missing: "Brakuje"
+join: "Dołącz"
+youDoNotHaveSpleef: "Nie jesteś w żadnej grze."
+pageNotFound: "Strona nie znaleziona."
+youAlreadyInGame: "Jesteś już na spleefie."
+notEnoughPlayers: "Nie ma wystarczającej liczby graczy."
+gameStarts: "Gra się zaczyna!."
+winsTheGame: "wygrywa spleefa!"
+inGame: "Na spleefie"
+fell: "odpadł z gry."
+fullGame: "Spleef jest pełen."
+leaveThisGame: "Opuścił spleefa."
+joinedTheGame: "Dołączył do spleefa."
+leftTheGame: "opuścił spleefa."
+langSaved: "Język zapisany"
+spleefInOperation: "Spleefy w trakcie operacji:"
+spleefInFailure: "Spleefs źle skonfigurowane:"
+spleefAlreadyStarted: "Spleef jest w akcji"
+spleefStopped: "Spleef zatrzymany."
+regionSaved: "Region zapisany."
+needsWE: "Ta komenda potrzebuje world edita do działania."
+regionRemoved: "Region usunięty."
+youDoNotHaveThisPermission: "Nie masz uprawnień do tego."
+wager: "Stawka"
+youDoNotHaveAWager: "Nie masz odpowiedniej stawki."
+playerNotFound: "Gracz nie znaleziony."
+wagerSent: "Stawka wysłana."
+thisPlayerHasWager: "Jeden z graczy ma stawkę."
+wagerAccepted: "Stawka zaakceptowana."
+wagerDeclined: "Stawka odrzucona."
+invitationWagerReceivedBy: "Zaproszenie do obstawiania wysłane przez"
+awaitingValidation: "Oczekiwanie na zatwierdzenie przez innych graczy."
+wagerActivated: "Stawka ustalona."
+wonTheWager: "wygrywa Stawkę!"
+onePlayerHasAGame: "Jeden z dwóch graczy jest na spleefie."
+cannotJoinWagerNotActive: "Nie możesz dołączyć do spleefa ponieważ twoja stawka nie została zatwierdzona."
+spleefGameModeNotFound: "Tryb gry nieznaleziony."
+noDuelSpleefFound: "Żaden spleef nie został znaleziony."
+allDuelSpleefInGame: "Wszystkie spleefy z tym trybem gry są już w akcji."
+reservedSpleef: "Spleef zarezerwowany."
+duelSent: "Pojedynek wysłany."
+duelAccepted: "Pojedynek zatwierdzony."
+duelDeclined: "Pojedynek odrzucony."
+invitationDuelReceivedBy: "Zaproszenie na pojedynek wysłane przez"
+youDoNotHaveADuel: "Nie jesteś w pojedynku."
+youCanOnlyJoinDuelSpleef: "Możesz dołączyć do spleefa tylko w trybie pojedynku."
+settingSaved: "Ustawienia zapisane."
+redTeam: "Drużyna §cCzerwona"
+blueTeam: "Drużyna §3Niebieska"
+greenTeam: "Drużyna §2Zielona"
+yellowTeam: "Drużyna §eŻółta"
+spleefRanking: "Ranking graczy na Spleefach"
+meltingBegings: "Coś się zaczęło ROZTAPIAĆ!"
+dontStayOnBlock: "Weź rusz tyłek bo długo tu nie posiedzisz!"
+commandProhibited: "Ta komenda została nadana administracji."
+notFound: "Nie znaleziono."
+signColorTag:
+  open:
+    wait:
+      line2:
+        ifPlayersSize>=max/4*3: '&c'
+        ifPlayersSize>=max/2: '&6'
+        else: '&a'
+      line3:
+        ifPlayersSize>=min: '&a'
+        else: '&4'
+      line4: '&a'
+    game:
+      line2:
+        ifPlayersSize>=max/4*3: '&c'
+        ifPlayersSize>=max/2: '&6'
+        else: '&a'
+      line4:
+        gameMode:
+          normal: '&4'
+          other: '&6'
+  close:
+    line2: '&c'

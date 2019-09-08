@@ -1,5 +1,6 @@
 package fr.naruse.spleef.main;
 
+import fr.naruse.spleef.common.SpleefUpdater;
 import fr.naruse.spleef.common.Utils;
 import fr.naruse.spleef.manager.AbstractSpleefPlugin;
 import fr.naruse.spleef.manager.SpleefPluginV1_12;
@@ -22,6 +23,7 @@ public class SpleefPlugin extends JavaPlugin {
             }
         }
         this.spleefPlugin.onEnable();
+        new SpleefUpdater(this);
     }
 
     @Override

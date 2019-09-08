@@ -51,7 +51,8 @@ public class Spleefs {
                                                     pl.getConfig().getInt("spleef."+i+".spawn.yaw"), pl.getConfig().getInt("spleef."+i+".spawn.pitch"));
                                             Location spleefLobby = null;
                                             if(pl.getConfig().getString("spleef."+i+".lobby") != null){
-                                                spleefLobby = new Location(wSpawn, pl.getConfig().getDouble("spleef."+i+".lobby.x"),
+                                                World wLob = Bukkit.getWorld(pl.getConfig().getString("spleef."+i+".lobby.world"));
+                                                spleefLobby = new Location(wLob, pl.getConfig().getDouble("spleef."+i+".lobby.x"),
                                                         pl.getConfig().getDouble("spleef."+i+".lobby.y"), pl.getConfig().getDouble("spleef."+i+".lobby.z"),
                                                         pl.getConfig().getInt("spleef."+i+".lobby.yaw"), pl.getConfig().getInt("spleef."+i+".lobby.pitch"));
                                             }
@@ -156,6 +157,12 @@ public class Spleefs {
             if(pl.duels.duelActive(p)){
                 if(spleef.getGameMode() != SpleefGameMode.DUEL){
                     p.sendMessage("§c"+Message.YOU_ONLY_CAN_JOIN_DUEL_SPLEEF.getMessage());
+                    return;
+                }
+            }
+            if(pl.commonPlugin != null){
+                if(pl.commonPlugin.isInGame(p)){
+                    p.sendMessage("§c§l[§5"+spleef.getName()+"§c§l] §c"+Message.YOU_ALREADY_IN_GAME.getMessage());
                     return;
                 }
             }

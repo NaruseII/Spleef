@@ -8,9 +8,8 @@ import fr.naruse.spleef.v1_12.api.SpleefAPIEventInvoker;
 import fr.naruse.spleef.v1_12.api.event.cancellable.game.SpleefHologramsUpdateEvent;
 import fr.naruse.spleef.v1_12.util.Message;
 import fr.naruse.spleef.v1_12.util.SpleefPlayerStatistics;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collections;

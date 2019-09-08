@@ -278,7 +278,13 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                     return;
                 }
                 for(Player p : playerInGame){
-                    ItemStack item = new ItemStack(Material.GOLD_SPADE);
+                    Material material;
+                    if(allowGoldShovel()){
+                        material = Material.GOLD_SPADE;
+                    }else{
+                        material = Material.DIAMOND_SPADE;
+                    }
+                    ItemStack item = new ItemStack(material);
                     ItemMeta meta = item.getItemMeta();
                     meta.spigot().setUnbreakable(true);
                     item.setItemMeta(meta);
@@ -416,7 +422,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
     }
 
     public void onDisable(boolean notOnDisable) {
-        if(new SpleefAPIEventInvoker(new SpleefMovementEvent.Pre(pl, this, SpleefMovementType.DISABLING)).isCancelled()){
+        if(!notOnDisable) if(new SpleefAPIEventInvoker(new SpleefMovementEvent.Pre(pl, this, SpleefMovementType.DISABLING)).isCancelled()){
             return;
         }
         restart(notOnDisable);
@@ -427,7 +433,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
             sign.setLine(3, "");
             sign.update();
         }
-        new SpleefAPIEventInvoker(new SpleefMovementEvent.Post(pl, this, SpleefMovementType.CLOSING));
+        if(!notOnDisable) new SpleefAPIEventInvoker(new SpleefMovementEvent.Post(pl, this, SpleefMovementType.CLOSING));
     }
 
     public void close(){
@@ -558,10 +564,12 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
             return;
         }
         if(authorizedMaterial.contains(e.getBlock().getType()) && game.GAME){
-            if(!new SpleefAPIEventInvoker(new SpleefBreakSnowEvent(pl, this, p, e.getBlock())).isCancelled()){
+            if(new SpleefAPIEventInvoker(new SpleefBreakSnowEvent(pl, this, p, e.getBlock())).isCancelled()){
+                e.setCancelled(true);
+            }else{
                 blocks.add(e.getBlock());
                 blocksOfRegionVerif.remove(e.getBlock());
-                typeOfLocationHashMap.put(e.getBlock().getLocation(), e.getBlock().getType());
+                e.setCancelled(false);
             }
         }else{
             e.setCancelled(true);
@@ -590,15 +598,17 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
             return;
         }
         if(e.getClickedBlock() != null){
-            if(authorizedMaterial.contains(e.getClickedBlock().getType()) && game.GAME){
-                if(!new SpleefAPIEventInvoker(new SpleefBreakSnowEvent(pl, this, p, e.getClickedBlock())).isCancelled()){
-                    blocks.add(e.getClickedBlock());
-                    blocksOfRegionVerif.remove(e.getClickedBlock());
-                    typeOfLocationHashMap.put(e.getClickedBlock().getLocation(), e.getClickedBlock().getType());
-                    e.getClickedBlock().setType(Material.AIR);
+            if(e.getClickedBlock().getType() != Material.SNOW_BLOCK){
+                if(authorizedMaterial.contains(e.getClickedBlock().getType()) && game.GAME){
+                    if(!new SpleefAPIEventInvoker(new SpleefBreakSnowEvent(pl, this, p, e.getClickedBlock())).isCancelled()){
+                        blocks.add(e.getClickedBlock());
+                        blocksOfRegionVerif.remove(e.getClickedBlock());
+                        typeOfLocationHashMap.put(e.getClickedBlock().getLocation(), e.getClickedBlock().getType());
+                        e.getClickedBlock().setType(Material.AIR);
+                    }
+                }else{
+                    e.setCancelled(true);
                 }
-            }else{
-                e.setCancelled(true);
             }
         }
         if(e.getItem() == null){
@@ -608,7 +618,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
             sendMessage(NAME+" §6"+p.getName()+"§c "+ Message.LEAVED_THE_GAME.getMessage());
             pl.spleefs.removePlayer(p);
         }
-        if(e.getItem().getType() != Material.GOLD_SPADE){
+        if(e.getItem().getType() != Material.GOLD_SPADE && e.getItem().getType() != Material.DIAMOND_SPADE){
             e.setCancelled(true);
         }
         if(e.getItem().getType() == Material.EGG){
@@ -657,6 +667,16 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                 }
             }
         }
+        if(e.getHitBlock() != null && e.getEntity().getShooter() instanceof Player){
+            if(authorizedMaterial.contains(e.getHitBlock().getType()) && game.GAME){
+                if(!new SpleefAPIEventInvoker(new SpleefBreakSnowEvent(pl, this, (Player) e.getEntity().getShooter(), e.getHitBlock())).isCancelled()){
+                    blocks.add(e.getHitBlock());
+                    blocksOfRegionVerif.remove(e.getHitBlock());
+                    typeOfLocationHashMap.put(e.getHitBlock().getLocation(), e.getHitBlock().getType());
+                    e.getHitBlock().setType(Material.AIR);
+                }
+            }
+        }
     }
 
     public Vector genVector(Location a, Location b) {
@@ -682,6 +702,10 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
 
     public boolean allowShowTime() {
         return pl.getConfig().getBoolean("allow.showTime");
+    }
+
+    public boolean allowGoldShovel() {
+        return pl.getConfig().getBoolean("allow.goldShovel");
     }
 
     public int getOriginalStartTimer(){

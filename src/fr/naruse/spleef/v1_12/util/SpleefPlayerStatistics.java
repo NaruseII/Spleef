@@ -1,18 +1,27 @@
 package fr.naruse.spleef.v1_12.util;
 
+import fr.naruse.spleef.manager.AbstractSpleefPlugin;
 import fr.naruse.spleef.manager.SpleefPluginV1_12;
+import fr.naruse.spleef.manager.SpleefPluginV1_13;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class SpleefPlayerStatistics {
-    private SpleefPluginV1_12 pl;
+    private SpleefPluginV1_12 spleefPluginV1_12;
+    private SpleefPluginV1_13 spleefPluginV1_13;
     private long wins;
     private long loses;
     private long games;
     private FileConfiguration statistic;
     private String name;
-    public SpleefPlayerStatistics(SpleefPluginV1_12 pl, String name){
-        this.pl = pl;
-        this.statistic = pl.configurations.getStatistics().getConfig();
+    public SpleefPlayerStatistics(AbstractSpleefPlugin pl, String name){
+        if(pl instanceof SpleefPluginV1_12){
+            this.spleefPluginV1_12 = (SpleefPluginV1_12) pl;
+            this.statistic = spleefPluginV1_12.configurations.getStatistics().getConfig();
+        }
+        if(pl instanceof SpleefPluginV1_13){
+            this.spleefPluginV1_13 = (SpleefPluginV1_13) pl;
+            this.statistic = spleefPluginV1_13.configurations.getStatistics().getConfig();
+        }
         this.name = name;
         refreshStatisticFromConfig();
     }
@@ -30,14 +39,22 @@ public class SpleefPlayerStatistics {
         statistic.set(name+".wins", 0);
         statistic.set(name+".loses", 0);
         statistic.set(name+".games", 0);
-        pl.configurations.getStatistics().saveConfig();
+        if(spleefPluginV1_12 != null){
+            spleefPluginV1_12.configurations.getStatistics().saveConfig();
+        }else{
+            spleefPluginV1_13.configurations.getStatistics().saveConfig();
+        }
     }
 
     public void saveStatistics() {
         statistic.set(name + ".wins", wins);
         statistic.set(name + ".loses", loses);
         statistic.set(name + ".games", games);
-        pl.configurations.getStatistics().saveConfig();
+        if(spleefPluginV1_12 != null){
+            spleefPluginV1_12.configurations.getStatistics().saveConfig();
+        }else{
+            spleefPluginV1_13.configurations.getStatistics().saveConfig();
+        }
     }
 
     public long getWins() {

@@ -43,19 +43,22 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
             }
 
             if(args.length == 0){
-                if(!p.hasPermission("spleef.deny.join")){
+                if(!p.hasPermission("spleef.deny.join") || p.isOp()){
                     sendMessage(sender, "§3Hey! §6/§cspleef join <Spleef Name>");
                 }
                 sendMessage(sender, "§3Hey! §6/§cspleef leave");
-                if(!p.hasPermission("spleef.deny.wager")){
+                if(!p.hasPermission("spleef.deny.wager") || p.isOp()){
                     sendMessage(sender, "§3Hey! §6/§cspleef wager <Open, Decline, Accept, Wager> <[Player]>");
                 }
-                if(!p.hasPermission("spleef.deny.duel")){
+                if(!p.hasPermission("spleef.deny.duel") || p.isOp()){
                     sendMessage(sender, "§3Hey! §6/§cspleef duel <Invite, Decline, Accept> <[Player]>");
                 }
             }
             if(args.length != 0){
                 if(args[0].equalsIgnoreCase("duel")){
+                    if(p.hasPermission("spleef.deny.duel") && !p.isOp()){
+                        return sendMessage(sender, Message.COMMAND_PROHIBITED.getMessage());
+                    }
                     if(args.length < 2){
                         return sendMessage(sender, "§3Hey! §6/§cspleef duel <Invite, Decline, Accept> <[Player]>");
                     }
@@ -79,6 +82,9 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                     return false;
                 }
                 if(args[0].equalsIgnoreCase("join")){
+                    if(p.hasPermission("spleef.deny.join") && !p.isOp()){
+                        return sendMessage(sender, Message.COMMAND_PROHIBITED.getMessage());
+                    }
                     if(args.length < 2){
                         return sendMessage(sender, "§3Hey! §6/§cspleef join <Spleef Name>");
                     }
@@ -92,6 +98,9 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                 }
                 //WAGER START
                 if(args[0].equalsIgnoreCase("wager")){
+                    if(p.hasPermission("spleef.deny.wager") && !p.isOp()){
+                        return sendMessage(sender, Message.COMMAND_PROHIBITED.getMessage());
+                    }
                     if(args.length < 2){
                         return sendMessage(sender, "§3Hey! §6/§cspleef wager <Open, Decline, Accept, Wager> <[Player]>");
                     }
@@ -370,6 +379,13 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                     }
                     if(args[2].equalsIgnoreCase("spanish")){
                         pl.getConfig().set("lang", "spanish");
+                        pl.saveConfig();
+                        pl.configurations.getMessages().clearConfiguration();
+                        pl.configurations.getMessages().generateConfig(false);
+                        return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.LANG_SAVED.getMessage());
+                    }
+                    if(args[2].equalsIgnoreCase("polish")){
+                        pl.getConfig().set("lang", "polish");
                         pl.saveConfig();
                         pl.configurations.getMessages().clearConfiguration();
                         pl.configurations.getMessages().generateConfig(false);
@@ -697,6 +713,17 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                         return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.DONE.getMessage()+" §7(Lightning: true)");
                     }
                 }
+                if(args[1].equalsIgnoreCase("goldShovel")){
+                    if(pl.getConfig().getBoolean("allow.goldShovel")){
+                        pl.getConfig().set("allow.goldShovel", false);
+                        pl.saveConfig();
+                        return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.DONE.getMessage()+" §7(GoldShovel: false)");
+                    }else{
+                        pl.getConfig().set("allow.goldShovel", true);
+                        pl.saveConfig();
+                        return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.DONE.getMessage()+" §7(GoldShovel: true)");
+                    }
+                }
             }
             if(args[0].equalsIgnoreCase("remove")){
                 if(args.length < 3){
@@ -815,13 +842,13 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
             sendMessage(sender, "§3Hey! §6/§cspleef set <Min, Max> <Spleef name> <Number>");
             sendMessage(sender, "§3Hey! §6/§cspleef set <Arena, Spawn, [Lobby]> <Spleef name> §7(Location)");
             sendMessage(sender, "§3Hey! §6/§cspleef <Open, Close> <Spleef name>");
-            sendMessage(sender, "§3Hey! §6/§cspleef set lang <French, English, Custom, Spanish, Dutch>");
+            sendMessage(sender, "§3Hey! §6/§cspleef set lang <French, English, Custom, Spanish, Dutch, Polish>");
             sendMessage(sender, "§bPage: §21/3");
         }else if(page == 2){
             sendMessage(sender, Message.SPLEEF.getMessage()+"§2 ----------------- "+Message.SPLEEF.getMessage());
             sendMessage(sender, "§3Hey! §6/§cspleef list");
             sendMessage(sender, "§3Hey! §6/§cspleef force <Start, Stop> <Spleef name>");
-            sendMessage(sender, "§3Hey! §6/§cspleef allow <SnowBalls, Broadcast, Lightning, MagmaCream, ShowTime>");
+            sendMessage(sender, "§3Hey! §6/§cspleef allow <SnowBalls, Broadcast, Lightning, MagmaCream, ShowTime, GoldShovel>");
             sendMessage(sender, "§3Hey! §6/§cspleef set time <Wait, BeforeMelt, BetweenMelt> <Number>");
             sendMessage(sender, "§3Hey! §6/§cspleef set region <Spleef name>");
             sendMessage(sender, "§3Hey! §6/§cspleef remove region <Spleef name>");

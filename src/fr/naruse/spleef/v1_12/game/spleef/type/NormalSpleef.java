@@ -70,7 +70,7 @@ public class NormalSpleef extends Spleef {
             }
             runNormalJoin(p);
             getPlayerInGame().add(p);
-            p.setGameMode(GameMode.SURVIVAL);
+            p.setGameMode(GameMode.ADVENTURE);
             p.getInventory().clear();
             ItemStack item = new ItemStack(Material.MAGMA_CREAM);
             ItemMeta meta = item.getItemMeta();

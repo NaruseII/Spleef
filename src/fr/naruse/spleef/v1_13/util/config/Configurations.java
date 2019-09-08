@@ -65,6 +65,7 @@ public class Configurations {
             pl.getConfig().set("allow.lightning", pl.getConfig().getBoolean("allow.lightning"));
         }
         pl.getConfig().set("allow.showTime", pl.getConfig().getBoolean("allow.showTime"));
+        pl.getConfig().set("allow.goldShovel", pl.getConfig().getBoolean("allow.goldShovel"));
         pl.getConfig().set("allow.magmaCream", pl.getConfig().getBoolean("allow.magmaCream"));
         pl.getConfig().set("commands.start", pl.getConfig().getString("commands.start"));
         pl.getConfig().set("commands.end", pl.getConfig().getString("commands.end"));

@@ -376,6 +376,13 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                         pl.configurations.getMessages().generateConfig(false);
                         return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.LANG_SAVED.getMessage());
                     }
+                    if(args[2].equalsIgnoreCase("polish")){
+                        pl.getConfig().set("lang", "polish");
+                        pl.saveConfig();
+                        pl.configurations.getMessages().clearConfiguration();
+                        pl.configurations.getMessages().generateConfig(false);
+                        return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.LANG_SAVED.getMessage());
+                    }
                     return false;
                 }
                 if(args[1].equalsIgnoreCase("time")){
@@ -703,6 +710,17 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                         return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.DONE.getMessage()+" §7(Lightning: true)");
                     }
                 }
+                if(args[1].equalsIgnoreCase("goldShovel")){
+                    if(pl.getConfig().getBoolean("allow.goldShovel")){
+                        pl.getConfig().set("allow.goldShovel", false);
+                        pl.saveConfig();
+                        return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.DONE.getMessage()+" §7(GoldShovel: false)");
+                    }else{
+                        pl.getConfig().set("allow.goldShovel", true);
+                        pl.saveConfig();
+                        return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.DONE.getMessage()+" §7(GoldShovel: true)");
+                    }
+                }
             }
             if(args[0].equalsIgnoreCase("remove")){
                 if(args.length < 3){
@@ -809,13 +827,13 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
             sendMessage(sender, "§3Hey! §6/§cspleef set <Min, Max> <Spleef name> <Number>");
             sendMessage(sender, "§3Hey! §6/§cspleef set <Arena, Spawn, [Lobby]> <Spleef name> §7(Location)");
             sendMessage(sender, "§3Hey! §6/§cspleef <Open, Close> <Spleef name>");
-            sendMessage(sender, "§3Hey! §6/§cspleef set lang <French, English, Custom, Spanish, Dutch>");
+            sendMessage(sender, "§3Hey! §6/§cspleef set lang <French, English, Custom, Spanish, Dutch, Polish>");
             sendMessage(sender, "§bPage: §21/3");
         }else if(page == 2){
             sendMessage(sender, Message.SPLEEF.getMessage()+"§2 ----------------- "+Message.SPLEEF.getMessage());
             sendMessage(sender, "§3Hey! §6/§cspleef list");
             sendMessage(sender, "§3Hey! §6/§cspleef force <Start, Stop> <Spleef name>");
-            sendMessage(sender, "§3Hey! §6/§cspleef allow <SnowBalls, Broadcast, Lightning, MagmaCream, ShowTime>");
+            sendMessage(sender, "§3Hey! §6/§cspleef allow <SnowBalls, Broadcast, Lightning, MagmaCream, ShowTime, GoldShovel>");
             sendMessage(sender, "§3Hey! §6/§cspleef set time <Wait, BeforeMelt, BetweenMelt> <Number>");
             sendMessage(sender, "§3Hey! §6/§cspleef set region <Spleef name>");
             sendMessage(sender, "§3Hey! §6/§cspleef remove region <Spleef name>");

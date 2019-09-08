@@ -45,7 +45,13 @@ public class Wager implements Listener {
         stop = true;
     }
 
+    private boolean isWinning = false;
     public void win(Player p){
+        if(isWinning){
+            return;
+        }else{
+            isWinning = true;
+        }
         Bukkit.getScheduler().scheduleSyncDelayedTask(pl.getSpleefPlugin(), new Runnable() {
             @Override
             public void run() {
@@ -173,8 +179,8 @@ public class Wager implements Listener {
                             if(player2FinalReady){
                                 p.closeInventory();
                                 player2.closeInventory();
-                                inventoryFinal.remove(inventoryFinal.getItem(9*6+3));
-                                inventoryFinal.remove(inventoryFinal.getItem(9*6+5));
+                                inventoryFinal.remove(inventoryFinal.getItem(9*6-3));
+                                inventoryFinal.remove(inventoryFinal.getItem(9*6-5));
                                 wagerActive = true;
                                 player1.sendMessage(Message.SPLEEF.getMessage()+" §a"+ Message.WAGER_ACTIVATED.getMessage());
                                 player2.sendMessage(Message.SPLEEF.getMessage()+" §a"+ Message.WAGER_ACTIVATED.getMessage());

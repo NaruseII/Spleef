@@ -1,6 +1,7 @@
 package fr.naruse.spleef.manager;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import fr.naruse.spleef.common.placeholder.SpleefPlaceholder;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.v1_13.api.SpleefAPI;
 import fr.naruse.spleef.v1_13.api.SpleefAPIEventInvoker;
@@ -27,6 +28,7 @@ public class SpleefPluginV1_13 extends AbstractSpleefPlugin {
     public Holograms holograms;
     public SpleefAPI spleefAPI;
     public static SpleefPluginV1_13 INSTANCE;
+    private SpleefPlaceholder spleefPlaceholder;
     public SpleefPluginV1_13(SpleefPlugin spleefPlugin) {
         super(spleefPlugin);
     }
@@ -38,6 +40,7 @@ public class SpleefPluginV1_13 extends AbstractSpleefPlugin {
         this.otherPluginSupport = new OtherPluginSupport();
         this.saveConfig();
         this.configurations = new Configurations(this);
+        this.spleefPlaceholder = new SpleefPlaceholder(getSpleefPlugin());
         Bukkit.getScheduler().scheduleSyncDelayedTask(this.getSpleefPlugin(), new Runnable() {
             @Override
             public void run() {
