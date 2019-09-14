@@ -593,6 +593,9 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                     blocks.add(e.getBlock());
                     blocksOfRegionVerif.remove(e.getBlock());
                     e.setCancelled(false);
+                    if(allowSnowballs()){
+                        p.getInventory().addItem(new ItemStack(Material.SNOW_BALL));
+                    }
                 }
             }else{
                 e.setCancelled(true);
@@ -628,7 +631,8 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
         if(!playerInGame.contains(p)){
             return;
         }
-        if(e.getClickedBlock() != null){
+        if(e.getClickedBlock() != null && e.getItem() != null){
+            if(e.getItem().getType() != Material.DIAMOND_SPADE || e.getItem().getType() != Material.GOLD_SPADE)
             if(e.getClickedBlock().getType() != Material.SNOW_BLOCK){
                 if(authorizedMaterial.contains(e.getClickedBlock().getType()) && authorizedData.containsKey(e.getClickedBlock().getType()) && game.GAME){
                     if(authorizedData.get(e.getClickedBlock().getType()) == e.getClickedBlock().getData()) {
@@ -638,6 +642,9 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                             typeOfLocationHashMap.put(e.getClickedBlock().getLocation(), e.getClickedBlock().getType());
                             dataOfLocationHashMap.put(e.getClickedBlock().getLocation(), e.getClickedBlock().getData());
                             e.getClickedBlock().setType(Material.AIR);
+                            if(allowSnowballs()){
+                                p.getInventory().addItem(new ItemStack(Material.SNOW_BALL));
+                            }
                         }
                     }else{
                         e.setCancelled(true);
@@ -745,6 +752,10 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
 
     public boolean allowShowTime() {
         return pl.getConfig().getBoolean("allow.showTime");
+    }
+
+    public boolean allowSnowballs() {
+        return pl.getConfig().getBoolean("allow.snowBalls");
     }
 
     public int getOriginalStartTimer(){

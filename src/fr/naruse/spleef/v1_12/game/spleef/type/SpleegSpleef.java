@@ -167,6 +167,16 @@ public class SpleegSpleef extends Spleef implements Listener {
             @Override
             public void run() {
                 for(Player p : getPlayerInGame()){
+                    ItemStack item;
+                    ItemMeta meta;
+                    if(!allowGoldShovel()){
+                        Material material = Material.DIAMOND_SPADE;
+                        item = new ItemStack(material);
+                        meta = item.getItemMeta();
+                        meta.spigot().setUnbreakable(true);
+                        item.setItemMeta(meta);
+                        p.getInventory().addItem(item);
+                    }
                     p.getInventory().addItem(new ItemStack(Material.EGG, 16*8));
                 }
             }
@@ -201,6 +211,9 @@ public class SpleegSpleef extends Spleef implements Listener {
         if(!(projectile instanceof Egg)){
            return;
         }
+        if(e.getHitEntity() != null){
+            e.getHitEntity().setVelocity(genVector(((Player) e.getEntity().getShooter()).getLocation(), e.getHitEntity().getLocation()).multiply(0.5));
+        }
         if(e.getHitBlock() == null) {
             return;
         }
@@ -208,7 +221,7 @@ public class SpleegSpleef extends Spleef implements Listener {
             getBlocks().add(e.getHitBlock());
             getBlocksOfRegionVerif().remove(e.getHitBlock());
             e.getHitBlock().setType(Material.AIR);
-            for(Entity entity : e.getHitEntity().getNearbyEntities(2, 2, 2)){
+            for(Entity entity : e.getEntity().getNearbyEntities(2, 2, 2)){
                 if(entity instanceof Chicken){
                     if(entity.getLocation().getWorld().getName() == getSpleefSpawn().getWorld().getName()){
                         if(getSpleefSpawn().distance(e.getEntity().getLocation()) <= 100 && getGame().GAME){

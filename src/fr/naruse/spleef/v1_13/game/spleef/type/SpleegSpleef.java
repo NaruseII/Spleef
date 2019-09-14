@@ -170,6 +170,16 @@ public class SpleegSpleef extends Spleef implements Listener {
             @Override
             public void run() {
                 for(Player p : getPlayerInGame()){
+                    ItemStack item;
+                    ItemMeta meta;
+                    if(!allowGoldShovel()){
+                        Material material = Material.DIAMOND_SPADE;
+                        item = new ItemStack(material);
+                        meta = item.getItemMeta();
+                        meta.spigot().setUnbreakable(true);
+                        item.setItemMeta(meta);
+                        p.getInventory().addItem(item);
+                    }
                     p.getInventory().addItem(new ItemStack(Material.EGG, 16*8));
                 }
             }
@@ -203,6 +213,9 @@ public class SpleegSpleef extends Spleef implements Listener {
         Projectile projectile = e.getEntity();
         if(!(projectile instanceof Egg)){
            return;
+        }
+        if(e.getHitEntity() != null){
+            e.getHitEntity().setVelocity(genVector(((Player) e.getEntity().getShooter()).getLocation(), e.getHitEntity().getLocation()).multiply(0.5));
         }
         if(e.getHitBlock() == null) {
             return;

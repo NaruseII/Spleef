@@ -4,7 +4,9 @@ import fr.naruse.spleef.common.helper.SpleefHelper;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.v1_12.util.SpleefPlayerStatistics;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -26,8 +28,18 @@ public class RankingExpansion extends PlaceholderExpansion {
     }
 
     @Override
+    public boolean persist(){
+        return true;
+    }
+
+    @Override
     public boolean canRegister() {
         return true;
+    }
+
+    @Override
+    public String onPlaceholderRequest(Player p, String params) {
+        return this.onRequest(p, params);
     }
 
     @Override

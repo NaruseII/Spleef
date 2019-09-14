@@ -570,6 +570,9 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                 blocks.add(e.getBlock());
                 blocksOfRegionVerif.remove(e.getBlock());
                 e.setCancelled(false);
+                if(allowSnowballs()){
+                    p.getInventory().addItem(new ItemStack(Material.SNOW_BALL));
+                }
             }
         }else{
             e.setCancelled(true);
@@ -598,6 +601,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
             return;
         }
         if(e.getClickedBlock() != null){
+            if(e.getItem().getType() != Material.DIAMOND_SPADE || e.getItem().getType() != Material.GOLD_SPADE)
             if(e.getClickedBlock().getType() != Material.SNOW_BLOCK){
                 if(authorizedMaterial.contains(e.getClickedBlock().getType()) && game.GAME){
                     if(!new SpleefAPIEventInvoker(new SpleefBreakSnowEvent(pl, this, p, e.getClickedBlock())).isCancelled()){
@@ -605,6 +609,9 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                         blocksOfRegionVerif.remove(e.getClickedBlock());
                         typeOfLocationHashMap.put(e.getClickedBlock().getLocation(), e.getClickedBlock().getType());
                         e.getClickedBlock().setType(Material.AIR);
+                        if(allowSnowballs()){
+                            p.getInventory().addItem(new ItemStack(Material.SNOW_BALL));
+                        }
                     }
                 }else{
                     e.setCancelled(true);
@@ -702,6 +709,10 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
 
     public boolean allowShowTime() {
         return pl.getConfig().getBoolean("allow.showTime");
+    }
+
+    public boolean allowSnowballs() {
+        return pl.getConfig().getBoolean("allow.snowBalls");
     }
 
     public boolean allowGoldShovel() {

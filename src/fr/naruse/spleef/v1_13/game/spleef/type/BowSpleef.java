@@ -159,11 +159,24 @@ public class BowSpleef extends Spleef implements Listener {
             @Override
             public void run() {
                 for(Player p : getPlayerInGame()){
-                    ItemStack item = new ItemStack(Material.BOW);
-                    ItemMeta meta = item.getItemMeta();
+                    ItemStack item;
+                    ItemMeta meta;
+                    if(!allowGoldShovel()){
+                        Material material = Material.DIAMOND_SPADE;
+                        item = new ItemStack(material);
+                        meta = item.getItemMeta();
+                        meta.spigot().setUnbreakable(true);
+                        item.setItemMeta(meta);
+                        p.getInventory().addItem(item);
+                    }
+                    item = new ItemStack(Material.BOW);
+                    meta = item.getItemMeta();
                     meta.setUnbreakable(true);
                     item.setItemMeta(meta);
                     p.getInventory().addItem(item);
+                    if(allowSnowballs()){
+                        p.getInventory().addItem(new ItemStack(Material.SNOW_BALL, 64*4));
+                    }
                     p.getInventory().addItem(new ItemStack(Material.ARROW, 64*8));
                 }
             }
@@ -195,6 +208,7 @@ public class BowSpleef extends Spleef implements Listener {
         }
         Projectile projectile = e.getEntity();
         if(!(projectile instanceof Arrow)){
+            e.getHitEntity().setVelocity(genVector(((Player) e.getEntity().getShooter()).getLocation(), e.getHitEntity().getLocation()).multiply(0.5));
             return;
         }
         if(e.getHitBlock() == null) {

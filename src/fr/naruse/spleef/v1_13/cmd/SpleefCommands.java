@@ -315,7 +315,7 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                         for(int i = 3; i != args.length; i++){
                             result += " "+args[i];
                         }
-                        pl.getConfig().set("rewards.command", result);
+                        pl.getConfig().set("rewards.command", result.replace("  ", ""));
                         pl.saveConfig();
                         return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.SETTING_SAVED.getMessage()+" §7(Rewards.command:"+result+")");
                     }
