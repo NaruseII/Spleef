@@ -80,6 +80,9 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                     return false;
                 }
                 if(args[0].equalsIgnoreCase("join")){
+                    if(p.hasPermission("spleef.deny.join") && !p.isOp()){
+                        return sendMessage(sender, Message.COMMAND_PROHIBITED.getMessage());
+                    }
                     if(args.length < 2){
                         return sendMessage(sender, "§3Hey! §6/§cspleef join <Spleef Name>");
                     }
