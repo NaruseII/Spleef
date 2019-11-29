@@ -1,7 +1,6 @@
 package fr.naruse.spleef.manager;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import fr.naruse.common.main.CommonPlugin;
 import fr.naruse.spleef.common.placeholder.SpleefPlaceholder;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.v1_12.api.SpleefAPI;
@@ -30,7 +29,6 @@ public class SpleefPluginV1_12 extends AbstractSpleefPlugin {
     public Holograms holograms;
     public SpleefAPI spleefAPI;
     public static SpleefPluginV1_12 INSTANCE;
-    public CommonPlugin commonPlugin;
     private SpleefPlaceholder spleefPlaceholder;
     public SpleefPluginV1_12(SpleefPlugin spleefPlugin) {
         super(spleefPlugin);
@@ -60,7 +58,6 @@ public class SpleefPluginV1_12 extends AbstractSpleefPlugin {
                 Bukkit.getPluginManager().registerEvents(duels, INSTANCE.getSpleefPlugin());
                 new SpleefAPIEventInvoker(new SpleefEnablingEvent.Post(INSTANCE));
                 logs.stop();
-                commonPlugin = (CommonPlugin) Bukkit.getPluginManager().getPlugin("NaruseResourcesCommon");
             }
         });
     }

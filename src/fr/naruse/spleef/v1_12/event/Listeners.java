@@ -63,8 +63,13 @@ public class Listeners implements Listener {
     public void command(PlayerCommandPreprocessEvent e){
         if(pl.spleefs.hasSpleef(e.getPlayer())){
             List<String> commands = pl.configurations.getCommands().getConfig().getStringList("commands");
-            if(commands.contains(e.getMessage().split(" ")[0].replace("/", ""))){
-                e.setCancelled(true);
+            //commands.add("/fly");
+            //commands.add("/spawn");
+            for(String s : commands){
+                if(s.equalsIgnoreCase(e.getMessage().split(" ")[0])){
+                    e.setCancelled(true);
+                    break;
+                }
             }
         }
     }

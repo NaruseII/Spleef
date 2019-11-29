@@ -38,7 +38,9 @@ public class SpleefUpdater implements Listener {
             Bukkit.getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
                 @Override
                 public void run() {
-                    e.getPlayer().sendMessage("§c§l[§3Spleef§c§l] §cSpleef plugin needs to be updated !");
+                    if(e.getPlayer().isOnline())
+                        if(e.getPlayer().isOp())
+                            e.getPlayer().sendMessage("§c§l[§3Spleef§c§l] §cSpleef plugin needs to be updated !");
                 }
             }, 20);
         }

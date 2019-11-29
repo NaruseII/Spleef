@@ -160,12 +160,12 @@ public class Spleefs {
                     return;
                 }
             }
-            if(pl.commonPlugin != null){
+            /*if(pl.commonPlugin != null){
                 if(pl.commonPlugin.isInGame(p)){
                     p.sendMessage("§c§l[§5"+spleef.getName()+"§c§l] §c"+Message.YOU_ALREADY_IN_GAME.getMessage());
                     return;
                 }
-            }
+            }*/
             SpleefPlayer spleefPlayer = new SpleefPlayer(pl, p);
             spleefPlayer.registerInventory();
             spleefPlayer.registerGameMode();

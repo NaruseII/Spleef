@@ -1,5 +1,5 @@
 name: Spleef
-version: 1.6.4
+version: 1.6.6
 author: Naruse
 main: fr.naruse.spleef.main.SpleefPlugin
 softdepend: [Vault]

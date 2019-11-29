@@ -208,7 +208,13 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                     Bukkit.broadcastMessage(getNAME() + " §6" + winner.getName() + " §7" + Message.WINS_THE_GAME.getMessage());
                 }
                 if(!pl.getConfig().getString("rewards.command").equalsIgnoreCase("null")){
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), pl.getConfig().getString("rewards.command").replace("{player}", winner.getName()));
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(pl.getSpleefPlugin(), new Runnable() {
+                        @Override
+                        public void run() {
+                            if(winner != null && winner.isOnline())
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), pl.getConfig().getString("rewards.command").replace("{player}", winner.getName()));
+                        }
+                    }, 20);
                 }
                 if (getMain().otherPluginSupport.getVaultPlugin().getEconomy() != null) {
                     if (getMain().getConfig().getInt("rewards.win") != 0) {
@@ -600,8 +606,8 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
         if(!playerInGame.contains(p)){
             return;
         }
-        if(e.getClickedBlock() != null){
-            if(e.getItem().getType() != Material.DIAMOND_SPADE || e.getItem().getType() != Material.GOLD_SPADE)
+        if(e.getClickedBlock() != null && e.getItem() != null){
+            if(e.getItem().getType() == Material.DIAMOND_SPADE || e.getItem().getType() == Material.GOLD_SPADE)
             if(e.getClickedBlock().getType() != Material.SNOW_BLOCK){
                 if(authorizedMaterial.contains(e.getClickedBlock().getType()) && game.GAME){
                     if(!new SpleefAPIEventInvoker(new SpleefBreakSnowEvent(pl, this, p, e.getClickedBlock())).isCancelled()){

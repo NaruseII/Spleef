@@ -1,7 +1,6 @@
 package fr.naruse.spleef.v1_13.cmd;
 
 import com.google.common.collect.Lists;
-import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.Region;
@@ -444,7 +443,7 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                     Region selection = null;
                     try {
                         selection = pl.worldEditPlugin.getSession(p).getSelection(new BukkitWorld(p.getWorld()));
-                    } catch (IncompleteRegionException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     if(selection == null) {
