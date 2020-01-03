@@ -1,6 +1,7 @@
 lang: english
 times:
   wait: 10
+  resting: 7
 allow:
   magmaCream: true
   snowBalls: false

@@ -1,5 +1,6 @@
 package fr.naruse.spleef.v1_12.game.spleef.type;
 
+import fr.naruse.spleef.common.Utils;
 import fr.naruse.spleef.manager.SpleefPluginV1_12;
 import fr.naruse.spleef.v1_12.game.spleef.SpleefGameMode;
 import fr.naruse.spleef.v1_12.game.spleef.Spleef;
@@ -163,7 +164,7 @@ public class BowSpleef extends Spleef implements Listener {
                         Material material = Material.DIAMOND_SPADE;
                         item = new ItemStack(material);
                         meta = item.getItemMeta();
-                        meta.spigot().setUnbreakable(true);
+                        meta.setUnbreakable(true);
                         item.setItemMeta(meta);
                         p.getInventory().addItem(item);
                     }
@@ -221,17 +222,19 @@ public class BowSpleef extends Spleef implements Listener {
                 e.getHitBlock().setType(Material.AIR);
                 projectile.remove();
             }else{
-                Block b = e.getHitBlock();
+                for(Block b : Utils.getCircle(e.getHitBlock().getLocation(), 2)){
+                    if(materialHashMap.containsKey(b)){
+                        b.setType(materialHashMap.get(b));
+                        b.setData(dataHashMap.get(b));
+                    }
+                }
+            }
+        }else{
+            for(Block b : Utils.getCircle(e.getHitBlock().getLocation(), 2)){
                 if(materialHashMap.containsKey(b)){
                     b.setType(materialHashMap.get(b));
                     b.setData(dataHashMap.get(b));
                 }
-            }
-        }else{
-            Block b = e.getHitBlock();
-            if(materialHashMap.containsKey(b)){
-                b.setType(materialHashMap.get(b));
-                b.setData(dataHashMap.get(b));
             }
         }
     }

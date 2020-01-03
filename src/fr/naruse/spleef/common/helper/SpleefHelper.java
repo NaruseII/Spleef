@@ -2,9 +2,11 @@ package fr.naruse.spleef.common.helper;
 
 import com.google.common.collect.Lists;
 import fr.naruse.spleef.main.SpleefPlugin;
+import fr.naruse.spleef.manager.SpleefPluginV1_13;
 import fr.naruse.spleef.v1_12.util.SpleefPlayerStatistics;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -73,5 +75,21 @@ public class SpleefHelper {
             count++;
         }
         return null;
+    }
+
+    public static String listToString(List<OfflinePlayer> list) {
+        if(list == null){
+            return "";
+        }
+        if(list.size() == 0){
+            return "";
+        }
+        String s = ",";
+        for(OfflinePlayer player : list){
+            SpleefPlayerStatistics statistics = getSpleefPlayer(player);
+            s += ", "+player.getName()+" §7(Wins: "+statistics.getWins()+", Loses: "+statistics.getLoses()+")";
+        }
+        s = s.replace(",, ", "");
+        return s;
     }
 }

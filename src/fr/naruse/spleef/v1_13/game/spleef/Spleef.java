@@ -48,6 +48,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
     private List<Block> blocks = Lists.newArrayList();
     private List<Block> blocksOfRegionVerif = Lists.newArrayList();
     private List<Block> blocksOfRegion = Lists.newArrayList();
+    private List<Player> spectators = Lists.newArrayList();
     private HashMap<Location, Material> typeOfLocationHashMap = new HashMap<>();
     private Game game;
     private ScoreboardSign scoreboardSign;
@@ -109,7 +110,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                     restingTime.put(p, 0);
                     lastBlock.put(p, p.getLocation().getBlock());
                 }
-                if(restingTime.get(p) == 20*5){
+                if(restingTime.get(p) == 20*getRestingTime()){
                     p.sendMessage(NAME+" §cHey! §a"+ Message.DONT_STAY_ON_A_BLOCK.getMessage());
                 }
                 if(restingTime.get(p) >= 20*7){
@@ -176,6 +177,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                         public void run() {
                             p.setHealth(20);
                             p.setFoodLevel(20);
+                            p.setFireTicks(0);
                         }
                     }, 40);
                 }
@@ -274,6 +276,15 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                 }else{
                     p.setVelocity(new Vector(0.5F, 0.5F, -0.5F));
                 }
+            }
+        }
+        for(Player p : spectators){
+            if(pl.spleefs.getSpleefPlayerMap().containsKey(p)){
+                p.teleport(spleefLoc);
+                SpleefPlayer spleefPlayer = pl.spleefs.getSpleefPlayerMap().get(p);
+                spleefPlayer.setPlayerInventory();
+                spleefPlayer.setPlayerGameMode();
+                spleefPlayer.setIsFlying();
             }
         }
         scoreboardSign.getObjective().setDisplayName(NAME);
@@ -577,7 +588,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                 blocksOfRegionVerif.remove(e.getBlock());
                 e.setCancelled(false);
                 if(allowSnowballs()){
-                    p.getInventory().addItem(new ItemStack(Material.SNOW_BALL));
+                    p.getInventory().addItem(new ItemStack(Material.SNOW_BALL, 4));
                 }
             }
         }else{
@@ -590,11 +601,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
         if(e.getEntity().getItemStack().getType() == Material.SNOW_BALL){
             if(game.GAME){
                 if(blocks.contains(e.getEntity().getLocation().getBlock())){
-                    if(pl.getConfig().getBoolean("allow.snowBalls")){
-                        e.setCancelled(false);
-                    }else{
-                        e.setCancelled(true);
-                    }
+                    e.setCancelled(true);
                 }
             }
         }
@@ -705,6 +712,17 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
         return vector;
     }
 
+    public void setSpectator(Player p){
+        if(allowSpectator()){
+            if(playerInGame.size() == 0){
+                return;
+            }
+            spectators.add(p);
+            p.setGameMode(GameMode.SPECTATOR);
+            p.teleport(playerInGame.get(0));
+        }
+    }
+
     public void setTimeInSecond(int time){
         timeInSecond = time;
     }
@@ -725,8 +743,16 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
         return pl.getConfig().getBoolean("allow.goldShovel");
     }
 
+    public boolean allowSpectator() {
+        return pl.getConfig().getBoolean("allow.spectator");
+    }
+
     public int getOriginalStartTimer(){
         return pl.getConfig().getInt("times.wait");
+    }
+
+    public int getRestingTime(){
+        return pl.getConfig().getInt("times.resting");
     }
 
     public Game getGame() {
@@ -819,6 +845,10 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
 
     public HashMap<Location, Material> getTypeOfLocationHashMap() {
         return typeOfLocationHashMap;
+    }
+
+    public List<Player> getSpectators() {
+        return spectators;
     }
 
     public class Game{

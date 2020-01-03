@@ -20,7 +20,7 @@ public class SpleefPlayer {
     }
 
     public void registerInventory(){
-        inv = Bukkit.createInventory(null, 9*6, p.getName());
+        inv = Bukkit.createInventory(null, 9*6);
         for(int i = 0; i < inv.getSize(); i++){
             try{
                 if(p.getInventory().getItem(i) != null){

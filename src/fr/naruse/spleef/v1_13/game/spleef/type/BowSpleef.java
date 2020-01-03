@@ -1,5 +1,6 @@
 package fr.naruse.spleef.v1_13.game.spleef.type;
 
+import fr.naruse.spleef.common.Utils;
 import fr.naruse.spleef.manager.SpleefPluginV1_13;
 import fr.naruse.spleef.v1_13.game.spleef.Spleef;
 import fr.naruse.spleef.v1_13.game.spleef.SpleefGameMode;
@@ -11,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -165,7 +167,7 @@ public class BowSpleef extends Spleef implements Listener {
                         Material material = Material.DIAMOND_SPADE;
                         item = new ItemStack(material);
                         meta = item.getItemMeta();
-                        meta.spigot().setUnbreakable(true);
+                        meta.setUnbreakable(true);
                         item.setItemMeta(meta);
                         p.getInventory().addItem(item);
                     }
@@ -218,13 +220,19 @@ public class BowSpleef extends Spleef implements Listener {
             getBlocks().add(e.getHitBlock());
             getBlocksOfRegionVerif().remove(e.getHitBlock());
             getTypeOfLocationHashMap().put(e.getHitBlock().getLocation(), e.getHitBlock().getType());
-            e.getHitBlock().setType(Material.AIR);
+            for(Block b : Utils.getCircle(e.getHitBlock().getLocation(), 2)){
+                if(materialHashMap.containsKey(b)){
+                    b.setType(materialHashMap.get(b));
+                    b.setData(dataHashMap.get(b));
+                }
+            }
             projectile.remove();
         }else{
-            Block b = e.getHitBlock();
-            if(materialHashMap.containsKey(b)){
-                b.setType(materialHashMap.get(b));
-                b.setData(dataHashMap.get(b));
+            for(Block b : Utils.getCircle(e.getHitBlock().getLocation(), 2)){
+                if(materialHashMap.containsKey(b)){
+                    b.setType(materialHashMap.get(b));
+                    b.setData(dataHashMap.get(b));
+                }
             }
         }
     }

@@ -36,7 +36,11 @@ public class SpleefPluginV1_13 extends AbstractSpleefPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
-        this.worldEditPlugin = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
+        if((WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit") == null){
+            this.worldEditPlugin = null;
+        }else{
+            this.worldEditPlugin = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WorldEdit");
+        }
         this.otherPluginSupport = new OtherPluginSupport();
         this.saveConfig();
         this.configurations = new Configurations(this);

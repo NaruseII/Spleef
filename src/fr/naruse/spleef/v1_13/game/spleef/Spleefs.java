@@ -182,6 +182,7 @@ public class Spleefs {
             try{
                 if(!new SpleefAPIEventInvoker(new SpleefPlayerQuitArenaEvent.Pre(pl, spleefOfPlayer.get(p), p)).isCancelled()){
                     spleefOfPlayer.get(p).removePlayer(p);
+                    spleefOfPlayer.get(p).setSpectator(p);
                     new SpleefAPIEventInvoker(new SpleefPlayerQuitArenaEvent.Post(pl, p));
                 }
             }catch (Exception e){
@@ -247,5 +248,9 @@ public class Spleefs {
 
     public boolean hasSpleefPlayer(Player p){
         return spleefPlayerOfPlayer.containsKey(p);
+    }
+
+    public HashMap<Player, SpleefPlayer> getSpleefPlayerMap() {
+        return spleefPlayerOfPlayer;
     }
 }

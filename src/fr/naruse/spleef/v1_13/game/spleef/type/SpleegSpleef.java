@@ -176,7 +176,7 @@ public class SpleegSpleef extends Spleef implements Listener {
                         Material material = Material.DIAMOND_SPADE;
                         item = new ItemStack(material);
                         meta = item.getItemMeta();
-                        meta.spigot().setUnbreakable(true);
+                        meta.setUnbreakable(true);
                         item.setItemMeta(meta);
                         p.getInventory().addItem(item);
                     }

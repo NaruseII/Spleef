@@ -47,10 +47,10 @@ public class TwoTeamSpleef extends Spleef implements TeamModeSpleef {
             }
         } else if (getGame().GAME) {
             if (redTeam.size() == 0) {
-                Bukkit.broadcastMessage(getNAME() +" §7"+ Message.RED_TEAM.getMessage()+" §7" + Message.WINS_THE_GAME.getMessage());
+                Bukkit.broadcastMessage(getNAME() +" §7"+ Message.BLUE_TEAM.getMessage()+" §7" + Message.WINS_THE_GAME.getMessage());
                 if (getMain().otherPluginSupport.getVaultPlugin().getEconomy() != null) {
                     if (getMain().getConfig().getInt("rewards.win") != 0) {
-                        for(Player p : redTeam){
+                        for(Player p : blueTeam){
                             getMain().otherPluginSupport.getVaultPlugin().getEconomy().depositPlayer(p, getMain().getConfig().getDouble("rewards.win"));
                         }
                     }
@@ -60,10 +60,10 @@ public class TwoTeamSpleef extends Spleef implements TeamModeSpleef {
                 }
                 restart(false);
             }else if (blueTeam.size() == 0) {
-                Bukkit.broadcastMessage(getNAME() +" §7"+ Message.BLUE_TEAM.getMessage()+" §7" + Message.WINS_THE_GAME.getMessage());
+                Bukkit.broadcastMessage(getNAME() +" §7"+ Message.RED_TEAM.getMessage()+" §7" + Message.WINS_THE_GAME.getMessage());
                 if (getMain().otherPluginSupport.getVaultPlugin().getEconomy() != null) {
                     if (getMain().getConfig().getInt("rewards.win") != 0) {
-                        for(Player p : blueTeam){
+                        for(Player p : redTeam){
                             getMain().otherPluginSupport.getVaultPlugin().getEconomy().depositPlayer(p, getMain().getConfig().getDouble("rewards.win"));
                         }
                     }
