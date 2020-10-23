@@ -303,7 +303,7 @@ public abstract class Spleef extends BukkitRunnable implements Listener{
                     }
                     ItemStack item = new ItemStack(material);
                     ItemMeta meta = item.getItemMeta();
-                    meta.spigot().setUnbreakable(true);
+                    meta.setUnbreakable(true);
                     item.setItemMeta(meta);
                     p.getInventory().addItem(item);
                 }
