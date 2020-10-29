@@ -1,0 +1,220 @@
+english:
+  commands:
+    onlyForPlayers: "§cCommands can be performed only by players."
+    youDontHaveThePermission: "§cYou do not have this permission."
+    wrongNumber: "§cWrong number."
+    spleefCreated: "§aSpleef created."
+    spleefDeleted: "§aSpleef deleted."
+    error: "§4ERROR"
+    spleefNotFound: "§cSpleef '{name}' not found."
+    reload: "§aSpleefs reloaded."
+    settingSaved: "§aSetting saved."
+    settingMaxSaved: "§aMaximum saved."
+    settingMinSaved: "§aMinimum saved."
+    settingLocationSaved:
+      arena: "§aLocation Arena saved."
+      spawn: "§aLocation Spawn saved."
+      lobby: "§aLocation Lobby saved."
+    argumentNotFound: "§cArgument '{arg}' not found."
+    langChanged: "§aLang changed."
+    alreadyExists: "§cSpleef already exists."
+    timerChanged: "§aTimer saved."
+    gameAlreadyStarted: "§cGame already started."
+    tooManyPlayers: "§cToo many players."
+    gameStarted: "§aGame started."
+    gameAlreadyStopped: "§cThis game is not playing."
+    gameStopped: "§aGame stopped."
+    playerNotFound: "§cPlayer not found."
+    playerAdded: "§aPlayer added in game."
+    playerInGame: "§cThis player is already playing."
+    spleefOpened: "§aSpleef opened."
+    spleefClosed: "§aSpleef closed."
+    listNotGoodSpleefs: "§aMisconfigured spleefs : §c{list}"
+    listGoodSpleefs: "§aFunctional spleefs: §2{list}"
+    youAreNotInGame: "§cYou are not in game."
+    statsCleared: "§aStatistics cleared."
+    hologramSaved: "§aHologram saved. §7(Can be activated by the command §e/spleef enable HolographicRanking§7)"
+    gameModeChanged: "§aGame mode changed."
+  spleefTag: "§6§l"
+  leaveSpleef: "§7§l> §d{name}§c leave this game."
+  joinSpleef: "§7§l> §d{name}§a join this game."
+  scoreboardFormat: "§7{name}"
+  scoreboardName: "{name} §5{time}"
+  inGame: "§cIn game."
+  gameStarts: "§7§l> §2Game starts!"
+  youHaveAGame: "§cYou already are in game."
+  spadeDeliverIn: "§7§l> §aYour spade come in 5 seconds."
+  playerFell: "§7§l> §d{name} §cfell!"
+  playerWins: "§7§l> §d{name} §ewins this game!"
+  closed: "§7§l> §cClosed."
+  dontStayOnTheSameBlock: "§f§l» §cDo not stay on the same block!"
+  sign:
+    spleef:
+      isClosed:
+        line1: "{name}"
+        line2: ""
+        line3: "§cClosed"
+        line4: ""
+      isOpened:
+        isWaiting:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3:
+            1: "§aReady"
+            2: "§4{missing} missing"
+          line4: "§aJoin"
+        isPlaying:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3: ""
+          line4: "§4In game"
+    splegg:
+      isClosed:
+        line1: "{name}"
+        line2: ""
+        line3: "§cClosed"
+        line4: ""
+      isOpened:
+        isWaiting:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3:
+            1: "§aReady"
+            2: "§4{missing} missing"
+          line4: "§5Splegg"
+        isPlaying:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3: ""
+          line4: "§5Splegg"
+  inventory:
+    statisticsTitle: "§c§l{name}'s statistics"
+    notFound: "§4Statistics not found!"
+    wins: "§6§lWins : {value}"
+    loses: "§6§lLoses : {value}"
+  hologram:
+    title: "§6 ---- Players Ranking ----"
+    format: "§6#{rank} §e§l{name} §7- §a{wins} Wins"
+
+
+french:
+  commands:
+    onlyForPlayers: "§cLes commandes sont executables par des joueurs seulement."
+    youDontHaveThePermission: "§4Vous n'avez pas la permission."
+    wrongNumber: "§cNombre incorrect."
+    spleefCreated: "§aSpleef créé."
+    spleefDeleted: "§aSpleef supprimé."
+    error: "§4ERREUR"
+    spleefNotFound: "§cSpleef '{name}' introuvable."
+    reload: "§aSpleefs rechargés."
+    settingSaved: "§aParamètre enregistré."
+    settingMaxSaved: "§aMaximum enregistré."
+    settingMinSaved: "§aMinimum enregistré."
+    settingLocationSaved:
+      arena: "§aLocation Arena enregistrée."
+      spawn: "§aLocation Spawn enregistrée."
+      lobby: "§aLocation Lobby enregistrée."
+    argumentNotFound: "§cArgument '{arg}' introuvable."
+    langChanged: "§aLangage changé."
+    alreadyExists: "§cUn Spleef avec ce nom existe déjà."
+    timerChanged: "§aTemps enregistré."
+    gameAlreadyStarted: "§cPartie déjà en cours."
+    tooManyPlayers: "§cTrop peu de joueurs."
+    gameStarted: "§aPartie lancée."
+    gameAlreadyStopped: "§cCette partie n'est pas en cours."
+    gameStopped: "§aPartie stoppée."
+    playerNotFound: "§cJoueur introuvable."
+    playerAdded: "§aJoueur ajouté en jeu."
+    playerInGame: "§cCe joueur est déjà en jeu."
+    spleefOpened: "§aSpleef ouvert."
+    spleefClosed: "§aSpleef fermé."
+    listNotGoodSpleefs: "§aSpleefs mal configurés: §c{list}"
+    listGoodSpleefs: "§aSpleefs fonctionnels: §2{list}"
+    youAreNotInGame: "§aVous n'êtes dans aucun Spleef."
+    statsCleared: "§aStatistiques éffacées."
+    hologramSaved: "§aHologramme enregistré. §7(Il est activable avec la commande §e/spleef enable HolographicRanking§7)"
+    gameModeChanged: "§aMode de jeu changé."
+  spleefTag: "§6§l"
+  leaveSpleef: "§7§l> §d{name}§c quitte la partie."
+  joinSpleef: "§7§l> §d{name}§a rejoint la partie."
+  scoreboardFormat: "§7{name}"
+  scoreboardName: "{name} §5{time}"
+  inGame: "§cPartie en cours."
+  gameStarts: "§7§l> §2La partie commence!"
+  youHaveAGame: "§cVous êtes déjà dans une partie."
+  spadeDeliverIn: "§aVotre pelle arrive dans 5 secondes."
+  playerFell: "§7§l> §d{name} §cest tombé!"
+  playerWins: "§7§l> §d{name} §eremporte la partie!"
+  closed: "§7§l> §cFermé."
+  dontStayOnTheSameBlock: "§f§l» §cNe restez pas sur le même bloc!"
+  sign:
+    spleef:
+      isClosed:
+        line1: "{name}"
+        line2: ""
+        line3: "§cFermé"
+        line4: ""
+      isOpened:
+        isWaiting:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3:
+            1: "§aPrêt"
+            2: "§4{missing} manquants"
+          line4: "§aRejoindre"
+        isPlaying:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3: ""
+          line4: "§4En jeu"
+    splegg:
+      isClosed:
+        line1: "{name}"
+        line2: ""
+        line3: "§cFermé"
+        line4: ""
+      isOpened:
+        isWaiting:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3:
+            1: "§aPrêt"
+            2: "§4{missing} manquants"
+          line4: "§5Splegg"
+        isPlaying:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3: ""
+          line4: "§5Splegg"
+  inventory:
+    statisticsTitle: "§c§lStatistiques de {name}"
+    notFound: "§4Statistiques introuvables !"
+    wins: "§6§lVictoires : {value}"
+    loses: "§6§lDéfaites : {value}"
+  hologram:
+    title: "§6 ---- Classement des Joueurs ----"
+    format: "§6#{rank} §e§l{name} §7- §a{wins} Victoires"

@@ -1,8 +1,8 @@
 name: Spleef
-version: 1.6.8
-author: Naruse
+version: 2.0.0
+author: [Naruse, jeremaier]
 main: fr.naruse.spleef.main.SpleefPlugin
-softdepend: [Vault]
+softdepend: [DBAPI, Vault, HolographicDisplays]
 commands:
   spleef:
     description: All commands for Spleef
