@@ -252,6 +252,9 @@ public class SpleefCommands implements CommandExecutor {
             if(args[1].equalsIgnoreCase("start")){
                 pl.getConfig().set("timer.start", number);
                 pl.saveConfig();
+            }else if(args[1].equalsIgnoreCase("blockstanding")){
+                pl.getConfig().set("timer.blockStanding", number);
+                pl.saveConfig();
             }else{
                 return help(sender, 1);
             }
@@ -301,6 +304,14 @@ public class SpleefCommands implements CommandExecutor {
                     pl.getHolographicManager().reloadLines();
                 }
                 return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(HolographicRanking: "+pl.getConfig().getBoolean("holographicRanking")+")");
+            }else if(args[1].equalsIgnoreCase("Lightnings")){
+                pl.getConfig().set("lightnings", !pl.getConfig().getBoolean("lightnings"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(Lightnings: "+pl.getConfig().getBoolean("lightnings")+")");
+            }else if(args[1].equalsIgnoreCase("standingLimit")){
+                pl.getConfig().set("standingLimit", !pl.getConfig().getBoolean("standingLimit"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(Lightnings: "+pl.getConfig().getBoolean("standingLimit")+")");
             }else{
                 return help(sender, 2);
             }
@@ -478,9 +489,9 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef <Open, Close> <Spleef name>");
                 sendNormalMessage(sender, "§bPage: §21/3");
             }else if(page == 2){
-                sendNormalMessage(sender, "§6/§7spleef setTimer <Start> <Number>");
+                sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setLang <French, English> §7(It will erase your changes)");
-                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking>");
+                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");

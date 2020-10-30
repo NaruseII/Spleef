@@ -2,8 +2,12 @@ currentLang: "english"
 
 broadcastWin: true
 holographicRanking: false
+lightnings: true
+standingLimit: true
+
 timer:
   start: 30
+  blockStanding: 7
 sql:
   tableName: "spleef"
 reward:

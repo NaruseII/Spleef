@@ -77,31 +77,35 @@ public class Spleef extends BukkitRunnable implements Listener {
         }else{
             for (int i = 0; i < playerInGame.size(); i++) {
                 Player p = playerInGame.get(i);
-                if(!lastPlayerBlock.containsKey(p)){
-                    lastPlayerBlock.put(p, p.getLocation().getBlock());
-                    lastPlayerBlockTime.put(p, 7);
-                }else{
-                    if(Utils.areLocationsEquals(lastPlayerBlock.get(p).getLocation(), p.getLocation().getBlock().getLocation())){
-                        int time = lastPlayerBlockTime.get(p);
-                        if(time <= 0){
-                            for (int j = 0; j < 3; j++) {
-                                for (Block block : Utils.getCircle(p.getLocation().getBlock().getRelative(0, -1, 0).getLocation(), j)) {
-                                    if (block.getType() == Material.SNOW_BLOCK) {
-                                        blocks.add(block);
-                                        block.setType(Material.AIR);
-                                        block.getWorld().strikeLightningEffect(block.getLocation());
+                if(pl.getConfig().getBoolean("standingLimit")){
+                    if(!lastPlayerBlock.containsKey(p)){
+                        lastPlayerBlock.put(p, p.getLocation().getBlock());
+                        lastPlayerBlockTime.put(p, getBlockStandingTime());
+                    }else{
+                        if(Utils.areLocationsEquals(lastPlayerBlock.get(p).getLocation(), p.getLocation().getBlock().getLocation())){
+                            int time = lastPlayerBlockTime.get(p);
+                            if(time <= 0){
+                                for (int j = 0; j < 3; j++) {
+                                    for (Block block : Utils.getCircle(p.getLocation().getBlock().getRelative(0, -1, 0).getLocation(), j)) {
+                                        if (block.getType() == Material.SNOW_BLOCK) {
+                                            blocks.add(block);
+                                            block.setType(Material.AIR);
+                                            if(pl.getConfig().getBoolean("lightnings")){
+                                                block.getWorld().strikeLightningEffect(block.getLocation());
+                                            }
+                                        }
                                     }
                                 }
+                            }else{
+                                if(time == getBlockStandingTime()-3){
+                                    p.sendMessage(getFullName()+" "+pl.getMessageManager().get("dontStayOnTheSameBlock"));
+                                }
+                                lastPlayerBlockTime.put(p, time-1);
                             }
                         }else{
-                            if(time == 3){
-                                p.sendMessage(getFullName()+" "+pl.getMessageManager().get("dontStayOnTheSameBlock"));
-                            }
-                            lastPlayerBlockTime.put(p, time-1);
+                            lastPlayerBlock.put(p, p.getLocation().getBlock());
+                            lastPlayerBlockTime.put(p, getBlockStandingTime());
                         }
-                    }else{
-                        lastPlayerBlock.put(p, p.getLocation().getBlock());
-                        lastPlayerBlockTime.put(p, 7);
                     }
                 }
                 if(p.getLocation().getBlock().getType().name().contains("WATER") || p.getLocation().getBlock().getType().name().contains("LAVA")){
@@ -371,6 +375,7 @@ public class Spleef extends BukkitRunnable implements Listener {
             spleefPlayer.setCurrentSpleef(null);
             spleefPlayer.incrementStatistic(StatisticType.WIN, 1);
             spleefPlayer.saveStatistics();
+            spleefPlayer.setPlayerInventory(p);
             if(pl.getVaultManager() != null){
                 pl.getVaultManager().giveWinReward(p);
             }
@@ -412,6 +417,10 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     public List<Player> getPlayerInGame() {
         return playerInGame;
+    }
+
+    private int getBlockStandingTime(){
+        return pl.getConfig().getInt("timer.blockStanding");
     }
 
     @EventHandler
