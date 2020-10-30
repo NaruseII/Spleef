@@ -48,6 +48,7 @@ english:
   playerWins: "§7§l> §d{name} §ewins this game!"
   closed: "§7§l> §cClosed."
   dontStayOnTheSameBlock: "§f§l» §cDo not stay on the same block!"
+  needToRestart: "§4§lHey! §cThe Spleef was automatically updated. You just have to reload or restart your server for the update to take effect!"
   sign:
     spleef:
       isClosed:
@@ -159,6 +160,7 @@ french:
   playerWins: "§7§l> §d{name} §eremporte la partie!"
   closed: "§7§l> §cFermé."
   dontStayOnTheSameBlock: "§f§l» §cNe restez pas sur le même bloc!"
+  needToRestart: "§4§lHey! §cLe Spleef a été automatiquement mis à jour. Tu as juste à recharger ou redémarrer ton serveur pour que la mise à jour prenne effet!"
   sign:
     spleef:
       isClosed:

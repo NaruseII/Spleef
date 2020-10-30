@@ -3,6 +3,7 @@ package fr.naruse.spleef.event;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.spleef.Spleef;
+import fr.naruse.spleef.utils.SpleefUpdater;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -24,6 +25,9 @@ public class Listeners implements Listener {
     public void join(PlayerJoinEvent e){
         Player p = e.getPlayer();
         pl.getSpleefPlayerRegistry().registerPlayer(p);
+        if((p.isOp() || p.hasPermission("spleef.help")) && SpleefUpdater.needToRestart()){
+            p.sendMessage(pl.getMessageManager().get("needToRestart"));
+        }
     }
 
     @EventHandler

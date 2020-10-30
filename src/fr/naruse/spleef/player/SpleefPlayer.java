@@ -1,11 +1,11 @@
 package fr.naruse.spleef.player;
 
 import com.google.common.collect.Maps;
-import fr.naruse.dbapi.sql.SQLResponse;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.statistic.StatisticBuilder;
 import fr.naruse.spleef.player.statistic.StatisticType;
 import fr.naruse.spleef.spleef.Spleef;
+import fr.naruse.spleef.sql.SpleefSQLResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -30,7 +30,7 @@ public class SpleefPlayer {
         if(pl.getSqlManager() == null){
             return;
         }
-        pl.getSqlManager().isRegistered(uuid, new SQLResponse() {
+        pl.getSqlManager().isRegistered(uuid, new SpleefSQLResponse() {
             @Override
             public void handleResponse(Object response) {
                 if(response == null){
@@ -38,7 +38,7 @@ public class SpleefPlayer {
                 }
                 boolean exists = (boolean) response;
                 if(exists){
-                    pl.getSqlManager().getProperties(uuid, new SQLResponse(){
+                    pl.getSqlManager().getProperties(uuid, new SpleefSQLResponse(){
                         @Override
                         public void handleResponse(Object response) {
                             if(response == null){

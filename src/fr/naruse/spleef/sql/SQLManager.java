@@ -9,9 +9,7 @@ import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.player.statistic.StatisticBuilder;
 import fr.naruse.spleef.player.statistic.StatisticType;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.Map;
 
@@ -35,11 +33,11 @@ public class SQLManager {
         });
     }
 
-    public void isRegistered(String uuid, SQLResponse sqlResponse){
+    public void isRegistered(String uuid, SpleefSQLResponse sqlResponse){
         isRegistered(uuid, sqlResponse, false);
     }
 
-    public void isRegistered(String uuid, SQLResponse sqlResponse, boolean inMainThread){
+    public void isRegistered(String uuid, SpleefSQLResponse sqlResponse, boolean inMainThread){
         SQLRequest sqlRequest = new SQLRequest(SQLHelper.getSelectRequest(TABLE_NAME, "properties", "uuid"), uuid);
         if(inMainThread){
             boolean exists = database.hasDirectAccount(sqlRequest);
@@ -64,7 +62,7 @@ public class SQLManager {
         database.prepareStatement(sqlRequest);
     }
 
-    public void getProperties(String uuid, SQLResponse sqlResponse) {
+    public void getProperties(String uuid, SpleefSQLResponse sqlResponse) {
         SQLRequest.GetObject sqlRequest = new SQLRequest.GetObject(SQLHelper.getSelectRequest(TABLE_NAME, "properties", "uuid"), "properties", uuid);
         database.getObject(sqlRequest, new SQLResponse() {
             @Override
