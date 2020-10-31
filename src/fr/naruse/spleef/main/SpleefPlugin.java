@@ -10,6 +10,7 @@ import fr.naruse.spleef.sql.SQLManager;
 import fr.naruse.spleef.ranking.HolographicManager;
 import fr.naruse.spleef.support.VaultManager;
 import fr.naruse.spleef.utils.SpleefUpdater;
+import fr.naruse.spleef.utils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -45,6 +46,7 @@ public class SpleefPlugin extends JavaPlugin {
         this.spleefs = new Spleefs(this);
 
         SpleefUpdater.checkNewVersion(this);
+        Utils.formatItems(this);
     }
 
     private void registerDependencies() {

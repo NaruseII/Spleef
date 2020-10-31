@@ -22,11 +22,20 @@ public class Utils {
 
     static {
         LEAVE_ITEM = new ItemStack(Material.BARRIER);
+
         SPADE_ITEM = new ItemStack(Material.GOLD_SPADE);
         ItemMeta meta = SPADE_ITEM.getItemMeta();
         meta.setUnbreakable(true);
         SPADE_ITEM.setItemMeta(meta);
+
         SNOWBALL = new ItemStack(Material.SNOW_BALL, 64);
+    }
+
+    public static void formatItems(SpleefPlugin pl){
+        ItemMeta meta = LEAVE_ITEM.getItemMeta();
+        meta.setUnbreakable(true);
+        meta.setDisplayName(pl.getMessageManager().get("leaveItem"));
+        LEAVE_ITEM.setItemMeta(meta);
     }
 
     public static Location getLocation(SpleefPlugin pl, String path) {

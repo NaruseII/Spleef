@@ -120,13 +120,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         currentStatus = GameStatus.GAME;
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
         for (Player player : playerInGame) {
-            player.teleport(arena);
-
-            boolean flag1 = Utils.RANDOM.nextBoolean();
-            boolean flag2 = Utils.RANDOM.nextBoolean();
-            Vector vector = new Vector(
-                    flag1 ? Utils.RANDOM.nextDouble()+0.3 : -Utils.RANDOM.nextDouble()+0.3, 1, flag2 ? Utils.RANDOM.nextDouble()+0.3 : -Utils.RANDOM.nextDouble()+0.3);
-            player.setVelocity(vector);
+            player.teleport(getRandomLocationFrom(arena));
         }
         sendMessage(getFullName()+" "+pl.getMessageManager().get("spadeDeliverIn"));
         Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> {
@@ -421,6 +415,28 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     private int getBlockStandingTime(){
         return pl.getConfig().getInt("timer.blockStanding");
+    }
+
+    private Location getRandomLocationFrom(Location arena) {
+        Location location = arena.clone();
+        boolean needToUp = false;
+        if(location.getBlock().getType() != Material.SNOW_BLOCK){
+            needToUp = true;
+            location.add(0, -1, 0);
+        }
+        for (int i = 0; i < Utils.RANDOM.nextInt(50)+20; i++) {
+            short flag1 = (short) (-2+Utils.RANDOM.nextInt(4));
+            short flag2 = (short) (-2+Utils.RANDOM.nextInt(4));
+            Location newLoc = location.clone().add(flag1, 0, flag2);
+            if(newLoc.getBlock().getType() == Material.SNOW_BLOCK){
+                location = newLoc;
+            }
+        }
+
+        if(needToUp){
+            location.add(0, 1, 0);
+        }
+        return location;
     }
 
     @EventHandler
