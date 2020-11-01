@@ -16,7 +16,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -75,6 +77,10 @@ public class Spleef extends BukkitRunnable implements Listener {
                 time = pl.getConfig().getInt("timer.start");
             }
         }else{
+            if(playerInGame.size() == 0){
+                restart();
+                return;
+            }
             for (int i = 0; i < playerInGame.size(); i++) {
                 Player p = playerInGame.get(i);
                 if(pl.getConfig().getBoolean("standingLimit")){
@@ -467,6 +473,20 @@ public class Spleef extends BukkitRunnable implements Listener {
     @EventHandler
     public void foodChange(FoodLevelChangeEvent e){
         if(e.getEntity() instanceof Player && hasPlayer((Player) e.getEntity())){
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void drop(PlayerDropItemEvent e){
+        if(hasPlayer(e.getPlayer())){
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void pickUp(PlayerPickupItemEvent e){
+        if(hasPlayer(e.getPlayer())){
             e.setCancelled(true);
         }
     }
