@@ -101,6 +101,31 @@ english:
             1: "§c{size}/{max}"
           line3: ""
           line4: "§5Splegg"
+    bow:
+      isClosed:
+        line1: "{name}"
+        line2: ""
+        line3: "§cClosed"
+        line4: ""
+      isOpened:
+        isWaiting:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3:
+            1: "§aReady"
+            2: "§4{missing} missing"
+          line4: "§5Splegg"
+        isPlaying:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3: ""
+          line4: "§5BowSpleef"
   inventory:
     statisticsTitle: "§c§l{name}'s statistics"
     notFound: "§4Statistics not found!"
@@ -214,6 +239,31 @@ french:
             1: "§c{size}/{max}"
           line3: ""
           line4: "§5Splegg"
+    bow:
+      isClosed:
+        line1: "{name}"
+        line2: ""
+        line3: "§cFermé"
+        line4: ""
+      isOpened:
+        isWaiting:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3:
+            1: "§aPrêt"
+            2: "§4{missing} manquants"
+          line4: "§5Splegg"
+        isPlaying:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3: ""
+          line4: "§5BowSpleef"
   inventory:
     statisticsTitle: "§c§lStatistiques de {name}"
     notFound: "§4Statistiques introuvables !"

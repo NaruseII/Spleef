@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -19,6 +20,7 @@ public class Utils {
     public static final ItemStack LEAVE_ITEM;
     public static final ItemStack SPADE_ITEM;
     public static final ItemStack SNOWBALL;
+    public static final ItemStack BOW;
 
     static {
         LEAVE_ITEM = new ItemStack(Material.BARRIER);
@@ -29,6 +31,11 @@ public class Utils {
         SPADE_ITEM.setItemMeta(meta);
 
         SNOWBALL = new ItemStack(Material.SNOW_BALL, 64);
+        BOW = new ItemStack(Material.BOW);
+        meta = BOW.getItemMeta();
+        meta.setUnbreakable(true);
+        meta.addEnchant(Enchantment.ARROW_INFINITE, 3, true);
+        BOW.setItemMeta(meta);
     }
 
     public static void formatItems(SpleefPlugin pl){

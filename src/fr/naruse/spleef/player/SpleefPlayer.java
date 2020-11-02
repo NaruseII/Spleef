@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.statistic.StatisticBuilder;
 import fr.naruse.spleef.player.statistic.StatisticType;
-import fr.naruse.spleef.spleef.Spleef;
+import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.sql.SpleefSQLResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

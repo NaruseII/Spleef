@@ -1,17 +1,16 @@
-package fr.naruse.spleef.spleef;
+package fr.naruse.spleef.spleef.type;
 
 import fr.naruse.spleef.main.SpleefPlugin;
+import fr.naruse.spleef.spleef.GameStatus;
+import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class Splegg extends Spleef {
@@ -27,11 +26,7 @@ public class Splegg extends Spleef {
         for (Player player : playerInGame) {
             player.teleport(arena);
 
-            boolean flag1 = Utils.RANDOM.nextBoolean();
-            boolean flag2 = Utils.RANDOM.nextBoolean();
-            Vector vector = new Vector(
-                    flag1 ? Utils.RANDOM.nextDouble()+0.3 : -Utils.RANDOM.nextDouble()+0.3, 1, flag2 ? Utils.RANDOM.nextDouble()+0.3 : -Utils.RANDOM.nextDouble()+0.3);
-            player.setVelocity(vector);
+            player.teleport(getRandomLocationFrom(arena));
             player.getInventory().addItem(Utils.SNOWBALL);
         }
     }

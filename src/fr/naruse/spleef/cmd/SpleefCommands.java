@@ -4,7 +4,8 @@ import com.google.common.collect.Lists;
 import fr.naruse.spleef.inventory.InventoryStatistics;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.GameStatus;
-import fr.naruse.spleef.spleef.Spleef;
+import fr.naruse.spleef.spleef.GameType;
+import fr.naruse.spleef.spleef.type.Spleef;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -68,7 +69,6 @@ public class SpleefCommands implements CommandExecutor {
 
 
         /// ADMIN
-
         if(!p.hasPermission("spleef.help")){
             return sendMessage(sender, "youDontHaveThePermission");
         }
@@ -89,10 +89,12 @@ public class SpleefCommands implements CommandExecutor {
             if(args.length < 2){
                 return help(sender, 1);
             }
-            boolean isSplegg = false;
+            GameType gameType = GameType.SPLEEF;
             if(args.length > 2){
-                if(args[2].equalsIgnoreCase("splegg")){
-                    isSplegg = true;
+                try{
+                    gameType = GameType.valueOf(args[2].toUpperCase());
+                }catch (Exception e){
+                    return help(sender, 1);
                 }
             }
             int id = getNextIdAvailable();
@@ -104,7 +106,7 @@ public class SpleefCommands implements CommandExecutor {
             }
             pl.getConfig().set("spleef."+id+".name", args[1]);
             pl.getConfig().set("spleef."+id+".isOpened", true);
-            pl.getConfig().set("spleef."+id+".isSplegg", isSplegg);
+            pl.getConfig().set("spleef."+id+".gameType", gameType.name());
             pl.saveConfig();
             return sendMessage(sender, "spleefCreated");
         }
@@ -459,13 +461,15 @@ public class SpleefCommands implements CommandExecutor {
             if(id == -1){
                 return sendMessage(sender, "spleefNotFound", new String[]{"name"}, new String[]{args[1]});
             }
-            if(args[2].equalsIgnoreCase("splegg")){
-                pl.getConfig().set("spleef."+id+".isSplegg", true);
-            }else if(args[2].equalsIgnoreCase("spleef")){
-                pl.getConfig().set("spleef."+id+".isSplegg", false);
-            }else{
-                return help(sender, 3);
+            GameType gameType = GameType.SPLEEF;
+            if(args.length > 2){
+                try{
+                    gameType = GameType.valueOf(args[2].toUpperCase());
+                }catch (Exception e){
+                    return help(sender, 3);
+                }
             }
+            pl.getConfig().set("spleef."+id+".gameType", gameType.name());
             pl.saveConfig();
             return sendMessage(sender, "gameModeChanged");
         }
@@ -479,7 +483,7 @@ public class SpleefCommands implements CommandExecutor {
         if(sender.hasPermission("spleef.help")){
             if(page == 1){
                 sendNormalMessage(sender, "§6/§7spleef help <[Page]>");
-                sendNormalMessage(sender, "§6/§7spleef <Create, Delete> <Spleef name> <[Splegg]>");
+                sendNormalMessage(sender, "§6/§7spleef <Create, Delete> <Spleef name> <[Splegg, Bow]>");
                 sendNormalMessage(sender, "§6/§7spleef reload");
                 sendNormalMessage(sender, "§6/§7spleef setMin <Spleef name> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setMax <Spleef name> <Number>");
@@ -501,7 +505,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§bPage: §22/3");
             }else if(page == 3){
                 sendNormalMessage(sender, "§6/§7spleef setHologram §7(Location)");
-                sendNormalMessage(sender, "§6/§7spleef setGameMode <Spleef name> <Spleef, Splegg>");
+                sendNormalMessage(sender, "§6/§7spleef setGameMode <Spleef name> <Spleef, Splegg, Bow>");
                 sendNormalMessage(sender, "§bPage: §23/3");
             }
         }

@@ -2,7 +2,7 @@ package fr.naruse.spleef.event;
 
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
-import fr.naruse.spleef.spleef.Spleef;
+import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.SpleefUpdater;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

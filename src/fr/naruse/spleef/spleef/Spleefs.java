@@ -2,6 +2,9 @@ package fr.naruse.spleef.spleef;
 
 import com.google.common.collect.Lists;
 import fr.naruse.spleef.main.SpleefPlugin;
+import fr.naruse.spleef.spleef.type.BowSpleef;
+import fr.naruse.spleef.spleef.type.Spleef;
+import fr.naruse.spleef.spleef.type.Splegg;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -29,7 +32,17 @@ public class Spleefs {
             if(pl.getConfig().contains("spleef."+i+".name")){
                 String name = pl.getConfig().getString("spleef."+i+".name");
                 boolean isOpened = pl.getConfig().getBoolean("spleef."+i+".isOpened");
-                boolean isSplegg = pl.getConfig().getBoolean("spleef."+i+".isSplegg");
+                if(!pl.getConfig().contains("spleef."+i+".gameType")){
+                    pl.getConfig().set("spleef."+i+".gameType", GameType.SPLEEF.name());
+                    pl.saveConfig();
+                }
+                GameType gameType;
+                try{
+                    gameType = GameType.valueOf(pl.getConfig().getString("spleef."+i+".gameType"));
+                }catch (Exception e){
+                    pl.getLogger().warning("can't recognize GameType for Spleef '"+name+"'");
+                    continue;
+                }
 
                 Location arena = Utils.getLocation(pl, "spleef."+i+".location.arena");
                 if(arena == null){
@@ -56,10 +69,15 @@ public class Spleefs {
                 int max = pl.getConfig().getInt("spleef."+i+".max");
 
                 Spleef spleef;
-                if(isSplegg){
-                    spleef = new Splegg(pl, i, name, isOpened, max, min, arena, spawn, lobby);
-                }else{
-                    spleef = new Spleef(pl, i, name, isOpened, max, min, arena, spawn, lobby);
+                switch (gameType){
+                    case SPPLEGG:
+                        spleef = new Splegg(pl, i, name, isOpened, max, min, arena, spawn, lobby);
+                        break;
+                    case BOW:
+                        spleef = new BowSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby);
+                        break;
+                    default:
+                        spleef = new Spleef(pl, i, name, isOpened, max, min, arena, spawn, lobby);
                 }
 
                 pl.getServer().getPluginManager().registerEvents(spleef, pl);

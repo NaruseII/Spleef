@@ -1,10 +1,11 @@
-package fr.naruse.spleef.spleef;
+package fr.naruse.spleef.spleef.type;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.player.statistic.StatisticType;
+import fr.naruse.spleef.spleef.GameStatus;
 import fr.naruse.spleef.utils.ScoreboardSign;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.*;
@@ -93,13 +94,7 @@ public class Spleef extends BukkitRunnable implements Listener {
                             if(time <= 0){
                                 for (int j = 0; j < 3; j++) {
                                     for (Block block : Utils.getCircle(p.getLocation().getBlock().getRelative(0, -1, 0).getLocation(), j)) {
-                                        if (block.getType() == Material.SNOW_BLOCK) {
-                                            blocks.add(block);
-                                            block.setType(Material.AIR);
-                                            if(pl.getConfig().getBoolean("lightnings")){
-                                                block.getWorld().strikeLightningEffect(block.getLocation());
-                                            }
-                                        }
+                                        removeBlockUnderFoot(block);
                                     }
                                 }
                             }else{
@@ -137,8 +132,8 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     public void disable(){
-        stop();
         restart();
+        stop();
         for(Sign sign : signs){
             sign.setLine(0, getFullName());
             sign.setLine(1, "");
@@ -423,7 +418,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         return pl.getConfig().getInt("timer.blockStanding");
     }
 
-    private Location getRandomLocationFrom(Location arena) {
+    protected Location getRandomLocationFrom(Location arena) {
         Location location = arena.clone();
         boolean needToUp = false;
         if(location.getBlock().getType() != Material.SNOW_BLOCK){
@@ -443,6 +438,16 @@ public class Spleef extends BukkitRunnable implements Listener {
             location.add(0, 1, 0);
         }
         return location;
+    }
+
+    protected void removeBlockUnderFoot(Block block) {
+        if (block.getType() == Material.SNOW_BLOCK) {
+            blocks.add(block);
+            block.setType(Material.AIR);
+            if(pl.getConfig().getBoolean("lightnings")){
+                block.getWorld().strikeLightningEffect(block.getLocation());
+            }
+        }
     }
 
     @EventHandler
