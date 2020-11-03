@@ -130,8 +130,7 @@ public class BowSpleef extends Spleef {
 
     @Override
     protected String getSignLine(String path) {
-        return pl.getMessageManager().get("sign.bow" +
-                        "."+path, new String[]{"name", "size", "max", "min", "missing"},
+        return pl.getMessageManager().get("sign.bow."+path, new String[]{"name", "size", "max", "min", "missing"},
                 new String[]{getFullName(), playerInGame.size()+"", max+"", min+"", (min-playerInGame.size())+""});
     }
 

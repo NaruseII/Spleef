@@ -35,6 +35,9 @@ public class MessageManager {
 
         public String get(String path, String[] toReplace, String[] replacedBy) {
             String msg = get(path);
+            if(path.equals("sign.bow.isOpened.isWaiting.line4") && get("sign.bow.isOpened.isWaiting.line4").equals("§5Splegg")){
+                msg = "§5BowSpleef";
+            }
             if(toReplace.length != 0){
                 for (int i = 0; i < toReplace.length; i++) {
                     String to = "{"+toReplace[i]+"}";

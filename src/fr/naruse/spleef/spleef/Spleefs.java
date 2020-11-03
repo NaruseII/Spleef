@@ -38,7 +38,12 @@ public class Spleefs {
                 }
                 GameType gameType;
                 try{
-                    gameType = GameType.valueOf(pl.getConfig().getString("spleef."+i+".gameType"));
+                    String type = pl.getConfig().getString("spleef."+i+".gameType");
+                    if(type.equals("SPPLEGG")){
+                        gameType = GameType.SPLEGG;
+                    }else{
+                        gameType = GameType.valueOf(type);
+                    }
                 }catch (Exception e){
                     pl.getLogger().warning("can't recognize GameType for Spleef '"+name+"'");
                     continue;
@@ -70,7 +75,7 @@ public class Spleefs {
 
                 Spleef spleef;
                 switch (gameType){
-                    case SPPLEGG:
+                    case SPLEGG:
                         spleef = new Splegg(pl, i, name, isOpened, max, min, arena, spawn, lobby);
                         break;
                     case BOW:
