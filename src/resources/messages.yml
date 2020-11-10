@@ -134,6 +134,11 @@ english:
   hologram:
     title: "§6 ---- Players Ranking ----"
     format: "§6#{rank} §e§l{name} §7- §a{wins} Wins"
+  papi:
+    closed: "§cClosed"
+    opened: "§aOpened"
+    inGame: "§cIn Game"
+    notInGame: "§aWaiting"
 
 
 french:
@@ -272,3 +277,8 @@ french:
   hologram:
     title: "§6 ---- Classement des Joueurs ----"
     format: "§6#{rank} §e§l{name} §7- §a{wins} Victoires"
+  papi:
+    closed: "§cFermé"
+    opened: "§aOuvert"
+    inGame: "§cEn Jeu"
+    notInGame: "§aEn Attente"

@@ -4,6 +4,7 @@ broadcastWin: true
 holographicRanking: false
 lightnings: true
 standingLimit: true
+tpToLastLoc: false
 
 timer:
   start: 30

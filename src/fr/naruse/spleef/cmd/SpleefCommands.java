@@ -314,6 +314,10 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfig().set("standingLimit", !pl.getConfig().getBoolean("standingLimit"));
                 pl.saveConfig();
                 return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(Lightnings: "+pl.getConfig().getBoolean("standingLimit")+")");
+            }else if(args[1].equalsIgnoreCase("tpToLastLoc")){
+                pl.getConfig().set("tpToLastLoc", !pl.getConfig().getBoolean("tpToLastLoc"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(Lightnings: "+pl.getConfig().getBoolean("tpToLastLoc")+")");
             }else{
                 return help(sender, 2);
             }
@@ -495,7 +499,7 @@ public class SpleefCommands implements CommandExecutor {
             }else if(page == 2){
                 sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setLang <French, English> §7(It will erase your changes)");
-                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit>");
+                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");

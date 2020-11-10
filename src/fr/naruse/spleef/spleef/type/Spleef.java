@@ -189,6 +189,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         sendMessage(getFullName() +" "+ pl.getMessageManager().get("joinSpleef", new String[]{"name"}, new String[]{p.getName()}));
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
         spleefPlayer.registerInventory(p);
+        spleefPlayer.setLastLocation(p.getLocation());
         p.getInventory().clear();
         p.getInventory().setHeldItemSlot(0);
         p.getInventory().setItem(8, Utils.LEAVE_ITEM);
@@ -223,11 +224,19 @@ public class Spleef extends BukkitRunnable implements Listener {
         updateScoreboards();
         p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         p.setVelocity(new Vector());
-        p.teleport(spawn);
+
+        SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
+
+        if(pl.getConfig().getBoolean("tpToLastLoc")){
+            p.teleport(spleefPlayer.getLastLocation());
+        }else{
+            p.teleport(spawn);
+        }
+
         p.setInvulnerable(false);
         p.setFoodLevel(20);
         p.setHealth(p.getMaxHealth());
-        SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
+
         spleefPlayer.setCurrentSpleef(null);
         spleefPlayer.setPlayerInventory(p);
         if(currentStatus == GameStatus.GAME){
@@ -334,13 +343,20 @@ public class Spleef extends BukkitRunnable implements Listener {
         updateScoreboards();
         p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         p.setVelocity(new Vector());
-        p.teleport(spawn);
+
+        SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
+
+        if(pl.getConfig().getBoolean("tpToLastLoc")){
+            p.teleport(spleefPlayer.getLastLocation());
+        }else{
+            p.teleport(spawn);
+        }
+
         p.setInvulnerable(false);
         p.setFireTicks(0);
         p.setFoodLevel(20);
         p.setHealth(p.getMaxHealth());
         checkWin();
-        SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
         spleefPlayer.setCurrentSpleef(null);
         spleefPlayer.incrementStatistic(StatisticType.LOSE, 1);
         spleefPlayer.saveStatistics();
@@ -410,8 +426,16 @@ public class Spleef extends BukkitRunnable implements Listener {
         return min;
     }
 
+    public int getMax() {
+        return max;
+    }
+
     public List<Player> getPlayerInGame() {
         return playerInGame;
+    }
+
+    public boolean isOpened() {
+        return isOpened;
     }
 
     private int getBlockStandingTime(){

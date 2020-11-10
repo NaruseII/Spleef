@@ -8,6 +8,7 @@ import fr.naruse.spleef.spleef.Spleefs;
 import fr.naruse.spleef.player.SpleefPlayerRegistry;
 import fr.naruse.spleef.sql.SQLManager;
 import fr.naruse.spleef.ranking.HolographicManager;
+import fr.naruse.spleef.support.PlaceHolderManager;
 import fr.naruse.spleef.support.VaultManager;
 import fr.naruse.spleef.utils.SpleefUpdater;
 import fr.naruse.spleef.utils.Utils;
@@ -61,6 +62,10 @@ public class SpleefPlugin extends JavaPlugin {
         if(getServer().getPluginManager().getPlugin("HolographicDisplays") != null){
             getLogger().log(Level.INFO, "HolographicDisplays found");
             this.holographicManager = new HolographicManager(this);
+        }
+        if(getServer().getPluginManager().getPlugin("PlaceHolderAPI") != null){
+            getLogger().log(Level.INFO, "PlaceHolderAPI found");
+            new PlaceHolderManager(this);
         }
     }
 

@@ -39,7 +39,7 @@ public class Splegg extends Spleef {
                 return;
             }
             p.getInventory().addItem(Utils.SNOWBALL);
-            if(e.getHitBlock() != null){
+            if(e.getHitBlock() != null && e.getHitBlock().getType() == Material.SNOW_BLOCK){
                 Block block = e.getHitBlock();
                 blocks.add(block);
                 block.setType(Material.AIR);
