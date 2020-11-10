@@ -40,9 +40,6 @@ public class PlaceHolderManager extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer p, String params) {
-        if (!params.contains("_")) {
-            return "Not Found";
-        }
         String args[] = params.split("_");
         Spleef spleef = getSpleefByName(args[0]);
         if(spleef == null){

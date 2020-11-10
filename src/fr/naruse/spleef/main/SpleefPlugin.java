@@ -63,9 +63,9 @@ public class SpleefPlugin extends JavaPlugin {
             getLogger().log(Level.INFO, "HolographicDisplays found");
             this.holographicManager = new HolographicManager(this);
         }
-        if(getServer().getPluginManager().getPlugin("PlaceHolderAPI") != null){
-            getLogger().log(Level.INFO, "PlaceHolderAPI found");
-            new PlaceHolderManager(this);
+        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null){
+            getLogger().log(Level.INFO, "PlaceholderAPI found");
+            new PlaceHolderManager(this).register();
         }
     }
 
