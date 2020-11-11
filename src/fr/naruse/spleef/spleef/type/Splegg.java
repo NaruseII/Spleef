@@ -27,23 +27,7 @@ public class Splegg extends Spleef {
             player.teleport(arena);
 
             player.teleport(getRandomLocationFrom(arena));
-            player.getInventory().addItem(Utils.SNOWBALL);
-        }
-    }
-
-    @EventHandler
-    public void shoot(ProjectileHitEvent e){
-        if(e.getEntity() instanceof Snowball && e.getEntity().getShooter() instanceof Player){
-            Player p = (Player) e.getEntity().getShooter();
-            if(!hasPlayer(p) || currentStatus == GameStatus.WAIT){
-                return;
-            }
-            p.getInventory().addItem(Utils.SNOWBALL);
-            if(e.getHitBlock() != null && e.getHitBlock().getType() == Material.SNOW_BLOCK){
-                Block block = e.getHitBlock();
-                blocks.add(block);
-                block.setType(Material.AIR);
-            }
+            player.getInventory().addItem(Utils.SNOWBALL.clone());
         }
     }
 

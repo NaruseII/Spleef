@@ -313,11 +313,19 @@ public class SpleefCommands implements CommandExecutor {
             }else if(args[1].equalsIgnoreCase("standingLimit")){
                 pl.getConfig().set("standingLimit", !pl.getConfig().getBoolean("standingLimit"));
                 pl.saveConfig();
-                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(Lightnings: "+pl.getConfig().getBoolean("standingLimit")+")");
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(StandingLimit: "+pl.getConfig().getBoolean("standingLimit")+")");
             }else if(args[1].equalsIgnoreCase("tpToLastLoc")){
                 pl.getConfig().set("tpToLastLoc", !pl.getConfig().getBoolean("tpToLastLoc"));
                 pl.saveConfig();
-                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(Lightnings: "+pl.getConfig().getBoolean("tpToLastLoc")+")");
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(TpToLastLoc: "+pl.getConfig().getBoolean("tpToLastLoc")+")");
+            }else if(args[1].equalsIgnoreCase("snowballs")){
+                pl.getConfig().set("snowballs", !pl.getConfig().getBoolean("snowballs"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(Snowballs: "+pl.getConfig().getBoolean("snowballs")+")");
+            }else if(args[1].equalsIgnoreCase("instantGiveShovel")){
+                pl.getConfig().set("instantGiveShovel", !pl.getConfig().getBoolean("instantGiveShovel"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(InstantGiveShovel: "+pl.getConfig().getBoolean("instantGiveShovel")+")");
             }else{
                 return help(sender, 2);
             }
@@ -499,7 +507,7 @@ public class SpleefCommands implements CommandExecutor {
             }else if(page == 2){
                 sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setLang <French, English> §7(It will erase your changes)");
-                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc>");
+                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs, InstantGiveShovel>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");

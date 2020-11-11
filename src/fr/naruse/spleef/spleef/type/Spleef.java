@@ -13,13 +13,16 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -123,12 +126,21 @@ public class Spleef extends BukkitRunnable implements Listener {
         for (Player player : playerInGame) {
             player.teleport(getRandomLocationFrom(arena));
         }
-        sendMessage(getFullName()+" "+pl.getMessageManager().get("spadeDeliverIn"));
-        Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> {
-            for (int i = 0; i < playerInGame.size(); i++) {
-                playerInGame.get(i).getInventory().addItem(Utils.SPADE_ITEM);
+        if(pl.getConfig().getBoolean("instantGiveShovel")){
+            sendMessage(getFullName()+" "+pl.getMessageManager().get("spadeDeliverIn"));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> giveItems(), 20*5);
+        }else{
+            giveItems();
+        }
+    }
+
+    protected void giveItems() {
+        for (int i = 0; i < playerInGame.size(); i++) {
+            playerInGame.get(i).getInventory().addItem(Utils.SPADE_ITEM);
+            if(pl.getConfig().getBoolean("snowballs")){
+                playerInGame.get(i).getInventory().addItem(Utils.SNOWBALL.clone());
             }
-        }, 20*5);
+        }
     }
 
     public void disable(){
@@ -475,6 +487,22 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     @EventHandler
+    public void shoot(ProjectileHitEvent e){
+        if(e.getEntity() instanceof Snowball && e.getEntity().getShooter() instanceof Player){
+            Player p = (Player) e.getEntity().getShooter();
+            if(!hasPlayer(p) || currentStatus == GameStatus.WAIT){
+                return;
+            }
+            p.getInventory().addItem(Utils.SNOWBALL.clone());
+            if(e.getHitBlock() != null && e.getHitBlock().getType() == Material.SNOW_BLOCK){
+                Block block = e.getHitBlock();
+                blocks.add(block);
+                block.setType(Material.AIR);
+            }
+        }
+    }
+
+    @EventHandler
     public void move(PlayerMoveEvent e){
         Player p = e.getPlayer();
         if(!hasPlayer(p) || currentStatus == GameStatus.WAIT){
@@ -494,6 +522,9 @@ public class Spleef extends BukkitRunnable implements Listener {
         if(e.getBlock().getType() == Material.SNOW_BLOCK && currentStatus == GameStatus.GAME){
             e.setDropItems(false);
             blocks.add(e.getBlock());
+            if(pl.getConfig().getBoolean("snowballs")){
+                p.getInventory().addItem(Utils.SNOWBALL.clone());
+            }
         }else{
             e.setCancelled(true);
         }

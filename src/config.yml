@@ -5,6 +5,8 @@ holographicRanking: false
 lightnings: true
 standingLimit: true
 tpToLastLoc: false
+snowballs: false
+instantGiveShovel: false
 
 timer:
   start: 30
