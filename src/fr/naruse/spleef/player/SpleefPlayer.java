@@ -7,6 +7,7 @@ import fr.naruse.spleef.player.statistic.StatisticType;
 import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.sql.SpleefSQLResponse;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -19,6 +20,7 @@ public class SpleefPlayer {
     private Spleef currentSpleef;
     private final String uuid;
     private Location lastLocation;
+    private GameMode gameMode;
 
     private final Map<StatisticType, Integer> statisticMap = Maps.newHashMap();
 
@@ -95,6 +97,7 @@ public class SpleefPlayer {
                 break;
             }
         }
+        this.gameMode = p.getGameMode();
     }
 
     public void setPlayerInventory(Player p){
@@ -106,6 +109,7 @@ public class SpleefPlayer {
                 p.getInventory().setItem(i, inv.getItem(i));
             }
         }
+        p.setGameMode(gameMode);
     }
 
     public Spleef getCurrentSpleef() {

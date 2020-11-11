@@ -199,6 +199,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         playerInGame.add(p);
 
         sendMessage(getFullName() +" "+ pl.getMessageManager().get("joinSpleef", new String[]{"name"}, new String[]{p.getName()}));
+        p.setGameMode(GameMode.SURVIVAL);
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
         spleefPlayer.registerInventory(p);
         spleefPlayer.setLastLocation(p.getLocation());
@@ -208,7 +209,6 @@ public class Spleef extends BukkitRunnable implements Listener {
         updateSigns();
         updateScoreboards();
         p.setInvulnerable(true);
-        p.setGameMode(GameMode.SURVIVAL);
         p.setFoodLevel(20);
         p.setHealth(p.getMaxHealth());
         if(lobby != null){
