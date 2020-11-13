@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -39,6 +40,19 @@ public class Listeners implements Listener {
             spleef.removePlayer(p);
         }
         pl.getSpleefPlayerRegistry().getSpleefPlayer(p).saveStatistics();
+    }
+
+    @EventHandler
+    public void inventoryClick(InventoryClickEvent e){
+        if(!(e.getWhoClicked() instanceof Player)){
+            return;
+        }
+        Player p = (Player) e.getWhoClicked();
+        SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
+
+        if(e.getCurrentItem() != null && e.getCurrentItem().getType() == Material.BARRIER && spleefPlayer.hasSpleef()){
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler

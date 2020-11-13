@@ -6,6 +6,7 @@ import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.GameStatus;
 import fr.naruse.spleef.spleef.GameType;
 import fr.naruse.spleef.spleef.type.Spleef;
+import fr.naruse.spleef.utils.SpleefUpdater;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -64,6 +65,26 @@ public class SpleefCommands implements CommandExecutor {
                 return sendMessage(sender, "playerNotFound");
             }
             new InventoryStatistics(pl, p, target);
+            return true;
+        }
+
+        //JOIN QUEUE
+        if(args[0].equalsIgnoreCase("joinQueue")){
+            Spleef spleef = null;
+            for (int i = 0; i < pl.getSpleefs().getSpleefs().size(); i++) {
+                Spleef sp = pl.getSpleefs().getSpleefs().get(i);
+                if(spleef == null || sp.getPlayerInGame().size() >= spleef.getPlayerInGame().size()){
+                    if(sp.getMax() < sp.getPlayerInGame().size()){
+                        spleef = sp;
+                    }
+                }
+            }
+            if(spleef == null && pl.getSpleefs().getSpleefs().size() != 0){
+                spleef = pl.getSpleefs().getSpleefs().get(0);
+            }
+            if(spleef != null){
+                p.performCommand("spleef join "+spleef.getName());
+            }
             return true;
         }
 
@@ -485,6 +506,12 @@ public class SpleefCommands implements CommandExecutor {
             pl.saveConfig();
             return sendMessage(sender, "gameModeChanged");
         }
+
+        //CHECK UPDATE
+        if(args[0].equalsIgnoreCase("checkUpdate")){
+            SpleefUpdater.checkNewVersion(pl, true);
+            return sendMessage(sender, "checkStarted");
+        }
         return false;
     }
 
@@ -492,6 +519,7 @@ public class SpleefCommands implements CommandExecutor {
         sendNormalMessage(sender, "§e/§7spleef join <Spleef name>");
         sendNormalMessage(sender, "§e/§7spleef leave");
         sendNormalMessage(sender, "§e/§7spleef stats <[Player]>");
+        sendNormalMessage(sender, "§e/§7spleef joinQueue");
         if(sender.hasPermission("spleef.help")){
             if(page == 1){
                 sendNormalMessage(sender, "§6/§7spleef help <[Page]>");
@@ -518,6 +546,7 @@ public class SpleefCommands implements CommandExecutor {
             }else if(page == 3){
                 sendNormalMessage(sender, "§6/§7spleef setHologram §7(Location)");
                 sendNormalMessage(sender, "§6/§7spleef setGameMode <Spleef name> <Spleef, Splegg, Bow>");
+                sendNormalMessage(sender, "§6/§7spleef checkUpdate");
                 sendNormalMessage(sender, "§bPage: §23/3");
             }
         }

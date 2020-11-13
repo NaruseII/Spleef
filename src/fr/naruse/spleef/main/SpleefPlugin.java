@@ -14,7 +14,6 @@ import fr.naruse.spleef.utils.SpleefUpdater;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.logging.Level;
 
 public class SpleefPlugin extends JavaPlugin {
@@ -31,9 +30,7 @@ public class SpleefPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-        if(!new File(getDataFolder(), "config.yml").exists()){
-            saveResource("config.yml", false);
-        }
+        saveResource("config.yml", false);
 
         registerDependencies();
 
@@ -46,7 +43,7 @@ public class SpleefPlugin extends JavaPlugin {
 
         this.spleefs = new Spleefs(this);
 
-        SpleefUpdater.checkNewVersion(this);
+        SpleefUpdater.checkNewVersion(this, false);
         Utils.formatItems(this);
     }
 

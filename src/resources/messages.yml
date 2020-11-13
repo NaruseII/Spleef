@@ -35,6 +35,7 @@ english:
     statsCleared: "§aStatistics cleared."
     hologramSaved: "§aHologram saved. §7(Can be activated by the command §e/spleef enable HolographicRanking§7)"
     gameModeChanged: "§aGame mode changed."
+    checkStarted: "§aChecking updates..."
   spleefTag: "§6§l"
   leaveSpleef: "§7§l> §d{name}§c leave this game."
   joinSpleef: "§7§l> §d{name}§a join this game."
@@ -50,6 +51,7 @@ english:
   dontStayOnTheSameBlock: "§f§l» §cDo not stay on the same block!"
   needToRestart: "§4§lHey! §cThe Spleef was automatically updated. You just have to reload or restart your server for the update to take effect!"
   leaveItem: "§cLeave"
+  upToDate: "§aThe Spleef is up to date."
   sign:
     spleef:
       isClosed:
@@ -178,6 +180,7 @@ french:
     statsCleared: "§aStatistiques éffacées."
     hologramSaved: "§aHologramme enregistré. §7(Il est activable avec la commande §e/spleef enable HolographicRanking§7)"
     gameModeChanged: "§aMode de jeu changé."
+    checkStarted: "§aVérification des mises à jour..."
   spleefTag: "§6§l"
   leaveSpleef: "§7§l> §d{name}§c quitte la partie."
   joinSpleef: "§7§l> §d{name}§a rejoint la partie."
@@ -193,6 +196,7 @@ french:
   dontStayOnTheSameBlock: "§f§l» §cNe restez pas sur le même bloc!"
   needToRestart: "§4§lHey! §cLe Spleef a été automatiquement mis à jour. Tu as juste à recharger ou redémarrer ton serveur pour que la mise à jour prenne effet!"
   leaveItem: "§cQuitter"
+  upToDate: "§aLe Spleef est à jour."
   sign:
     spleef:
       isClosed:

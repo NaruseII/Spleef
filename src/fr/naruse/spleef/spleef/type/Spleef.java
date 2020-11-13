@@ -126,7 +126,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         for (Player player : playerInGame) {
             player.teleport(getRandomLocationFrom(arena));
         }
-        if(pl.getConfig().getBoolean("instantGiveShovel")){
+        if(!pl.getConfig().getBoolean("instantGiveShovel")){
             sendMessage(getFullName()+" "+pl.getMessageManager().get("spadeDeliverIn"));
             Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> giveItems(), 20*5);
         }else{

@@ -21,7 +21,7 @@ public class SpleefUpdater {
     private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     private static boolean needToRestart = false;
 
-    public static void checkNewVersion(SpleefPlugin pl) {
+    public static void checkNewVersion(SpleefPlugin pl, boolean sendMessageIfNoUpdate) {
         service.submit(() -> {
             try {
                 Thread.sleep(1000);
@@ -48,6 +48,13 @@ public class SpleefUpdater {
                         }
                     }
                 }else{
+                    if(sendMessageIfNoUpdate){
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            if((p.isOp() || p.hasPermission("spleef.help"))){
+                                p.sendMessage(pl.getMessageManager().get("upToDate"));
+                            }
+                        }
+                    }
                     pl.getLogger().log(Level.INFO, "[Updater]");
                     pl.getLogger().log(Level.INFO, "[Updater] The plugin is up to date!");
                 }
