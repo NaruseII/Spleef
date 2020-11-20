@@ -525,7 +525,7 @@ public class SpleefCommands implements CommandExecutor {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
             int value;
             try{
-                value = Integer.valueOf(args[2]);
+                value = Integer.valueOf(args[3]);
             }catch (Exception e){
                 return sendMessage(sender, "wrongNumber");
             }
