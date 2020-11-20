@@ -25,7 +25,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void join(PlayerJoinEvent e){
         Player p = e.getPlayer();
-        pl.getSpleefPlayerRegistry().registerPlayer(p);
+        pl.getSpleefPlayerRegistry().registerPlayer(p).reloadStatistics();
         if((p.isOp() || p.hasPermission("spleef.help")) && SpleefUpdater.needToRestart()){
             p.sendMessage(pl.getMessageManager().get("needToRestart"));
         }
