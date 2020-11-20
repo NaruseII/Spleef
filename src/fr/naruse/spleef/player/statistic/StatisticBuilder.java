@@ -27,9 +27,18 @@ public class StatisticBuilder {
         try{
             for (String s : propertyMap.keySet()) {
                 StatisticType statisticType = StatisticType.valueOf(s);
-                statisticMap.put(statisticType, Integer.parseInt(propertyMap.get(s).toString()));
+                int value;
+                if(propertyMap.get(s).toString().contains(".")){
+                    value = (int) Double.parseDouble(propertyMap.get(s).toString());
+                }else{
+                    value = Integer.parseInt(propertyMap.get(s).toString());
+                }
+
+                statisticMap.put(statisticType, value);
             }
-        }catch (Exception e) { }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
         for (StatisticType value : StatisticType.values()) {
             if(!statisticMap.containsKey(value)){
