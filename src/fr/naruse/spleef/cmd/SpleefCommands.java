@@ -3,6 +3,8 @@ package fr.naruse.spleef.cmd;
 import com.google.common.collect.Lists;
 import fr.naruse.spleef.inventory.InventoryStatistics;
 import fr.naruse.spleef.main.SpleefPlugin;
+import fr.naruse.spleef.player.SpleefPlayer;
+import fr.naruse.spleef.player.statistic.StatisticType;
 import fr.naruse.spleef.spleef.GameStatus;
 import fr.naruse.spleef.spleef.GameType;
 import fr.naruse.spleef.spleef.type.Spleef;
@@ -512,6 +514,38 @@ public class SpleefCommands implements CommandExecutor {
             SpleefUpdater.checkNewVersion(pl, true);
             return sendMessage(sender, "checkStarted");
         }
+
+        //SET STATS
+        if(args[0].equalsIgnoreCase("setStats")){
+            if(args.length < 4){
+                return help(sender, 3);
+            }
+            OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+            int value;
+            try{
+                value = Integer.valueOf(args[2]);
+            }catch (Exception e){
+                return sendMessage(sender, "wrongNumber");
+            }
+
+            SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(target);
+            if(spleefPlayer == null){
+                return sendMessage(sender, "playerNotFound");
+            }
+            if(pl.getSqlManager() == null){
+                return sendMessage(sender, "sqlNotFound");
+            }
+
+            if(args[2].equals("win")){
+                spleefPlayer.setStatistic(StatisticType.WIN, value);
+            }else if(args[2].equals("loose")){
+                spleefPlayer.setStatistic(StatisticType.LOSE, value);
+            }else{
+                return sendMessage(sender, "argumentNotFound", new String[]{"arg"}, new String[]{args[2]});
+            }
+            spleefPlayer.saveStatistics();
+            return sendMessage(sender, "statisticSaved");
+        }
         return false;
     }
 
@@ -547,6 +581,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef setHologram §7(Location)");
                 sendNormalMessage(sender, "§6/§7spleef setGameMode <Spleef name> <Spleef, Splegg, Bow>");
                 sendNormalMessage(sender, "§6/§7spleef checkUpdate");
+                sendNormalMessage(sender, "§6/§7spleef setStats <Player> <Win, Loose> <Number>");
                 sendNormalMessage(sender, "§bPage: §23/3");
             }
         }

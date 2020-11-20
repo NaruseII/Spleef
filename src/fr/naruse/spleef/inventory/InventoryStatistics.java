@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class InventoryStatistics extends AbstractInventory{
     private OfflinePlayer target;
     public InventoryStatistics(SpleefPlugin pl, Player p, OfflinePlayer target) {
-        super(pl, p, pl.getMessageManager().get("inventory.statisticsTitle", new String[]{"name"}, new String[]{p.getName()}), 9, false);
+        super(pl, p, pl.getMessageManager().get("inventory.statisticsTitle", new String[]{"name"}, new String[]{target.getName()}), 9, false);
         this.target = target;
         initInventory(inventory);
         p.openInventory(inventory);
@@ -22,7 +22,7 @@ public class InventoryStatistics extends AbstractInventory{
 
     @Override
     protected void initInventory(Inventory inventory) {
-        SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
+        SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(target);
         if(pl.getSqlManager() == null){
             ItemStack itemStack = new ItemStack(Material.WOOL, 1, (byte) 10);
             ItemMeta meta = itemStack.getItemMeta();
