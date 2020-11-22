@@ -22,7 +22,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -211,6 +211,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         p.setInvulnerable(true);
         p.setFoodLevel(20);
         p.setHealth(p.getMaxHealth());
+        p.setAllowFlight(false);
         if(lobby != null){
             p.teleport(lobby);
         }
@@ -236,6 +237,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         updateScoreboards();
         p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         p.setVelocity(new Vector());
+        p.setFallDistance(0f);
 
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
 
@@ -355,6 +357,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         updateScoreboards();
         p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         p.setVelocity(new Vector());
+        p.setFallDistance(0f);
 
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
 
@@ -547,6 +550,13 @@ public class Spleef extends BukkitRunnable implements Listener {
     @EventHandler
     public void pickUp(PlayerPickupItemEvent e){
         if(hasPlayer(e.getPlayer())){
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void fly(PlayerToggleFlightEvent e){
+        if(hasPlayer(e.getPlayer()) && !e.getPlayer().hasPermission("spleef.help")){
             e.setCancelled(true);
         }
     }

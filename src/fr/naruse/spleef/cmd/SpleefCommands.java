@@ -548,6 +548,57 @@ public class SpleefCommands implements CommandExecutor {
             spleefPlayer.saveStatistics();
             return sendMessage(sender, "statisticSaved");
         }
+
+
+        //DISABLED COMMANDS
+        if(args[0].equalsIgnoreCase("disabledCommands")){
+            if(args.length < 2){
+                return help(sender, 3);
+            }
+
+            if(args[1].equalsIgnoreCase("clear")){
+                pl.getConfig().set("disabledCommands", null);
+                pl.saveConfig();
+                return sendMessage(sender, "disabledCommandsCleared");
+            }else if(args[1].equalsIgnoreCase("list")){
+                List<String> list = pl.getConfig().getStringList("disabledCommands");
+                if(list.size() == 0){
+                    return sendMessage(sender, "disabledCommandsIsEmpty");
+                }
+                sendMessage(sender, "disabledCommands");
+                for (String s1 : list) {
+                    sendNormalMessage(sender, "§5- §e"+s1);
+                }
+                return true;
+            }
+
+            if(args.length < 3){
+                return help(sender, 3);
+            }
+
+            StringBuilder stringBuilder = new StringBuilder(args[2]);
+            for (int i = 3; i < args.length; i++) {
+                stringBuilder.append(" "+args[i]);
+            }
+
+            List<String> list = pl.getConfig().getStringList("disabledCommands");
+
+            if(args[1].equalsIgnoreCase("add")){
+                if(!list.contains(stringBuilder.toString())){
+                    list.add(stringBuilder.toString());
+                }
+                pl.getConfig().set("disabledCommands", list);
+                pl.saveConfig();
+                return sendMessage(sender, "disabledCommandsAdded");
+            }else if(args[1].equalsIgnoreCase("remove")){
+                list.remove(stringBuilder.toString());
+                pl.getConfig().set("disabledCommands", list);
+                pl.saveConfig();
+                return sendMessage(sender, "disabledCommandsRemoved");
+            }else{
+                return sendMessage(sender, "argumentNotFound", new String[]{"arg"}, new String[]{args[1]});
+            }
+        }
         return false;
     }
 
@@ -584,6 +635,8 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef setGameMode <Spleef name> <Spleef, Splegg, Bow>");
                 sendNormalMessage(sender, "§6/§7spleef checkUpdate");
                 sendNormalMessage(sender, "§6/§7spleef setStats <Player> <Win, Loose> <Number>");
+                sendNormalMessage(sender, "§6/§7spleef disabledCommands <Add, Remove> <Command>");
+                sendNormalMessage(sender, "§6/§7spleef disabledCommands <Clear, List>");
                 sendNormalMessage(sender, "§bPage: §23/3");
             }
         }

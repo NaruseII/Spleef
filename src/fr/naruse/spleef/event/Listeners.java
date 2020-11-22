@@ -12,9 +12,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.List;
 
 public class Listeners implements Listener {
     private SpleefPlugin pl;
@@ -104,6 +107,16 @@ public class Listeners implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void command(PlayerCommandPreprocessEvent e){
+        Player p = e.getPlayer();
+        SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
+        List<String> list = pl.getConfig().getStringList("disabledCommands");
+        if(spleefPlayer != null && spleefPlayer.hasSpleef() && list.contains(e.getMessage())){
+            e.setCancelled(true);
         }
     }
 }
