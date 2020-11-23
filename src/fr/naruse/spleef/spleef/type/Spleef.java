@@ -62,7 +62,7 @@ public class Spleef extends BukkitRunnable implements Listener {
 
         this.scoreboardSign = new ScoreboardSign();
         this.time = pl.getConfig().getInt("timer.start");
-        scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), time+""}));
+        scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboard.scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), time+""}));
 
         this.runTaskTimer(pl, 20, 20);
     }
@@ -75,7 +75,7 @@ public class Spleef extends BukkitRunnable implements Listener {
                     start();
                 }else{
                     time--;
-                    scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), time+""}));
+                    scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboard.scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), time+""}));
                 }
             }else{
                 time = pl.getConfig().getInt("timer.start");
@@ -266,7 +266,7 @@ public class Spleef extends BukkitRunnable implements Listener {
     public void updateScoreboards(){
         scoreboardSign.clearLines();
         for (int i = 0; i < playerInGame.size(); i++) {
-            scoreboardSign.setLine(0, pl.getMessageManager().get("scoreboardFormat", new String[]{"name"}, new String[]{playerInGame.get(i).getName()}));
+            scoreboardSign.setLine(0, pl.getMessageManager().get("scoreboard.scoreboardFormat", new String[]{"name"}, new String[]{playerInGame.get(i).getName()}));
         }
     }
 

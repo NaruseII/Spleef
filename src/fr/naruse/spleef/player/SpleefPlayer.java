@@ -53,14 +53,16 @@ public class SpleefPlayer {
                         }
                     });
                 }else{
-                    pl.getSqlManager().register(uuid);
+                    setStatistic(StatisticType.WIN, 0);
+                    setStatistic(StatisticType.LOSE, 0);
+                    //pl.getSqlManager().register(uuid);
                 }
             }
         });
     }
 
     public void saveStatistics(){
-        if(pl.getSqlManager() == null){
+        if(pl.getSqlManager() == null || (getStatistic(StatisticType.WIN) == 0 && getStatistic(StatisticType.LOSE) == 0)){
             return;
         }
         pl.getSqlManager().save(uuid, StatisticBuilder.toJson(statisticMap));

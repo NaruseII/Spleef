@@ -46,8 +46,6 @@ english:
   spleefTag: "§6§l"
   leaveSpleef: "§7§l> §d{name}§c leave this game."
   joinSpleef: "§7§l> §d{name}§a join this game."
-  scoreboardFormat: "§7{name}"
-  scoreboardName: "{name} §5{time}"
   inGame: "§cIn game."
   gameStarts: "§7§l> §2Game starts!"
   youHaveAGame: "§cYou already are in game."
@@ -148,7 +146,9 @@ english:
     opened: "§aOpened"
     inGame: "§cIn Game"
     notInGame: "§aWaiting"
-
+  scoreboard:
+    scoreboardFormat: "§7{name}"
+    scoreboardName: "{name} §5{time}"
 
 french:
   commands:
@@ -198,8 +198,6 @@ french:
   spleefTag: "§6§l"
   leaveSpleef: "§7§l> §d{name}§c quitte la partie."
   joinSpleef: "§7§l> §d{name}§a rejoint la partie."
-  scoreboardFormat: "§7{name}"
-  scoreboardName: "{name} §5{time}"
   inGame: "§cPartie en cours."
   gameStarts: "§7§l> §2La partie commence!"
   youHaveAGame: "§cVous êtes déjà dans une partie."
@@ -300,3 +298,6 @@ french:
     opened: "§aOuvert"
     inGame: "§cEn Jeu"
     notInGame: "§aEn Attente"
+  scoreboard:
+    scoreboardFormat: "§7{name}"
+    scoreboardName: "{name} §5{time}"
