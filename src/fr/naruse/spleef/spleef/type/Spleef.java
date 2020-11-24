@@ -124,7 +124,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         currentStatus = GameStatus.GAME;
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
         for (Player player : playerInGame) {
-            player.teleport(getRandomLocationFrom(arena));
+            player.teleport(getRandomLocationFrom(arena.clone()));
         }
         if(!pl.getConfig().getBoolean("instantGiveShovel")){
             sendMessage(getFullName()+" "+pl.getMessageManager().get("spadeDeliverIn"));
@@ -465,8 +465,8 @@ public class Spleef extends BukkitRunnable implements Listener {
             location.add(0, -1, 0);
         }
         for (int i = 0; i < Utils.RANDOM.nextInt(50)+20; i++) {
-            short flag1 = (short) (-2+Utils.RANDOM.nextInt(4));
-            short flag2 = (short) (-2+Utils.RANDOM.nextInt(4));
+            short flag1 = (short) (-1+(Utils.RANDOM.nextInt(3)+1));
+            short flag2 = (short) (-1+(Utils.RANDOM.nextInt(3)+1));
             Location newLoc = location.clone().add(flag1, 0, flag2);
             if(newLoc.getBlock().getType() == Material.SNOW_BLOCK){
                 location = newLoc;

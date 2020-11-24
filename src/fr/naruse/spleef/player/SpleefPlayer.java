@@ -95,9 +95,7 @@ public class SpleefPlayer {
     }
 
     public void setStatistic(StatisticType type, int newValue){
-        if (statisticMap.containsKey(type)) {
-            statisticMap.put(type, newValue);
-        }
+        statisticMap.put(type, newValue);
     }
 
     private Inventory inv;
