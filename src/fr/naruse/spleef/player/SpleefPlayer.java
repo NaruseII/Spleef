@@ -65,7 +65,20 @@ public class SpleefPlayer {
         if(pl.getSqlManager() == null || (getStatistic(StatisticType.WIN) == 0 && getStatistic(StatisticType.LOSE) == 0)){
             return;
         }
-        pl.getSqlManager().save(uuid, StatisticBuilder.toJson(statisticMap));
+        pl.getSqlManager().isRegistered(uuid, new SpleefSQLResponse() {
+            @Override
+            public void handleResponse(Object response) {
+                if(response == null){
+                    return;
+                }
+                boolean exists = (boolean) response;
+                if(exists){
+                    pl.getSqlManager().save(uuid, StatisticBuilder.toJson(statisticMap));
+                }else{
+                    pl.getSqlManager().register(uuid, statisticMap);
+                }
+            }
+        });
     }
 
     public int getStatistic(StatisticType type){

@@ -57,8 +57,8 @@ public class SQLManager {
         }
     }
 
-    public void register(String uuid) {
-        SQLRequest sqlRequest = new SQLRequest(SQLHelper.getInsertRequest(TABLE_NAME, new String[]{"uuid", "properties"}), uuid, StatisticBuilder.toJson(null));
+    public void register(String uuid, Map<StatisticType, Integer> map) {
+        SQLRequest sqlRequest = new SQLRequest(SQLHelper.getInsertRequest(TABLE_NAME, new String[]{"uuid", "properties"}), uuid, StatisticBuilder.toJson(map));
         database.prepareStatement(sqlRequest);
     }
 

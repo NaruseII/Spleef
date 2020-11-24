@@ -122,4 +122,8 @@ public class HolographicManager extends BukkitRunnable {
             });
         });
     }
+
+    public Hologram getHologram() {
+        return hologram;
+    }
 }

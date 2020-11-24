@@ -1,13 +1,17 @@
 package fr.naruse.spleef.utils;
 
+import com.rylinaux.plugman.PlugMan;
+import com.rylinaux.plugman.util.PluginUtil;
 import fr.naruse.spleef.main.SpleefPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
@@ -41,10 +45,25 @@ public class SpleefUpdater {
                     pl.getLogger().log(Level.INFO, "[Updater] Plugin was auto-updated!");
                     pl.getLogger().log(Level.INFO, "[Updater]");
                     pl.getLogger().log(Level.INFO, "[Updater] Please reload or restart your server.");
-                    needToRestart = true;
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        if((p.isOp() || p.hasPermission("spleef.help"))){
-                            p.sendMessage(pl.getMessageManager().get("needToRestart"));
+                    if(Bukkit.getPluginManager().getPlugin("PlugMan") != null){
+                        if(pl.getHolographicManager() != null &&  pl.getHolographicManager().getHologram() != null){
+                            pl.getHolographicManager().getHologram().delete();
+                        }
+                        pl.getLogger().log(Level.INFO, "[Updater] the Plugin is reloading...");
+                        Bukkit.getScheduler().runTaskLater(pl, () -> {
+                            try{
+                                Method method = Class.forName("com.rylinaux.plugman.util.PluginUtil").getDeclaredMethod("reload", Plugin.class);
+                                method.invoke(null, pl);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }, 5);
+                    }else{
+                        needToRestart = true;
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            if((p.isOp() || p.hasPermission("spleef.help"))){
+                                p.sendMessage(pl.getMessageManager().get("needToRestart"));
+                            }
                         }
                     }
                 }else{
