@@ -298,42 +298,46 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     public void updateSigns() {
         for(Sign sign : signs){
-            if(!isOpened){
-                sign.setLine(0, getSignLine("isClosed.line1"));
-                sign.setLine(1, getSignLine("isClosed.line2"));
-                sign.setLine(2, getSignLine("isClosed.line3"));
-                sign.setLine(3, getSignLine("isClosed.line4"));
-                sign.update();
-            }else{
-                if(currentStatus == GameStatus.WAIT){
-                    sign.setLine(0, getSignLine("isOpened.isWaiting.line1"));
-                    if(playerInGame.size() >= (int) (max*0.8)){
-                        sign.setLine(1, getSignLine("isOpened.isWaiting.line2.1"));
-                    }else if(playerInGame.size() >= (int) (max*0.6)){
-                        sign.setLine(1, getSignLine("isOpened.isWaiting.line2.2"));
-                    }else {
-                        sign.setLine(1, getSignLine("isOpened.isWaiting.line2.3"));
-                    }
-                    if(playerInGame.size() >= min){
-                        sign.setLine(2, getSignLine("isOpened.isWaiting.line3.1"));
-                    }else{
-                        sign.setLine(2, getSignLine("isOpened.isWaiting.line3.2"));
-                    }
-                    sign.setLine(3, getSignLine("isOpened.isWaiting.line4"));
-                    sign.update();
-                }else if(currentStatus == GameStatus.GAME){
-                    sign.setLine(0, getSignLine("isOpened.isPlaying.line1"));
-                    if(playerInGame.size() >= (int) (max*0.8)){
-                        sign.setLine(1, getSignLine("isOpened.isPlaying.line2.1"));
-                    }else if(playerInGame.size() >= (int) (max*0.6)){
-                        sign.setLine(1, getSignLine("isOpened.isPlaying.line2.2"));
-                    }else {
-                        sign.setLine(1, getSignLine("isOpened.isPlaying.line2.3"));
-                    }
-                    sign.setLine(2, getSignLine("isOpened.isPlaying.line3"));
-                    sign.setLine(3, getSignLine("isOpened.isPlaying.line4"));
-                    sign.update();
+            updateSign(sign);
+        }
+    }
+
+    public void updateSign(Sign sign){
+        if(!isOpened){
+            sign.setLine(0, getSignLine("isClosed.line1"));
+            sign.setLine(1, getSignLine("isClosed.line2"));
+            sign.setLine(2, getSignLine("isClosed.line3"));
+            sign.setLine(3, getSignLine("isClosed.line4"));
+            sign.update();
+        }else{
+            if(currentStatus == GameStatus.WAIT){
+                sign.setLine(0, getSignLine("isOpened.isWaiting.line1"));
+                if(playerInGame.size() >= (int) (max*0.8)){
+                    sign.setLine(1, getSignLine("isOpened.isWaiting.line2.1"));
+                }else if(playerInGame.size() >= (int) (max*0.6)){
+                    sign.setLine(1, getSignLine("isOpened.isWaiting.line2.2"));
+                }else {
+                    sign.setLine(1, getSignLine("isOpened.isWaiting.line2.3"));
                 }
+                if(playerInGame.size() >= min){
+                    sign.setLine(2, getSignLine("isOpened.isWaiting.line3.1"));
+                }else{
+                    sign.setLine(2, getSignLine("isOpened.isWaiting.line3.2"));
+                }
+                sign.setLine(3, getSignLine("isOpened.isWaiting.line4"));
+                sign.update();
+            }else if(currentStatus == GameStatus.GAME){
+                sign.setLine(0, getSignLine("isOpened.isPlaying.line1"));
+                if(playerInGame.size() >= (int) (max*0.8)){
+                    sign.setLine(1, getSignLine("isOpened.isPlaying.line2.1"));
+                }else if(playerInGame.size() >= (int) (max*0.6)){
+                    sign.setLine(1, getSignLine("isOpened.isPlaying.line2.2"));
+                }else {
+                    sign.setLine(1, getSignLine("isOpened.isPlaying.line2.3"));
+                }
+                sign.setLine(2, getSignLine("isOpened.isPlaying.line3"));
+                sign.setLine(3, getSignLine("isOpened.isPlaying.line4"));
+                sign.update();
             }
         }
     }
@@ -498,11 +502,11 @@ public class Spleef extends BukkitRunnable implements Listener {
                 if(sign.getLine(0).equals(getFullName())){
                     if(!signs.contains(sign)){
                         signs.add(sign);
+                        updateSign(sign);
                     }
                 }
             }
         }
-        updateSigns();
     }
 
     @EventHandler

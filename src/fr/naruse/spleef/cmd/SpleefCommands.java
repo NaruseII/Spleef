@@ -10,6 +10,7 @@ import fr.naruse.spleef.spleef.GameType;
 import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.SpleefUpdater;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
