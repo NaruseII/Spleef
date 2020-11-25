@@ -32,19 +32,23 @@ public class SpleefPlugin extends JavaPlugin {
         super.onEnable();
         saveResource("config.yml", false);
 
-        registerDependencies();
+        getServer().getScheduler().runTaskLater(this, () -> {
+            registerDependencies();
 
-        this.configurations = new Configurations(this);
-        this.messageManager = new MessageManager.StringManager(this);
-        this.spleefPlayerRegistry = new SpleefPlayerRegistry(this);
+            this.configurations = new Configurations(this);
+            this.messageManager = new MessageManager.StringManager(this);
+            this.spleefPlayerRegistry = new SpleefPlayerRegistry(this);
 
-        getCommand("spleef").setExecutor(new SpleefCommands(this));
-        getServer().getPluginManager().registerEvents(new Listeners(this), this);
+            getCommand("spleef").setExecutor(new SpleefCommands(this));
+            getServer().getPluginManager().registerEvents(new Listeners(this), this);
 
-        this.spleefs = new Spleefs(this);
+            this.spleefs = new Spleefs(this);
 
-        SpleefUpdater.checkNewVersion(this, false);
-        Utils.formatItems(this);
+            if(getConfig().getBoolean("autoUpdater")){
+                SpleefUpdater.checkNewVersion(this, false);
+            }
+            Utils.formatItems(this);
+        }, 20);
     }
 
     private void registerDependencies() {

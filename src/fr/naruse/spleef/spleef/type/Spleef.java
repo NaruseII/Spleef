@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -487,6 +488,21 @@ public class Spleef extends BukkitRunnable implements Listener {
                 block.getWorld().strikeLightningEffect(block.getLocation());
             }
         }
+    }
+
+    @EventHandler
+    public void chunkLoad(ChunkLoadEvent e){
+        for(BlockState state : e.getChunk().getTileEntities()){
+            if(state instanceof Sign){
+                Sign sign = (Sign) state;
+                if(sign.getLine(0).equals(getFullName())){
+                    if(!signs.contains(sign)){
+                        signs.add(sign);
+                    }
+                }
+            }
+        }
+        updateSigns();
     }
 
     @EventHandler

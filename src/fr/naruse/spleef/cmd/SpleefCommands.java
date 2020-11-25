@@ -351,6 +351,10 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfig().set("instantGiveShovel", !pl.getConfig().getBoolean("instantGiveShovel"));
                 pl.saveConfig();
                 return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(InstantGiveShovel: "+pl.getConfig().getBoolean("instantGiveShovel")+")");
+            }else if(args[1].equalsIgnoreCase("autoUpdater")){
+                pl.getConfig().set("autoUpdater", !pl.getConfig().getBoolean("autoUpdater"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(AutoUpdater: "+pl.getConfig().getBoolean("autoUpdater")+")");
             }else{
                 return help(sender, 2);
             }
@@ -622,7 +626,7 @@ public class SpleefCommands implements CommandExecutor {
             }else if(page == 2){
                 sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setLang <French, English> §7(It will erase your changes)");
-                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs, InstantGiveShovel>");
+                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs, InstantGiveShovel, AutoUpdater>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");
