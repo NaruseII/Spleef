@@ -30,6 +30,7 @@ import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 public class Spleef extends BukkitRunnable implements Listener {
     protected final SpleefPlugin pl;
@@ -123,6 +124,7 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     public void start() {
+        scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboard.scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), ""}));
         time = pl.getConfig().getInt("timer.start");
         currentStatus = GameStatus.GAME;
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
@@ -241,10 +243,11 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     public void removePlayer(Player p) {
-        if(!playerInGame.contains(p) && !spectators.contains(p)){
-            return;
+        boolean isInGame = playerInGame.contains(p);
+        boolean isSpectator = spectators.contains(p);
+        if(isInGame){
+            sendMessage(getFullName() +" "+ pl.getMessageManager().get("leaveSpleef", new String[]{"name"}, new String[]{p.getName()}));
         }
-        sendMessage(getFullName() +" "+ pl.getMessageManager().get("leaveSpleef", new String[]{"name"}, new String[]{p.getName()}));
         playerInGame.remove(p);
         p.getInventory().clear();
         p.updateInventory();
@@ -268,15 +271,17 @@ public class Spleef extends BukkitRunnable implements Listener {
 
         spleefPlayer.setCurrentSpleef(null);
         spleefPlayer.setPlayerInventory(p);
-        if(currentStatus == GameStatus.GAME && !spectators.contains(p)){
+        if(currentStatus == GameStatus.GAME && isSpectator){
             spleefPlayer.incrementStatistic(StatisticType.LOSE, 1);
             spleefPlayer.saveStatistics();
             if(pl.getVaultManager() != null){
                 pl.getVaultManager().giveLooseReward(p);
             }
-            checkWin();
         }
         spectators.remove(p);
+        if(isInGame){
+            checkWin();
+        }
     }
 
     public void updateScoreboards(){
@@ -384,7 +389,6 @@ public class Spleef extends BukkitRunnable implements Listener {
             p.setVelocity(new Vector());
             p.setFallDistance(0f);
 
-
             if(pl.getConfig().getBoolean("tpToLastLoc")){
                 p.teleport(spleefPlayer.getLastLocation());
             }else{
@@ -398,7 +402,6 @@ public class Spleef extends BukkitRunnable implements Listener {
             p.setFireTicks(0);
             p.setFoodLevel(20);
             p.setHealth(p.getMaxHealth());
-            checkWin();
             if(pl.getVaultManager() != null){
                 pl.getVaultManager().giveLooseReward(p);
             }
@@ -410,6 +413,8 @@ public class Spleef extends BukkitRunnable implements Listener {
 
         spleefPlayer.incrementStatistic(StatisticType.LOSE, 1);
         spleefPlayer.saveStatistics();
+
+        checkWin();
     }
 
     public void checkWin() {
@@ -486,6 +491,10 @@ public class Spleef extends BukkitRunnable implements Listener {
         return playerInGame;
     }
 
+    public List<Player> getSpectators() {
+        return spectators;
+    }
+
     public boolean isOpened() {
         return isOpened;
     }
@@ -504,23 +513,25 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     protected Location getRandomLocationFrom(Location arena) {
         Location location = arena.clone();
-        boolean needToUp = false;
+        int needToUp = 0;
+        for (int i = 0; i < 10; i++) {
+            if(location.getBlock().getType() != Material.SNOW_BLOCK){
+                needToUp++;
+                location.add(0, -1, 0);
+            }
+        }
         if(location.getBlock().getType() != Material.SNOW_BLOCK){
-            needToUp = true;
-            location.add(0, -1, 0);
+            pl.getLogger().log(Level.WARNING, "Can't find any snow blocks on arena location !");
+            return arena.clone();
         }
         for (int i = 0; i < Utils.RANDOM.nextInt(50)+20; i++) {
-            short flag1 = (short) (-1+(Utils.RANDOM.nextInt(3)+1));
-            short flag2 = (short) (-1+(Utils.RANDOM.nextInt(3)+1));
-            Location newLoc = location.clone().add(flag1, 0, flag2);
+            Location newLoc = location.clone().add(Utils.RANDOM.nextBoolean() ? 1 : -1, 0, Utils.RANDOM.nextBoolean() ? 1 : -1);
             if(newLoc.getBlock().getType() == Material.SNOW_BLOCK){
                 location = newLoc;
             }
         }
 
-        if(needToUp){
-            location.add(0, 1, 0);
-        }
+        location.add(0, needToUp, 0);
         return location;
     }
 

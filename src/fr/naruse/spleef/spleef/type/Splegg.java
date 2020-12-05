@@ -20,6 +20,7 @@ public class Splegg extends Spleef {
 
     @Override
     public void start() {
+        scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboard.scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), ""}));
         time = pl.getConfig().getInt("timer.start");
         currentStatus = GameStatus.GAME;
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
