@@ -424,7 +424,7 @@ public class Spleef extends BukkitRunnable implements Listener {
                 Bukkit.broadcastMessage(getFullName()+" "+pl.getMessageManager().get("playerWins", new String[]{"name"}, new String[]{p.getName()}));
             }else if(pl.getConfig().getBoolean("broadcastWinWorld")){
                 for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                    if(onlinePlayer.getWorld().equals(spawn.getWorld())){
+                    if(onlinePlayer.getWorld().getName().equals(spawn.getWorld().getName())){
                         onlinePlayer.sendMessage(getFullName()+" "+pl.getMessageManager().get("playerWins", new String[]{"name"}, new String[]{p.getName()}));
                     }
                 }
