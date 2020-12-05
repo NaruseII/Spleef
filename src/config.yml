@@ -1,6 +1,7 @@
 currentLang: "english"
 
 broadcastWin: true
+broadcastWinWorld: false
 holographicRanking: false
 lightnings: true
 standingLimit: true
@@ -8,6 +9,8 @@ tpToLastLoc: false
 snowballs: false
 instantGiveShovel: false
 autoUpdater: true
+randomSpawn: false
+spectators: false
 disabledCommands:
 
 timer:
@@ -18,3 +21,10 @@ sql:
 reward:
   win: -1
   loose: -1
+
+leaveItem:
+  type: BARRIER
+  data: 0
+
+snowballsGivenOnBlockBreak: 16
+snowballCooldown: 0

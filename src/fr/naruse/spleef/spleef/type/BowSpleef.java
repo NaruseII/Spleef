@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 
@@ -33,9 +34,19 @@ public class BowSpleef extends Spleef {
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
         changeNeighbours();
         for (Player player : playerInGame) {
-            player.teleport(arena);
-
-            player.teleport(getRandomLocationFrom(arena));
+            if(pl.getConfig().getBoolean("randomSpawn")){
+                player.teleport(getRandomLocationFrom(arena.clone()));
+            }else{
+                player.teleport(arena.clone());
+                Vector vector = new Vector(Utils.RANDOM.nextDouble(), Utils.RANDOM.nextDouble(), Utils.RANDOM.nextDouble());
+                if(Utils.RANDOM.nextBoolean()){
+                    vector.setX(-vector.getX());
+                }
+                if(Utils.RANDOM.nextBoolean()){
+                    vector.setZ(-vector.getZ());
+                }
+                player.setVelocity(vector);
+            }
             player.getInventory().addItem(Utils.BOW);
             player.getInventory().addItem(new ItemStack(Material.ARROW, 64));
         }

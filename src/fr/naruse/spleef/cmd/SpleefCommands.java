@@ -356,6 +356,18 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfig().set("autoUpdater", !pl.getConfig().getBoolean("autoUpdater"));
                 pl.saveConfig();
                 return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(AutoUpdater: "+pl.getConfig().getBoolean("autoUpdater")+")");
+            }else if(args[1].equalsIgnoreCase("randomSpawn")){
+                pl.getConfig().set("randomSpawn", !pl.getConfig().getBoolean("randomSpawn"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(RandomSpawn: "+pl.getConfig().getBoolean("randomSpawn")+")");
+            }else if(args[1].equalsIgnoreCase("spectator")){
+                pl.getConfig().set("spectator", !pl.getConfig().getBoolean("spectator"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(Spectator: "+pl.getConfig().getBoolean("spectator")+")");
+            }else if(args[1].equalsIgnoreCase("broadcastWinWorld")){
+                pl.getConfig().set("broadcastWinWorld", !pl.getConfig().getBoolean("broadcastWinWorld"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(BroadcastWinWorld: "+pl.getConfig().getBoolean("broadcastWinWorld")+")");
             }else{
                 return help(sender, 2);
             }
@@ -627,7 +639,7 @@ public class SpleefCommands implements CommandExecutor {
             }else if(page == 2){
                 sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setLang <French, English> §7(It will erase your changes)");
-                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs, InstantGiveShovel, AutoUpdater>");
+                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs, InstantGiveShovel, AutoUpdater, RandomSpawn, Spectator, BroadcastWinWorld>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");

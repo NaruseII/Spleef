@@ -19,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -44,6 +45,7 @@ public class Spleef extends BukkitRunnable implements Listener {
     protected int time;
     protected ScoreboardSign scoreboardSign;
     protected final List<Player> playerInGame = Lists.newArrayList();
+    protected final List<Player> spectators = Lists.newArrayList();
     protected final List<Sign> signs = Lists.newArrayList();
     protected final List<Block> blocks = Lists.newArrayList();
     protected final HashMap<Player, Block> lastPlayerBlock = Maps.newHashMap();
@@ -125,7 +127,19 @@ public class Spleef extends BukkitRunnable implements Listener {
         currentStatus = GameStatus.GAME;
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
         for (Player player : playerInGame) {
-            player.teleport(getRandomLocationFrom(arena.clone()));
+            if(pl.getConfig().getBoolean("randomSpawn")){
+                player.teleport(getRandomLocationFrom(arena.clone()));
+            }else{
+                player.teleport(arena.clone());
+                Vector vector = new Vector(Utils.RANDOM.nextDouble(), Utils.RANDOM.nextDouble(), Utils.RANDOM.nextDouble());
+                if(Utils.RANDOM.nextBoolean()){
+                    vector.setX(-vector.getX());
+                }
+                if(Utils.RANDOM.nextBoolean()){
+                    vector.setZ(-vector.getZ());
+                }
+                player.setVelocity(vector);
+            }
         }
         if(!pl.getConfig().getBoolean("instantGiveShovel")){
             sendMessage(getFullName()+" "+pl.getMessageManager().get("spadeDeliverIn"));
@@ -164,13 +178,13 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     public void restart(){
         List<Player> list = Lists.newArrayList();
-        for(Player p : playerInGame){
-            list.add(p);
-        }
+        list.addAll(playerInGame);
+        list.addAll(spectators);
         for(Player p : list){
             removePlayer(p);
         }
         playerInGame.clear();
+        spectators.clear();
 
         for (Block block : blocks) {
             block.setType(Material.SNOW_BLOCK);
@@ -227,7 +241,7 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     public void removePlayer(Player p) {
-        if(!playerInGame.contains(p)){
+        if(!playerInGame.contains(p) && !spectators.contains(p)){
             return;
         }
         sendMessage(getFullName() +" "+ pl.getMessageManager().get("leaveSpleef", new String[]{"name"}, new String[]{p.getName()}));
@@ -254,7 +268,7 @@ public class Spleef extends BukkitRunnable implements Listener {
 
         spleefPlayer.setCurrentSpleef(null);
         spleefPlayer.setPlayerInventory(p);
-        if(currentStatus == GameStatus.GAME){
+        if(currentStatus == GameStatus.GAME && !spectators.contains(p)){
             spleefPlayer.incrementStatistic(StatisticType.LOSE, 1);
             spleefPlayer.saveStatistics();
             if(pl.getVaultManager() != null){
@@ -262,6 +276,7 @@ public class Spleef extends BukkitRunnable implements Listener {
             }
             checkWin();
         }
+        spectators.remove(p);
     }
 
     public void updateScoreboards(){
@@ -355,35 +370,46 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     public void makeLose(Player p) {
         sendMessage(getFullName()+" "+pl.getMessageManager().get("playerFell", new String[]{"name"}, new String[]{p.getName()}));
-        playerInGame.remove(p);
-        p.getInventory().clear();
-        p.updateInventory();
-        updateSigns();
-        updateScoreboards();
-        p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-        p.setVelocity(new Vector());
-        p.setFallDistance(0f);
 
+        playerInGame.remove(p);
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
 
-        if(pl.getConfig().getBoolean("tpToLastLoc")){
-            p.teleport(spleefPlayer.getLastLocation());
+        if(!isSpectatorEnabled()){
+
+            p.getInventory().clear();
+            p.updateInventory();
+            updateSigns();
+            updateScoreboards();
+            p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+            p.setVelocity(new Vector());
+            p.setFallDistance(0f);
+
+
+            if(pl.getConfig().getBoolean("tpToLastLoc")){
+                p.teleport(spleefPlayer.getLastLocation());
+            }else{
+                p.teleport(spawn);
+            }
+
+            spleefPlayer.setCurrentSpleef(null);
+            spleefPlayer.setPlayerInventory(p);
+
+            p.setInvulnerable(false);
+            p.setFireTicks(0);
+            p.setFoodLevel(20);
+            p.setHealth(p.getMaxHealth());
+            checkWin();
+            if(pl.getVaultManager() != null){
+                pl.getVaultManager().giveLooseReward(p);
+            }
         }else{
-            p.teleport(spawn);
+            spectators.add(p);
+            p.teleport(arena);
+            p.setGameMode(GameMode.SPECTATOR);
         }
 
-        p.setInvulnerable(false);
-        p.setFireTicks(0);
-        p.setFoodLevel(20);
-        p.setHealth(p.getMaxHealth());
-        checkWin();
-        spleefPlayer.setCurrentSpleef(null);
         spleefPlayer.incrementStatistic(StatisticType.LOSE, 1);
         spleefPlayer.saveStatistics();
-        spleefPlayer.setPlayerInventory(p);
-        if(pl.getVaultManager() != null){
-            pl.getVaultManager().giveLooseReward(p);
-        }
     }
 
     public void checkWin() {
@@ -391,6 +417,12 @@ public class Spleef extends BukkitRunnable implements Listener {
             Player p = playerInGame.get(0);
             if(pl.getConfig().getBoolean("broadcastWin")){
                 Bukkit.broadcastMessage(getFullName()+" "+pl.getMessageManager().get("playerWins", new String[]{"name"}, new String[]{p.getName()}));
+            }else if(pl.getConfig().getBoolean("broadcastWinWorld")){
+                for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                    if(onlinePlayer.getWorld().equals(spawn.getWorld())){
+                        onlinePlayer.sendMessage(getFullName()+" "+pl.getMessageManager().get("playerWins", new String[]{"name"}, new String[]{p.getName()}));
+                    }
+                }
             }else{
                 p.sendMessage(getFullName()+" "+pl.getMessageManager().get("playerWins", new String[]{"name"}, new String[]{p.getName()}));
             }
@@ -460,6 +492,14 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     private int getBlockStandingTime(){
         return pl.getConfig().getInt("timer.blockStanding");
+    }
+
+    private boolean isSpectatorEnabled(){
+        return pl.getConfig().getBoolean("spectator");
+    }
+
+    private int getSnowballCooldown(){
+        return pl.getConfig().getInt("snowballCooldown");
     }
 
     protected Location getRandomLocationFrom(Location arena) {
@@ -578,6 +618,23 @@ public class Spleef extends BukkitRunnable implements Listener {
     public void fly(PlayerToggleFlightEvent e){
         if(hasPlayer(e.getPlayer()) && !e.getPlayer().hasPermission("spleef.help")){
             e.setCancelled(true);
+        }
+    }
+
+    private HashMap<Player, Long> snowballCooldownMap = Maps.newHashMap();
+
+    @EventHandler
+    public void throwEvent(ProjectileLaunchEvent e){
+        if(e.getEntity() instanceof Snowball && playerInGame.contains(e.getEntity().getShooter()) && getSnowballCooldown() != 0){
+            Player p = (Player) e.getEntity().getShooter();
+            if(snowballCooldownMap.containsKey(p)){
+                long millis = System.currentTimeMillis()-snowballCooldownMap.get(p);
+                if(millis < getSnowballCooldown()*1000){
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+            snowballCooldownMap.put(p, System.currentTimeMillis());
         }
     }
 }

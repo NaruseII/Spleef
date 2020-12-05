@@ -24,9 +24,19 @@ public class Splegg extends Spleef {
         currentStatus = GameStatus.GAME;
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
         for (Player player : playerInGame) {
-            player.teleport(arena);
-
-            player.teleport(getRandomLocationFrom(arena));
+            if(pl.getConfig().getBoolean("randomSpawn")){
+                player.teleport(getRandomLocationFrom(arena.clone()));
+            }else{
+                player.teleport(arena.clone());
+                Vector vector = new Vector(Utils.RANDOM.nextDouble(), Utils.RANDOM.nextDouble(), Utils.RANDOM.nextDouble());
+                if(Utils.RANDOM.nextBoolean()){
+                    vector.setX(-vector.getX());
+                }
+                if(Utils.RANDOM.nextBoolean()){
+                    vector.setZ(-vector.getZ());
+                }
+                player.setVelocity(vector);
+            }
             player.getInventory().addItem(Utils.SNOWBALL.clone());
         }
     }

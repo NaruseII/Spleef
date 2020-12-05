@@ -4,6 +4,7 @@ import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.SpleefUpdater;
+import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -53,7 +54,7 @@ public class Listeners implements Listener {
         Player p = (Player) e.getWhoClicked();
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
 
-        if(e.getCurrentItem() != null && e.getCurrentItem().getType() == Material.BARRIER && spleefPlayer.hasSpleef()){
+        if(e.getCurrentItem() != null && e.getCurrentItem().equals(Utils.LEAVE_ITEM) && spleefPlayer.hasSpleef()){
             e.setCancelled(true);
         }
     }
@@ -64,7 +65,7 @@ public class Listeners implements Listener {
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
 
         if(e.getItem() != null){
-            if(e.getItem().getType() == Material.BARRIER && spleefPlayer.hasSpleef()){
+            if(e.getItem().equals(Utils.LEAVE_ITEM) && spleefPlayer.hasSpleef()){
                 Spleef spleef = spleefPlayer.getCurrentSpleef();
                 if(spleef != null){
                     spleef.removePlayer(p);

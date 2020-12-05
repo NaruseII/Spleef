@@ -13,11 +13,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class Utils {
 
     public static final Random RANDOM = new Random();
-    public static final ItemStack LEAVE_ITEM;
+    public static ItemStack LEAVE_ITEM;
     public static final ItemStack SPADE_ITEM;
     public static final ItemStack SNOWBALL;
     public static final ItemStack BOW;
@@ -39,10 +40,18 @@ public class Utils {
     }
 
     public static void formatItems(SpleefPlugin pl){
+        Material material = Material.BARRIER;
+        try{
+            material = Material.valueOf(pl.getConfig().getString("leaveItem.type"));
+        }catch (Exception e){
+            pl.getLogger().log(Level.SEVERE, "Cannot find item type '"+pl.getConfig().getString("leaveItem.type")+"'");
+        }
+        LEAVE_ITEM = new ItemStack(material, 1, (byte) pl.getConfig().getInt("leaveItem.data"));
         ItemMeta meta = LEAVE_ITEM.getItemMeta();
         meta.setUnbreakable(true);
         meta.setDisplayName(pl.getMessageManager().get("leaveItem"));
         LEAVE_ITEM.setItemMeta(meta);
+        SNOWBALL.setAmount(pl.getConfig().getInt("snowballsGivenOnBlockBreak"));
     }
 
     public static Location getLocation(SpleefPlugin pl, String path) {
