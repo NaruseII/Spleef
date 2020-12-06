@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Plugin-Spleef">
-    <output-path>$PROJECT_DIR$/../../Desktop/mon serveur TEST/SERVEUR/Serveur-1.12/plugins</output-path>
-    <root id="archive" name="Spleef.jar">
-      <element id="module-output" name="Spleef" />
-    </root>
-  </artifact>
-</component>

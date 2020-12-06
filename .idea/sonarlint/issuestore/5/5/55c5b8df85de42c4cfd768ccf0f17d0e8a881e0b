@@ -1,15 +1,0 @@
-
-7
-java:S16437"Use a StringBuilder instead.(ωμή–ώÿÿÿÿ
-7
-java:S1643M"Use a StringBuilder instead.(ωμή–ώÿÿÿÿ
-7
-java:S1643c"Use a StringBuilder instead.(ωμή–ώÿÿÿÿ
-7
-java:S1643B"Use a StringBuilder instead.(ωμή–ώÿÿÿÿ
-D
-java:S1128".Remove this unused import 'org.bukkit.Bukkit'.(Ψ­ζ
-g
-java:S3776."RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(ώΝÒ
-7
-java:S1643X"Use a StringBuilder instead.(ωμή–ώÿÿÿÿ
