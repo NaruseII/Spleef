@@ -432,6 +432,7 @@ public class Spleef extends BukkitRunnable implements Listener {
                 p.sendMessage(getFullName()+" "+pl.getMessageManager().get("playerWins", new String[]{"name"}, new String[]{p.getName()}));
             }
             playerInGame.remove(p);
+            SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
             p.getInventory().clear();
             p.updateInventory();
             updateSigns();
