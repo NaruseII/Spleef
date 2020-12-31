@@ -437,7 +437,7 @@ public class Spleef extends BukkitRunnable implements Listener {
             updateSigns();
             updateScoreboards();
             p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-            if (this.pl.getConfig().getBoolean("tpToLastLoc")) {
+            if (pl.getConfig().getBoolean("tpToLastLoc")) {
                 p.teleport(spleefPlayer.getLastLocation());
               } else {
                 p.teleport(this.spawn);
