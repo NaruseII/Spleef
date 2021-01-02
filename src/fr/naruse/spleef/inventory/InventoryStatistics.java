@@ -24,20 +24,20 @@ public class InventoryStatistics extends AbstractInventory{
     protected void initInventory(Inventory inventory) {
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(target);
         if(pl.getSqlManager() == null){
-            ItemStack itemStack = new ItemStack(Material.WOOL, 1, (byte) 10);
+            ItemStack itemStack = new ItemStack(Material.WHITE_WOOL, 1, (byte) 10);
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(pl.getMessageManager().get("inventory.notFound"));
             itemStack.setItemMeta(meta);
             inventory.setItem(4, itemStack);
             return;
         }
-        ItemStack itemStack = new ItemStack(Material.WOOL, 1, (byte) 4);
+        ItemStack itemStack = new ItemStack(Material.WHITE_WOOL, 1, (byte) 4);
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(pl.getMessageManager().get("inventory.wins", new String[]{"value"}, new String[]{spleefPlayer.getStatistic(StatisticType.WIN)+""}));
         itemStack.setItemMeta(meta);
         inventory.setItem(3, itemStack);
 
-        itemStack = new ItemStack(Material.WOOL, 1, (byte) 14);
+        itemStack = new ItemStack(Material.WHITE_WOOL, 1, (byte) 14);
         meta = itemStack.getItemMeta();
         meta.setDisplayName(pl.getMessageManager().get("inventory.loses", new String[]{"value"}, new String[]{spleefPlayer.getStatistic(StatisticType.LOSE)+""}));
         itemStack.setItemMeta(meta);
