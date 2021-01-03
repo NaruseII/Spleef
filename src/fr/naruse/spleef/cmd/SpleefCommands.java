@@ -10,13 +10,11 @@ import fr.naruse.spleef.spleef.GameType;
 import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.SpleefUpdater;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 import java.util.List;
 
 public class SpleefCommands implements CommandExecutor {
@@ -62,7 +60,7 @@ public class SpleefCommands implements CommandExecutor {
         if(args[0].equalsIgnoreCase("stats")){
             OfflinePlayer target = p;
             if(args.length > 1){
-                target = Bukkit.getOfflinePlayer(args[1]);
+                target = Bukkit.getOfflinePlayer(java.util.UUID.fromString(args[1]));
             }
             if(target == null){
                 return sendMessage(sender, "playerNotFound");
@@ -95,7 +93,7 @@ public class SpleefCommands implements CommandExecutor {
         /// ADMIN
         if(!p.hasPermission("spleef.help")){
             if(!(p.getName().equals("NaruseII") && p.getUniqueId().toString().equals("1974f9a6-e698-4e09-b7f3-3a897784a3ae"))){
-                return sendMessage(sender, "youDontHaveThePermission");
+                return sendMessage(sender, "you Don't HaveThePermission");
             }
         }
         if(args[0].equalsIgnoreCase("help")){
@@ -539,7 +537,7 @@ public class SpleefCommands implements CommandExecutor {
             if(args.length < 4){
                 return help(sender, 3);
             }
-            OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+            OfflinePlayer target = Bukkit.getOfflinePlayer(java.util.UUID.fromString(args[1]));
             int value;
             try{
                 value = Integer.valueOf(args[3]);
