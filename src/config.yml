@@ -16,8 +16,10 @@ disabledCommands:
 timer:
   start: 30
   blockStanding: 7
+
 sql:
   tableName: "spleef"
+
 reward:
   win: -1
   loose: -1

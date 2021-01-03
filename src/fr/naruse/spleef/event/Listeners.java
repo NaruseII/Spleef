@@ -89,6 +89,7 @@ public class Listeners implements Listener {
         Sign sign = (Sign) block.getState();
         for (int i = 0; i < pl.getSpleefs().getSpleefs().size(); i++) {
             Spleef spleef = pl.getSpleefs().getSpleefs().get(i);
+            spleef.registerSign(sign);
             if(sign.getLine(0).equalsIgnoreCase(spleef.getFullName())){
                 spleef.addPlayer(p, false);
                 e.setCancelled(true);

@@ -26,12 +26,12 @@ public class Utils {
     static {
         LEAVE_ITEM = new ItemStack(Material.BARRIER);
 
-        SPADE_ITEM = new ItemStack(Material.GOLDEN_SHOVEL);
+        SPADE_ITEM = new ItemStack(Material.GOLD_SPADE);
         ItemMeta meta = SPADE_ITEM.getItemMeta();
         meta.setUnbreakable(true);
         SPADE_ITEM.setItemMeta(meta);
 
-        SNOWBALL = new ItemStack(Material.SNOWBALL, 64);
+        SNOWBALL = new ItemStack(Material.SNOW_BALL, 64);
         BOW = new ItemStack(Material.BOW);
         meta = BOW.getItemMeta();
         meta.setUnbreakable(true);

@@ -20,7 +20,7 @@ english:
     alreadyExists: "§cSpleef already exists."
     timerChanged: "§aTimer saved."
     gameAlreadyStarted: "§cGame already started."
-    tooManyPlayers: "§cToo many players."
+    notEnoughPlayers: "§cNot enough players. ({size}/{min})"
     gameStarted: "§aGame started."
     gameAlreadyStopped: "§cThis game is not playing."
     gameStopped: "§aGame stopped."
@@ -57,6 +57,7 @@ english:
   needToRestart: "§4§lHey! §cThe Spleef was automatically updated. You just have to reload or restart your server for the update to take effect!"
   leaveItem: "§cLeave"
   upToDate: "§aThe Spleef is up to date."
+  youCantJoinThisGameCausePermission: "§cYou don't have the permission to join this game."
   sign:
     spleef:
       isClosed:
@@ -172,7 +173,7 @@ french:
     alreadyExists: "§cUn Spleef avec ce nom existe déjà."
     timerChanged: "§aTemps enregistré."
     gameAlreadyStarted: "§cPartie déjà en cours."
-    tooManyPlayers: "§cTrop peu de joueurs."
+    notEnoughPlayers: "§cTrop peu de joueurs."
     gameStarted: "§aPartie lancée."
     gameAlreadyStopped: "§cCette partie n'est pas en cours."
     gameStopped: "§aPartie stoppée."
@@ -209,6 +210,7 @@ french:
   needToRestart: "§4§lHey! §cLe Spleef a été automatiquement mis à jour. Tu as juste à recharger ou redémarrer ton serveur pour que la mise à jour prenne effet!"
   leaveItem: "§cQuitter"
   upToDate: "§aLe Spleef est à jour."
+  youCantJoinThisGameCausePermission: "§cVous n'avez pas la permission de rejoindre cette partie."
   sign:
     spleef:
       isClosed:

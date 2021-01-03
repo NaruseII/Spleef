@@ -76,6 +76,9 @@ public class SpleefPlugin extends JavaPlugin {
         for (int i = 0; i < spleefs.getSpleefs().size(); i++) {
             spleefs.getSpleefs().get(i).disable();
         }
+        if(holographicManager != null){
+            holographicManager.disable();
+        }
     }
 
     public Spleefs getSpleefs() {

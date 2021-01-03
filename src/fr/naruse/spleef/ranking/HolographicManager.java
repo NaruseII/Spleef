@@ -123,6 +123,12 @@ public class HolographicManager extends BukkitRunnable {
         });
     }
 
+    public void disable() {
+        if (this.hologram != null) {
+            this.hologram.delete();
+        }
+    }
+
     public Hologram getHologram() {
         return hologram;
     }

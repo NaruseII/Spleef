@@ -93,7 +93,7 @@ public class SpleefCommands implements CommandExecutor {
         /// ADMIN
         if(!p.hasPermission("spleef.help")){
             if(!(p.getName().equals("NaruseII") && p.getUniqueId().toString().equals("1974f9a6-e698-4e09-b7f3-3a897784a3ae"))){
-                return sendMessage(sender, "You don't have the Permission");
+                return sendMessage(sender, "youDontHaveThePermission");
             }
         }
         if(args[0].equalsIgnoreCase("help")){
@@ -158,6 +158,7 @@ public class SpleefCommands implements CommandExecutor {
             if(pl.getHolographicManager() != null){
                 pl.getHolographicManager().reloadLines();
             }
+            pl.getConfigurations().reload();
             return sendMessage(sender, "reload");
         }
 
@@ -384,7 +385,7 @@ public class SpleefCommands implements CommandExecutor {
                 return sendMessage(sender, "gameAlreadyStarted");
             }
             if(spleef.getPlayerInGame().size() < spleef.getMin()){
-                return sendMessage(sender, "tooManyPlayers");
+                return sendMessage(sender, "notEnoughPlayers", new String[]{"size", "min"}, new String[]{spleef.getPlayerInGame().size()+"", spleef.getMin()+""});
             }
             spleef.start();
             return sendMessage(sender, "gameStarted");

@@ -11,8 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.net.URLConnection;
-import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -20,10 +18,11 @@ import java.util.logging.Level;
 
 public class SpleefUpdater {
 
-    private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     private static boolean needToRestart = false;
 
     public static void checkNewVersion(SpleefPlugin pl, boolean sendMessageIfNoUpdate) {
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+
         service.submit(() -> {
             try {
                 Thread.sleep(1000);
@@ -81,6 +80,7 @@ public class SpleefUpdater {
                 e.printStackTrace();
             }
         });
+        service.shutdown();
     }
 
     private static boolean needToUpdate(SpleefPlugin pl) {
@@ -116,17 +116,6 @@ public class SpleefUpdater {
         return false;
     }
 
-    private static String getDownloadHost(SpleefPlugin pl){
-        try{
-            URL url = new URL("https://raw.githubusercontent.com/NaruseII/Spleef/master/updater/updater.txt");
-            Scanner scanner = new Scanner(url.openStream());
-            return scanner.nextLine();
-        }catch (Exception e){
-            pl.getLogger().log(Level.SEVERE, "Could not get the download URL. This does not change the functioning of the plugin");
-        }
-        return null;
-    }
-
     private static boolean downloadFile(SpleefPlugin pl, URL host, File dest, boolean log) {
         try (BufferedInputStream in = new BufferedInputStream(host.openStream());
              FileOutputStream fileOutputStream = new FileOutputStream(dest)) {
@@ -144,25 +133,6 @@ public class SpleefUpdater {
             return false;
         }
         return true;
-    }
-
-    private static final DecimalFormat df = new DecimalFormat("0.####");
-    private static String byteToMB(long bytes){
-        String result = df.format(bytes*0.000001);
-        if(!result.contains(",")){
-            result += ",00";
-        }
-        return result;
-    }
-
-    private static long fileSize(URL url){
-        try {
-            URLConnection connection = url.openConnection();
-            int fileLength = connection.getContentLength();
-            return fileLength;
-        } catch (Exception e) {
-            return -1;
-        }
     }
 
     public static boolean needToRestart() {
