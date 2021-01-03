@@ -1,5 +1,5 @@
 name: Spleef
-version: 2.0.20
+version: 2.0.19
 api-version: 1.16
 author: [Naruse, jeremaier]
 main: fr.naruse.spleef.main.SpleefPlugin
