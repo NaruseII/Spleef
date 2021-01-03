@@ -14,6 +14,7 @@ import fr.naruse.spleef.utils.SpleefUpdater;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.logging.Level;
 
 public class SpleefPlugin extends JavaPlugin {
@@ -30,7 +31,10 @@ public class SpleefPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-        saveResource("config.yml", false);
+
+        if(!new File(getDataFolder(), "config.yml").exists()){
+            saveResource("config.yml", false);
+        }
 
         getServer().getScheduler().runTaskLater(this, () -> {
             registerDependencies();
