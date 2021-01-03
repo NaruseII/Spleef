@@ -1,7 +1,5 @@
 package fr.naruse.spleef.utils;
 
-import com.rylinaux.plugman.PlugMan;
-import com.rylinaux.plugman.util.PluginUtil;
 import fr.naruse.spleef.main.SpleefPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
