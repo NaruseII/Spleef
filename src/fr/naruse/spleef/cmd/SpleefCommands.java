@@ -60,7 +60,7 @@ public class SpleefCommands implements CommandExecutor {
         if(args[0].equalsIgnoreCase("stats")){
             OfflinePlayer target = p;
             if(args.length > 1){
-                target = Bukkit.getOfflinePlayer(java.util.UUID.fromString(args[1]));
+                target = Bukkit.getOfflinePlayer(args[1]);
             }
             if(target == null){
                 return sendMessage(sender, "playerNotFound");
@@ -538,7 +538,7 @@ public class SpleefCommands implements CommandExecutor {
             if(args.length < 4){
                 return help(sender, 3);
             }
-            OfflinePlayer target = Bukkit.getOfflinePlayer(java.util.UUID.fromString(args[1]));
+            OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
             int value;
             try{
                 value = Integer.valueOf(args[3]);
