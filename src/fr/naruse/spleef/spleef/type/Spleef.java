@@ -208,6 +208,10 @@ public class Spleef extends BukkitRunnable implements Listener {
             p.sendMessage(getFullName() +" "+ pl.getMessageManager().get("closed"));
             return false;
         }
+        if(playerInGame.size() >= max && !forceJoin){
+            p.sendMessage(getFullName() +" "+ pl.getMessageManager().get("gameFull"));
+            return false;
+        }
         if(pl.getSpleefPlayerRegistry().getSpleefPlayer(p).hasSpleef()){
             p.sendMessage(getFullName() +" "+ pl.getMessageManager().get("youHaveAGame"));
             return false;

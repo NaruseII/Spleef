@@ -58,6 +58,7 @@ english:
   leaveItem: "§cLeave"
   upToDate: "§aThe Spleef is up to date."
   youCantJoinThisGameCausePermission: "§cYou don't have the permission to join this game."
+  gameFull: "§cSpleef is full."
   sign:
     spleef:
       isClosed:
@@ -211,6 +212,7 @@ french:
   leaveItem: "§cQuitter"
   upToDate: "§aLe Spleef est à jour."
   youCantJoinThisGameCausePermission: "§cVous n'avez pas la permission de rejoindre cette partie."
+  gameFull: "§cSPleef plein."
   sign:
     spleef:
       isClosed:
