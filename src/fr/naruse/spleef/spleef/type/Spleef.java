@@ -420,8 +420,8 @@ public class Spleef extends BukkitRunnable implements Listener {
             }
         }else{
             spectators.add(p);
-            p.teleport(spawn);
-            p.setGameMode(GameMode.ADVENTURE);
+            p.teleport(arena);
+            p.setGameMode(GameMode.SPECTATOR);
         }
 
         spleefPlayer.incrementStatistic(StatisticType.LOSE, 1);
