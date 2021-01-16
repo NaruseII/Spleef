@@ -129,6 +129,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         time = pl.getConfig().getInt("timer.start");
         currentStatus = GameStatus.GAME;
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
+
         for (Player player : playerInGame) {
             if(pl.getConfig().getBoolean("randomSpawn")){
                 player.teleport(getRandomLocationFrom(arena.clone()));
@@ -430,7 +431,7 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     public void checkWin() {
-        if(playerInGame.size() == 1){
+        if(playerInGame.size() == 1 && currentStatus == GameStatus.GAME){
             Player p = playerInGame.get(0);
             if(pl.getConfig().getBoolean("broadcastWin")){
                 Bukkit.broadcastMessage(getFullName()+" "+pl.getMessageManager().get("playerWins", new String[]{"name"}, new String[]{p.getName()}));
