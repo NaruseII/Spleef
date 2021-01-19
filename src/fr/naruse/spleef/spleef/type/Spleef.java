@@ -128,7 +128,6 @@ public class Spleef extends BukkitRunnable implements Listener {
         scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboard.scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), ""}));
         time = pl.getConfig().getInt("timer.start");
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
-        currentStatus = GameStatus.GAME;
         for (Player player : playerInGame) {
             player.getInventory().clear();
             if(pl.getConfig().getBoolean("randomSpawn")){
