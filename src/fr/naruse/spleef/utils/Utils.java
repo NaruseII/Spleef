@@ -11,7 +11,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -109,5 +111,25 @@ public class Utils {
             }
         }
         return list;
+    }
+
+    public static void addCharts(SpleefPlugin pl, Metrics metrics) {
+        metrics.addCustomChart(new Metrics.SimplePie("used_language", () -> pl.getConfig().getString("currentLang", "english")));
+        metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
+            Map<String, Map<String, Integer>> map = new HashMap<>();
+            String javaVersion = System.getProperty("java.version");
+            Map<String, Integer> entry = new HashMap<>();
+            entry.put(javaVersion, 1);
+            if (javaVersion.startsWith("1.7")) {
+                map.put("Java 1.7", entry);
+            } else if (javaVersion.startsWith("1.8")) {
+                map.put("Java 1.8", entry);
+            } else if (javaVersion.startsWith("1.9")) {
+                map.put("Java 1.9", entry);
+            } else {
+                map.put("Other", entry);
+            }
+            return map;
+        }));
     }
 }
