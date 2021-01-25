@@ -10,6 +10,7 @@ import fr.naruse.spleef.sql.SQLManager;
 import fr.naruse.spleef.ranking.HolographicManager;
 import fr.naruse.spleef.support.PlaceHolderManager;
 import fr.naruse.spleef.support.VaultManager;
+import fr.naruse.spleef.utils.Metrics;
 import fr.naruse.spleef.utils.SpleefUpdater;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -53,6 +54,8 @@ public class SpleefPlugin extends JavaPlugin {
             }
             Utils.formatItems(this);
         }, 20);
+
+        Utils.addCharts(this, new Metrics(this, 9924));
     }
 
     private void registerDependencies() {
