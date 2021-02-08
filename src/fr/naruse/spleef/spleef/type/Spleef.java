@@ -420,8 +420,8 @@ public class Spleef extends BukkitRunnable implements Listener {
             }
         }else{
             spectators.add(p);
-            p.teleport(arena);
-            p.setGameMode(GameMode.SPECTATOR);
+            p.teleport(spawn);
+            p.setGameMode(GameMode.ADVENTURE);
         }
 
         spleefPlayer.incrementStatistic(StatisticType.LOSE, 1);
@@ -445,6 +445,8 @@ public class Spleef extends BukkitRunnable implements Listener {
                 p.sendMessage(getFullName()+" "+pl.getMessageManager().get("playerWins", new String[]{"name"}, new String[]{p.getName()}));
             }
             playerInGame.remove(p);
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&aYou have received 5 &eUESL Points&a for winning Spleef!"));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "procosmetics give coins " + p + " 5");
             p.getInventory().clear();
             p.updateInventory();
             updateSigns();
