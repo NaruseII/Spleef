@@ -307,6 +307,13 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfigurations().reset(0);
                 pl.getConfigurations().reload();
                 return sendMessage(sender, "langChanged");
+            }else if(args[1].equalsIgnoreCase("russian")){
+                pl.getMessageManager().setLang("russian");
+                pl.getConfig().set("currentLang", "russian");
+                pl.saveConfig();
+                pl.getConfigurations().reset(0);
+                pl.getConfigurations().reload();
+                return sendMessage(sender, "langChanged");
             }else{
                 return sendMessage(sender, "argumentNotFound", new String[]{"arg"}, new String[]{args[1]});
             }
@@ -637,7 +644,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§bPage: §21/3");
             }else if(page == 2){
                 sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
-                sendNormalMessage(sender, "§6/§7spleef setLang <French, English> §7(It will erase your changes)");
+                sendNormalMessage(sender, "§6/§7spleef setLang <French, English, Russian> §7(It will erase your changes)");
                 sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs, InstantGiveShovel, AutoUpdater, RandomSpawn, Spectator, BroadcastWinWorld>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");

@@ -305,3 +305,160 @@ french:
   scoreboard:
     scoreboardFormat: "§7{name}"
     scoreboardName: "{name} §5{time}"
+
+russian:
+  commands:
+    onlyForPlayers: §cКоманды могут выполнять только игроки.
+    youDontHaveThePermission: §cУ вас нет этого разрешения.
+    wrongNumber: §cНеправильный номер.
+    spleefCreated: §aСплиф создан.
+    spleefDeleted: §aСплиф удален.
+    error: §4ОШИБКА
+    spleefNotFound: §cСплиф '{name}' не найдена.
+    reload: §aСплиф перезагрузился.
+    settingSaved: §aНастройка сохранена.
+    settingMaxSaved: §aМаксимально сохранено.
+    settingMinSaved: §aМаксимально сохранено.
+    settingLocationSaved:
+      arena: §aМестоположение Арены сохранено.
+      spawn: §aМесто появления сохранено.
+      lobby: §aЛобби местоположения сохранено.
+    argumentNotFound: §cАргумент '{arg}' не найден.
+    langChanged: §aЯзык изменен.
+    alreadyExists: §cСплиф уже существует.
+    timerChanged: §aТаймер сохранен.
+    gameAlreadyStarted: §cИгра уже началась.
+    tooManyPlayers: §cСлишком много игроков.
+    gameStarted: §aИгра началась.
+    gameAlreadyStopped: §cВ эту игру не играют.
+    gameStopped: §aИгра остановлена.
+    playerNotFound: §cИгрок не найден.
+    playerAdded: §aИгрок зашел в игру.
+    playerInGame: §cЭтот игрок уже играет.
+    spleefOpened: §aСплиф открыт.
+    spleefClosed: §aСплиф закрыт.
+    listNotGoodSpleefs: '§aНеправильно настроенные сплифы : §c{list}'
+    listGoodSpleefs: '§aФункциональные арены: §2{list}'
+    youAreNotInGame: §cВы не в игре.
+    statsCleared: §aСтатистика очищена.
+    hologramSaved: §aГолограмма сохранена.. §7(Может быть активирован командой §e/spleef
+      enable HolographicRanking§7)
+    gameModeChanged: §aИзменен игровой режим.
+    checkStarted: §aПроверка обновлений...
+    sqlNotFound: §cSQL не найден.
+    statisticSaved: §aСтатистика сохранена.
+    disabledCommandsCleared: §aРазрешены все команды.
+    disabledCommands: '§aОтключенные команды:'
+    disabledCommandsIsEmpty: §cНет отключенных команд.
+    disabledCommandsAdded: §aКоманда добавлена.
+    disabledCommandsRemoved: §aКоманда удалена.
+  spleefTag: §6§l
+  leaveSpleef: §7§l> §d{name}§c покинул игру.
+  joinSpleef: §7§l> §d{name}§a присоединился к игре.
+  inGame: §cИдет игра.
+  gameStarts: §7§l> §2Начилась игра!
+  youHaveAGame: §cВы уже в игре.
+  spadeDeliverIn: §7§l> §aВам будет выдана лопата через 5 секунд.
+  playerFell: §7§l> §d{name} §cумер!
+  playerWins: §7§l> §d{name} §eвыиграл игру!
+  closed: §7§l> §cЗакрыто.
+  dontStayOnTheSameBlock: §f§l» §cНе стой на одном блоке!
+  needToRestart: §4§lПривет! §cСплиф обновился автоматически. Вам просто нужно перезагрузить
+    плагин или сервер, чтобы обновление вступило в силу!
+  leaveItem: §cПокинуть игру
+  upToDate: §aСплиф обновлен.
+  youCantJoinThisGameCausePermission: §cУ вас нет прав чтобы присоединиться к этой
+    игре.
+  gameFull: §cИгра заполнена.
+  sign:
+    spleef:
+      isClosed:
+        line1: §f{name}
+        line2: ''
+        line3: §cЗакрыто
+        line4: ''
+      isOpened:
+        isWaiting:
+          line1: §f{name}
+          line2:
+            '3': §a§l{size}/{max}
+            '2': §6§l{size}/{max}
+            '1': §c§l{size}/{max}
+          line3:
+            '1': §3§lИгра
+            '2': §0§lОжидание...
+          line4: §5§lSpleef
+        isPlaying:
+          line1: §f{name}
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3: ''
+          line4: §5Spleef
+    splegg:
+      isClosed:
+        line1: '{name}'
+        line2: ''
+        line3: §cЗакрыто
+        line4: ''
+      isOpened:
+        isWaiting:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3:
+            '1': §aИгра
+            '2': §4{missing} missing
+          line4: §5Splegg
+        isPlaying:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3: ''
+          line4: §5Splegg
+    bow:
+      isClosed:
+        line1: '{name}'
+        line2: ''
+        line3: §cЗакрыто
+        line4: ''
+      isOpened:
+        isWaiting:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3:
+            '1': §aИгра
+            '2': §4{missing} missing
+          line4: §5BowSpleef
+        isPlaying:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3: ''
+          line4: §5BowSpleef
+  inventory:
+    statisticsTitle: §c§lСтатистика игрока {name}
+    notFound: §4Статистика не найдена!
+    wins: '§6§lПобед : {value}'
+    loses: '§4§lПоражений : {value}'
+  hologram:
+    title: §6 ---- Рейтинг игроков ----
+    format: §6#{rank} §e§l{name} §7- §a{wins} Wins
+  papi:
+    closed: §cЗакрыто
+    opened: §aОткрыто
+    inGame: §cИгра
+    notInGame: §aОжидание
+  scoreboard:
+    scoreboardFormat: §7{name}
+    scoreboardName: '{name} §5{time}'
