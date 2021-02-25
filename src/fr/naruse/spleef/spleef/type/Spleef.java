@@ -318,7 +318,7 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     public void registerSign(Sign sign) {
-        if(sign.getLine(0).equals(getFullName())){
+        if(ChatColor.stripColor(sign.getLine(0)).equals(ChatColor.stripColor(getFullName()))){
             if(!signs.contains(sign)){
                 signs.add(sign);
             }

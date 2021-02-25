@@ -89,15 +89,10 @@ public class Utils {
                 return false;
             } else if (Math.abs(Double.doubleToLongBits(a.getX()) - Double.doubleToLongBits(other.getX())) > 3) {
                 return false;
-            } else if (Double.doubleToLongBits(a.getY()) != Double.doubleToLongBits(other.getY())) {
-                return false;
             } else if (Math.abs(Double.doubleToLongBits(a.getZ()) - Double.doubleToLongBits(other.getZ())) > 3) {
                 return false;
-            } else if (Float.floatToIntBits(a.getPitch()) != Float.floatToIntBits(other.getPitch())) {
-                return false;
-            } else {
-                return Float.floatToIntBits(a.getYaw()) == Float.floatToIntBits(other.getYaw());
             }
+            return true;
         }
     }
 

@@ -5,6 +5,7 @@ import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.SpleefUpdater;
 import fr.naruse.spleef.utils.Utils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -90,7 +91,7 @@ public class Listeners implements Listener {
         for (int i = 0; i < pl.getSpleefs().getSpleefs().size(); i++) {
             Spleef spleef = pl.getSpleefs().getSpleefs().get(i);
             spleef.registerSign(sign);
-            if(sign.getLine(0).equalsIgnoreCase(spleef.getFullName())){
+            if(ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase(ChatColor.stripColor((spleef.getFullName())))){
                 spleef.addPlayer(p, false);
                 e.setCancelled(true);
                 break;
