@@ -59,6 +59,7 @@ english:
   upToDate: "§aThe Spleef is up to date."
   youCantJoinThisGameCausePermission: "§cYou don't have the permission to join this game."
   gameFull: "§cSpleef is full."
+  gameStartsIn: "§7§l> §aGame starts in {time} seconds!"
   sign:
     spleef:
       isClosed:
@@ -213,6 +214,7 @@ french:
   upToDate: "§aLe Spleef est à jour."
   youCantJoinThisGameCausePermission: "§cVous n'avez pas la permission de rejoindre cette partie."
   gameFull: "§cSPleef plein."
+  gameStartsIn: "§7§l> §aLa partie commence dans {time} secondes!"
   sign:
     spleef:
       isClosed:
@@ -370,6 +372,7 @@ russian:
   youCantJoinThisGameCausePermission: §cУ вас нет прав чтобы присоединиться к этой
     игре.
   gameFull: §cИгра заполнена.
+  gameStartsIn: "§7§l> §aИгра начинается через {time} секунды!"
   sign:
     spleef:
       isClosed:

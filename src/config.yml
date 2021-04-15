@@ -11,6 +11,7 @@ instantGiveShovel: false
 autoUpdater: true
 randomSpawn: false
 spectators: false
+noScoreboard: false
 disabledCommands:
 
 timer:

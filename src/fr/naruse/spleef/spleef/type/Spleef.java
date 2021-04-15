@@ -84,7 +84,13 @@ public class Spleef extends BukkitRunnable implements Listener {
             }else{
                 time = pl.getConfig().getInt("timer.start");
             }
-            scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboard.scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), time+""}));
+            if(pl.getConfig().getBoolean("noScoreboard")){
+                if((time % 10 == 0 || time <= 5) && time != pl.getConfig().getInt("timer.start")){
+                    sendMessage(pl.getMessageManager().get("gameStartsIn", new String[]{"time"}, new String[]{time+""}));
+                }
+            }else{
+                scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboard.scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), time+""}));
+            }
         }else{
             if(playerInGame.size() == 0){
                 restart();
@@ -222,7 +228,9 @@ public class Spleef extends BukkitRunnable implements Listener {
             return false;
         }
 
-        p.setScoreboard(scoreboardSign.getScoreboard());
+        if(!pl.getConfig().getBoolean("noScoreboard")){
+            p.setScoreboard(scoreboardSign.getScoreboard());
+        }
         playerInGame.add(p);
 
         sendMessage(getFullName() +" "+ pl.getMessageManager().get("joinSpleef", new String[]{"name"}, new String[]{p.getName()}));
@@ -263,7 +271,9 @@ public class Spleef extends BukkitRunnable implements Listener {
         p.updateInventory();
         updateSigns();
         updateScoreboards();
-        p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        if(!pl.getConfig().getBoolean("noScoreboard")){
+            p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        }
         p.setVelocity(new Vector());
         p.setFallDistance(0f);
 
@@ -398,7 +408,9 @@ public class Spleef extends BukkitRunnable implements Listener {
             p.updateInventory();
             updateSigns();
             updateScoreboards();
-            p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+            if(!pl.getConfig().getBoolean("noScoreboard")){
+                p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+            }
             p.setVelocity(new Vector());
             p.setFallDistance(0f);
 
