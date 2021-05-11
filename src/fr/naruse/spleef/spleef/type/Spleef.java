@@ -6,6 +6,8 @@ import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.player.statistic.StatisticType;
 import fr.naruse.spleef.spleef.GameStatus;
+import fr.naruse.spleef.spleef.bonus.BonusManager;
+import fr.naruse.spleef.utils.BlockBuffer;
 import fr.naruse.spleef.utils.ScoreboardSign;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.*;
@@ -43,6 +45,7 @@ public class Spleef extends BukkitRunnable implements Listener {
     protected final Location arena;
     protected final Location spawn;
     protected final Location lobby;
+    protected BonusManager bonusManager;
 
     protected int time;
     protected ScoreboardSign scoreboardSign;
@@ -68,6 +71,10 @@ public class Spleef extends BukkitRunnable implements Listener {
         this.scoreboardSign = new ScoreboardSign();
         this.time = pl.getConfig().getInt("timer.start");
         scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboard.scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), time+""}));
+
+        if(this.isBonusEnabled()){
+            this.bonusManager = new BonusManager(pl, this);
+        }
 
         this.runTaskTimer(pl, 20, 20);
     }
@@ -184,6 +191,9 @@ public class Spleef extends BukkitRunnable implements Listener {
         if(!isCancelled()){
             cancel();
         }
+        if(bonusManager != null){
+            bonusManager.cancel();
+        }
     }
 
     public void restart(){
@@ -202,7 +212,9 @@ public class Spleef extends BukkitRunnable implements Listener {
         blocks.clear();
 
         currentStatus = GameStatus.WAIT;
-
+        if(bonusManager != null){
+            bonusManager.restart();
+        }
         updateSigns();
     }
 
@@ -221,10 +233,6 @@ public class Spleef extends BukkitRunnable implements Listener {
         }
         if(pl.getSpleefPlayerRegistry().getSpleefPlayer(p).hasSpleef()){
             p.sendMessage(getFullName() +" "+ pl.getMessageManager().get("youHaveAGame"));
-            return false;
-        }
-        if(p.hasPermission("spleef.cancel.join."+name) && (!p.isOp() || !p.hasPermission("*"))){
-            p.sendMessage(getFullName() +" "+ pl.getMessageManager().get("youCantJoinThisGameCausePermission"));
             return false;
         }
 
@@ -246,6 +254,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         p.setInvulnerable(true);
         p.setFoodLevel(20);
         p.setHealth(p.getMaxHealth());
+        p.setFlying(false);
         p.setAllowFlight(false);
         if(lobby != null){
             p.teleport(lobby);
@@ -443,7 +452,7 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     public void checkWin() {
-        if(playerInGame.size() == 1 && currentStatus == GameStatus.GAME){
+        if(playerInGame.size() == 1 && currentStatus == GameStatus.GAME && min > 1){
             Player p = playerInGame.get(0);
             if(pl.getConfig().getBoolean("broadcastWin")){
                 Bukkit.broadcastMessage(getFullName()+" "+pl.getMessageManager().get("playerWins", new String[]{"name"}, new String[]{p.getName()}));
@@ -475,6 +484,9 @@ public class Spleef extends BukkitRunnable implements Listener {
             spleefPlayer.setPlayerInventory(p);
             if(pl.getVaultManager() != null){
                 pl.getVaultManager().giveWinReward(p);
+            }
+            if(Utils.WIN_ITEM != null){
+                p.getInventory().addItem(Utils.WIN_ITEM);
             }
             restart();
         }else if(playerInGame.size() == 0){
@@ -516,6 +528,10 @@ public class Spleef extends BukkitRunnable implements Listener {
         return max;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public List<Player> getPlayerInGame() {
         return playerInGame;
     }
@@ -536,8 +552,16 @@ public class Spleef extends BukkitRunnable implements Listener {
         return pl.getConfig().getBoolean("spectator");
     }
 
+    private boolean isBonusEnabled(){
+        return pl.getConfig().getBoolean("sheepBonuses");
+    }
+
     private int getSnowballCooldown(){
         return pl.getConfig().getInt("snowballCooldown");
+    }
+
+    public BonusManager getBonusManager() {
+        return bonusManager;
     }
 
     protected Location getRandomLocationFrom(Location arena) {
@@ -562,6 +586,38 @@ public class Spleef extends BukkitRunnable implements Listener {
 
         location.add(0, needToUp, 0);
         return location;
+    }
+
+    public void destroyBlock(Player p, Block b){
+        Runnable runnable = () -> {
+            blocks.add(b);
+            b.setType(Material.AIR);
+            if(p != null && pl.getConfig().getBoolean("snowballs")){
+                p.getInventory().addItem(Utils.SNOWBALL.clone());
+            }
+        };
+        if(Bukkit.isPrimaryThread()){
+            runnable.run();
+        }else{
+            Bukkit.getScheduler().runTask(pl, runnable);
+        }
+    }
+
+    public void destroyBlock(Player p, BlockBuffer blockBuffer){
+        Runnable runnable = () -> {
+            for (Block b : blockBuffer) {
+                blocks.add(b);
+                b.setType(Material.AIR);
+                if(p != null && pl.getConfig().getBoolean("snowballs")){
+                    p.getInventory().addItem(Utils.SNOWBALL.clone());
+                }
+            }
+        };
+        if(Bukkit.isPrimaryThread()){
+            runnable.run();
+        }else{
+            Bukkit.getScheduler().runTask(pl, runnable);
+        }
     }
 
     protected void removeBlockUnderFoot(Block block) {
@@ -628,10 +684,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         }
         if(e.getBlock().getType() == Material.SNOW_BLOCK && currentStatus == GameStatus.GAME){
             e.setDropItems(false);
-            blocks.add(e.getBlock());
-            if(pl.getConfig().getBoolean("snowballs")){
-                p.getInventory().addItem(Utils.SNOWBALL.clone());
-            }
+            this.destroyBlock(p, e.getBlock());
         }else{
             e.setCancelled(true);
         }

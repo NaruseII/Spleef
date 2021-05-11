@@ -1,6 +1,7 @@
 package fr.naruse.spleef.spleef;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.type.BowSpleef;
 import fr.naruse.spleef.spleef.type.Spleef;
@@ -11,12 +12,14 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 public class Spleefs {
 
     private SpleefPlugin pl;
     private List<Spleef> spleefs = Lists.newArrayList();
+    private final Map<Integer, String> misconfiguredReasons = Maps.newHashMap();
 
     public Spleefs(SpleefPlugin pl) {
         this.pl = pl;
@@ -27,6 +30,7 @@ public class Spleefs {
         for (Spleef spleef : spleefs) {
             spleef.disable();
         }
+        misconfiguredReasons.clear();
         spleefs.clear();
         for (int i = 0; i < 9999; i++) {
             if(pl.getConfig().contains("spleef."+i+".name")){
@@ -45,30 +49,40 @@ public class Spleefs {
                         gameType = GameType.valueOf(type);
                     }
                 }catch (Exception e){
-                    pl.getLogger().warning("can't recognize GameType for Spleef '"+name+"'");
+                    String reason = "Can't recognize GameType for Spleef '"+name+"'";
+                    pl.getLogger().warning(reason);
+                    this.misconfiguredReasons.put(i, reason);
                     continue;
                 }
 
                 Location arena = Utils.getLocation(pl, "spleef."+i+".location.arena");
                 if(arena == null){
-                    pl.getLogger().warning("Location ARENA not found for Spleef '"+name+"'");
+                    String reason ="Location ARENA not found for Spleef '"+name+"'";
+                    pl.getLogger().warning(reason);
+                    this.misconfiguredReasons.put(i, reason);
                     continue;
                 }
                 Location spawn = Utils.getLocation(pl, "spleef."+i+".location.spawn");
                 if(spawn == null){
-                    pl.getLogger().warning("Location SPAWN not found for Spleef '"+name+"'");
+                    String reason = "Location SPAWN not found for Spleef '"+name+"'";
+                    pl.getLogger().warning(reason);
+                    this.misconfiguredReasons.put(i, reason);
                     continue;
                 }
                 Location lobby = Utils.getLocation(pl, "spleef."+i+".location.lobby");
 
                 if(!pl.getConfig().contains("spleef."+i+".min")){
-                    pl.getLogger().warning("Minimum not found for Spleef '"+name+"'");
+                    String reason = "Minimum not found for Spleef '"+name+"'";
+                    pl.getLogger().warning(reason);
+                    this.misconfiguredReasons.put(i, reason);
                     continue;
                 }
                 int min = pl.getConfig().getInt("spleef."+i+".min");
 
                 if(!pl.getConfig().contains("spleef."+i+".max")){
-                    pl.getLogger().warning("Maximum not found for Spleef '"+name+"'");
+                    String reason = "Maximum not found for Spleef '"+name+"'";
+                    pl.getLogger().warning(reason);
+                    this.misconfiguredReasons.put(i, reason);
                     continue;
                 }
                 int max = pl.getConfig().getInt("spleef."+i+".max");
@@ -102,5 +116,9 @@ public class Spleefs {
 
     public List<Spleef> getSpleefs() {
         return spleefs;
+    }
+
+    public Map<Integer, String> getMisconfiguredReasons() {
+        return misconfiguredReasons;
     }
 }

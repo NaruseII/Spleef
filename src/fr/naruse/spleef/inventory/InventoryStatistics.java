@@ -23,7 +23,7 @@ public class InventoryStatistics extends AbstractInventory{
     @Override
     protected void initInventory(Inventory inventory) {
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(target);
-        if(pl.getSqlManager() == null){
+        if(pl.getDatabaseManager() == null){
             ItemStack itemStack = new ItemStack(Material.WOOL, 1, (byte) 10);
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(pl.getMessageManager().get("inventory.notFound"));

@@ -8,10 +8,12 @@ standingLimit: true
 tpToLastLoc: false
 snowballs: false
 instantGiveShovel: false
-autoUpdater: true
 randomSpawn: false
 spectators: false
 noScoreboard: false
+sheepBonuses: false
+diamondSpade: false
+yamlStatistics: false
 disabledCommands:
 
 timer:

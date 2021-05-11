@@ -11,6 +11,8 @@ public class Configurations {
 
     private File messageFile;
     private FileConfiguration messageConfiguration;
+    private File statisticsFile;
+    private FileConfiguration statisticsConfiguration;
 
     public Configurations(JavaPlugin pl) {
         this.pl = pl;
@@ -20,14 +22,20 @@ public class Configurations {
     public void reload() {
         this.messageFile = new File(pl.getDataFolder(), "messages.yml");
         this.messageConfiguration = new YamlConfiguration();
+        this.statisticsFile = new File(pl.getDataFolder(), "statistics.yml");
+        this.statisticsConfiguration = new YamlConfiguration();
 
         try{
             if(!messageFile.exists()){
                 messageFile.createNewFile();
                 saveResource("resources/messages.yml", messageFile);
             }
+            if(!statisticsFile.exists()){
+                statisticsFile.createNewFile();
+            }
 
             messageConfiguration.load(messageFile);
+            statisticsConfiguration.load(statisticsFile);
 
             Reader reader = new InputStreamReader(pl.getResource("resources/messages.yml"), "UTF8");
             YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(reader);
@@ -58,6 +66,7 @@ public class Configurations {
     public void saveConfigs() {
         try{
             messageConfiguration.save(messageFile);
+            statisticsConfiguration.save(statisticsFile);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -68,11 +77,19 @@ public class Configurations {
             if(messageFile.exists()){
                 messageFile.delete();
             }
+        }else if(id == 1){
+            if(statisticsFile.exists()){
+                statisticsFile.delete();
+            }
         }
         reload();
     }
 
     public FileConfiguration getMessageConfiguration() {
         return messageConfiguration;
+    }
+
+    public FileConfiguration getStatisticsConfiguration() {
+        return statisticsConfiguration;
     }
 }

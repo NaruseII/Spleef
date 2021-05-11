@@ -43,6 +43,7 @@ english:
     disabledCommandsIsEmpty: "§cThere are no disabled commands."
     disabledCommandsAdded: "§aCommand added."
     disabledCommandsRemoved: "§aCommand deleted."
+    bonusList: "§aBonus list:"
   spleefTag: "§6§l"
   leaveSpleef: "§7§l> §d{name}§c leave this game."
   joinSpleef: "§7§l> §d{name}§a join this game."
@@ -55,11 +56,14 @@ english:
   closed: "§7§l> §cClosed."
   dontStayOnTheSameBlock: "§f§l» §cDo not stay on the same block!"
   needToRestart: "§4§lHey! §cThe Spleef was automatically updated. You just have to reload or restart your server for the update to take effect!"
+  needHasAnUpdate: "§4§lHey! §cThe Spleef found an update on Spigot. You currently run version §d{currentVersion}§c but §d{newVersion}§c is available. §c\nDownload it there: §d{url}§c."
   leaveItem: "§cLeave"
   upToDate: "§aThe Spleef is up to date."
   youCantJoinThisGameCausePermission: "§cYou don't have the permission to join this game."
   gameFull: "§cSpleef is full."
   gameStartsIn: "§7§l> §aGame starts in {time} seconds!"
+  youNeedToBeInGame: "§cYou need to be in game."
+  settingShouldBeEnabled: "§cSetting {setting} should be enabled."
   sign:
     spleef:
       isClosed:
@@ -198,6 +202,7 @@ french:
     disabledCommandsIsEmpty: "§cIl n'y a pas de commandes désactivées."
     disabledCommandsAdded: "§aCommande ajoutée."
     disabledCommandsRemoved: "§aCommande supprimée."
+    bonusList: "§aListe des bonus:"
   spleefTag: "§6§l"
   leaveSpleef: "§7§l> §d{name}§c quitte la partie."
   joinSpleef: "§7§l> §d{name}§a rejoint la partie."
@@ -210,11 +215,14 @@ french:
   closed: "§7§l> §cFermé."
   dontStayOnTheSameBlock: "§f§l» §cNe restez pas sur le même bloc!"
   needToRestart: "§4§lHey! §cLe Spleef a été automatiquement mis à jour. Tu as juste à recharger ou redémarrer ton serveur pour que la mise à jour prenne effet!"
+  needHasAnUpdate: "§4§lHey! §cLe Spleef a trouvé une mise à jour sur Spigot. Tu possède actuellement la version §d{currentVersion}§c mais la §d{newVersion}§c est disponible. §c\nTu peux la télécharger ici: §d{url}§c."
   leaveItem: "§cQuitter"
   upToDate: "§aLe Spleef est à jour."
   youCantJoinThisGameCausePermission: "§cVous n'avez pas la permission de rejoindre cette partie."
   gameFull: "§cSPleef plein."
   gameStartsIn: "§7§l> §aLa partie commence dans {time} secondes!"
+  youNeedToBeInGame: "§cVous devez être dans une partie."
+  settingShouldBeEnabled: "§cLe paramètre {setting} doit être activé."
   sign:
     spleef:
       isClosed:
@@ -354,6 +362,7 @@ russian:
     disabledCommandsIsEmpty: §cНет отключенных команд.
     disabledCommandsAdded: §aКоманда добавлена.
     disabledCommandsRemoved: §aКоманда удалена.
+    bonusList: "§aСписок бонусов:"
   spleefTag: §6§l
   leaveSpleef: §7§l> §d{name}§c покинул игру.
   joinSpleef: §7§l> §d{name}§a присоединился к игре.
@@ -367,12 +376,15 @@ russian:
   dontStayOnTheSameBlock: §f§l» §cНе стой на одном блоке!
   needToRestart: §4§lПривет! §cСплиф обновился автоматически. Вам просто нужно перезагрузить
     плагин или сервер, чтобы обновление вступило в силу!
+  needHasAnUpdate: "§4§lHey! §cThe Spleef found an update on Spigot. You currently run version §d{currentVersion}§c but §d{newVersion}§c is available. §c\nDownload it there: §d{url}§c."
   leaveItem: §cПокинуть игру
   upToDate: §aСплиф обновлен.
   youCantJoinThisGameCausePermission: §cУ вас нет прав чтобы присоединиться к этой
     игре.
   gameFull: §cИгра заполнена.
   gameStartsIn: "§7§l> §aИгра начинается через {time} секунды!"
+  youNeedToBeInGame: "§cВам нужно быть в игре."
+  settingShouldBeEnabled: "§cНастройка {setting} должна быть включена."
   sign:
     spleef:
       isClosed:
