@@ -6,6 +6,7 @@ import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.type.BowSpleef;
 import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.spleef.type.Splegg;
+import fr.naruse.spleef.spleef.type.TeamSpleef;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -95,6 +96,15 @@ public class Spleefs {
                     case BOW:
                         spleef = new BowSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby);
                         break;
+                    case TEAM_TWO:
+                        spleef = new TeamSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, 2);
+                        break;
+                    case TEAM_THREE:
+                        spleef = new TeamSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, 3);
+                        break;
+                    case TEAM_FOUR:
+                        spleef = new TeamSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, 4);
+                        break;
                     default:
                         spleef = new Spleef(pl, i, name, isOpened, max, min, arena, spawn, lobby);
                 }
@@ -103,7 +113,7 @@ public class Spleefs {
                 spleefs.add(spleef);
             }
         }
-        pl.getLogger().log(Level.INFO, ""+spleefs.size()+" spleefs found");
+        pl.getLogger().log(Level.INFO, spleefs.size()+" spleefs found");
         Bukkit.getScheduler().scheduleSyncDelayedTask(pl, () -> {
             for (int i = 0; i < spleefs.size(); i++) {
                 Spleef spleef = spleefs.get(i);

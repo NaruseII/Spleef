@@ -3,9 +3,9 @@ package fr.naruse.spleef.spleef.bonus.type;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.spleef.bonus.attribute.BonusAttributeFollower;
-import org.bukkit.entity.Egg;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Snowball;
 
 public class BonusGunner extends BonusColored {
     public BonusGunner(BonusManager bonusManager, Player p) {
@@ -20,7 +20,7 @@ public class BonusGunner extends BonusColored {
             public void nearestPlayerFound(Player target) {
                 super.nearestPlayerFound(target);
                 sheep.setTarget(target);
-                sheep.launchProjectile(Egg.class);
+                sheep.launchProjectile(Snowball.class);
             }
         });
     }

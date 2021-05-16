@@ -564,6 +564,18 @@ public class Spleef extends BukkitRunnable implements Listener {
         return bonusManager;
     }
 
+    public Location getArena() {
+        return arena;
+    }
+
+    public Location getSpawn() {
+        return spawn;
+    }
+
+    public Location getLobby() {
+        return lobby;
+    }
+
     protected Location getRandomLocationFrom(Location arena) {
         Location location = arena.clone();
         int needToUp = 0;
@@ -604,6 +616,10 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     public void destroyBlock(Player p, BlockBuffer blockBuffer){
+        this.destroyBlock(p, blockBuffer, 0);
+    }
+
+    public void destroyBlock(Player p, BlockBuffer blockBuffer, int tickDelay){
         Runnable runnable = () -> {
             for (Block b : blockBuffer) {
                 blocks.add(b);
@@ -613,10 +629,14 @@ public class Spleef extends BukkitRunnable implements Listener {
                 }
             }
         };
-        if(Bukkit.isPrimaryThread()){
+        if(Bukkit.isPrimaryThread() && tickDelay == 0){
             runnable.run();
         }else{
-            Bukkit.getScheduler().runTask(pl, runnable);
+            if(tickDelay == 0){
+                Bukkit.getScheduler().runTask(pl, runnable);
+            }else{
+                Bukkit.getScheduler().runTaskLater(pl, runnable, tickDelay);
+            }
         }
     }
 

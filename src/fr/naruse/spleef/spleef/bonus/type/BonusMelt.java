@@ -26,7 +26,7 @@ public class BonusMelt extends BonusColored {
         }
 
         if(!blockBuffer.isEmpty()){
-            spleef.destroyBlock(p, blockBuffer);
+            spleef.destroyBlock(p, blockBuffer, 10);
         }
     }
 

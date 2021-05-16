@@ -28,37 +28,13 @@ public class SpleefUpdater {
                     pl.getLogger().log(Level.INFO, "[Updater]");
                     pl.getLogger().log(Level.WARNING, "[Updater] The plugin needs to be updated! https://www.spigotmc.org/resources/spleef.61787/");
                     pl.getLogger().log(Level.INFO, "[Updater]");
-                    /*pl.getLogger().log(Level.WARNING, "[Updater] Trying update...");
 
-                    File runningJar = new File(pl.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                    pl.getLogger().log(Level.WARNING, "[Updater] Download URL found: https://github.com/NaruseII/Spleef/blob/master/updater/Spleef.jar?raw=true");
-                    downloadFile(pl, new URL("https://github.com/NaruseII/Spleef/blob/master/updater/Spleef.jar?raw=true"), runningJar, true);
-                    pl.getLogger().log(Level.INFO, "[Updater]");
-                    pl.getLogger().log(Level.INFO, "[Updater] Plugin was auto-updated!");
-                    pl.getLogger().log(Level.INFO, "[Updater]");
-                    pl.getLogger().log(Level.INFO, "[Updater] Please reload or restart your server.");
-                    if(Bukkit.getPluginManager().getPlugin("PlugMan") != null){
-                        if(pl.getHolographicManager() != null &&  pl.getHolographicManager().getHologram() != null){
-                            pl.getHolographicManager().getHologram().delete();
+                    updateAvailable = true;
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if((p.isOp() || p.hasPermission("spleef.help"))){
+                            sendMessage(pl, p);
                         }
-                        pl.getLogger().log(Level.INFO, "[Updater] the Plugin is reloading...");
-                        Bukkit.getScheduler().runTaskLater(pl, () -> {
-                            try{
-                                Method method = Class.forName("com.rylinaux.plugman.util.PluginUtil").getDeclaredMethod("reload", Plugin.class);
-                                method.invoke(null, pl);
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        }, 5);
-                    }else{*/
-                        updateAvailable = true;
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            if((p.isOp() || p.hasPermission("spleef.help"))){
-                                sendMessage(pl, p);
-                            }
-                        }
-                    //}
-
+                    }
                 }else{
                     if(sendMessageIfNoUpdate){
                         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -111,25 +87,6 @@ public class SpleefUpdater {
         }
         return false;
     }
-
-   /* private static boolean downloadFile(SpleefPlugin pl, URL host, File dest, boolean log) {
-        try (BufferedInputStream in = new BufferedInputStream(host.openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream(dest)) {
-            byte dataBuffer[] = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuffer, 0, bytesRead);
-            }
-            pl.getLogger().log(Level.INFO, "[Updater] Update ended.");
-        } catch (IOException e) {
-            pl.getLogger().log(Level.SEVERE, "Could not download the update. This does not change the functioning of the plugin");
-            if(log){
-                e.printStackTrace();
-            }
-            return false;
-        }
-        return true;
-    }*/
 
     public static void sendMessage(SpleefPlugin pl, Player p){
         p.sendMessage(pl.getMessageManager().get("needHasAnUpdate", new String[]{"currentVersion", "newVersion", "url"}, new String[]{currentVersion, onlineVersion, "https://www.spigotmc.org/resources/spleef.61787/"}));

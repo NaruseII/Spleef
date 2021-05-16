@@ -11,27 +11,21 @@ import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Egg;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.NumberConversions;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BonusManager extends BukkitRunnable implements Listener {
 
@@ -57,6 +51,9 @@ public class BonusManager extends BukkitRunnable implements Listener {
         bonuses.add(BonusSlowness.class);
         bonuses.add(BonusRandom.class);
         bonuses.add(BonusIntergalactic.class);
+        bonuses.add(BonusProjectileCounter.class);
+        bonuses.add(BonusIntergalacticShield.class);
+
         Bukkit.getPluginManager().callEvent(new SpleefBonusInitEvent(bonuses));
     }
 
@@ -112,9 +109,16 @@ public class BonusManager extends BukkitRunnable implements Listener {
                 bonus.getSheep().remove();
             }
             bonus.cancel(false);
+            bonus.onRestart();
         }
         playerBonusMap.clear();
         secondBeforeBonus.clear();
+
+        for (Entity entity : spleef.getArena().getWorld().getEntities()) {
+            if(entity instanceof Pig && entity.isInvulnerable() && ((Pig) entity).hasPotionEffect(PotionEffectType.INVISIBILITY)){
+                entity.remove();
+            }
+        }
     }
 
     public void giveBonus(List<Player> players){
@@ -177,8 +181,11 @@ public class BonusManager extends BukkitRunnable implements Listener {
 
     @EventHandler
     public void projectile(ProjectileHitEvent e){
-        if(e.getHitEntity() != null && e.getHitEntity() instanceof Player && spleef.getPlayerInGame().contains(e.getHitEntity()) && e.getEntity() instanceof Egg){
-            e.getHitEntity().setVelocity(Utils.genVector(e.getEntity().getLocation(), e.getHitEntity().getLocation()));
+        if(e.getHitEntity() != null && e.getHitEntity() instanceof Player && spleef.getPlayerInGame().contains(e.getHitEntity()) && e.getEntity() instanceof Snowball){
+            Snowball snowball = (Snowball) e.getEntity();
+            if(snowball.getShooter() != null && snowball.getShooter() instanceof Sheep){
+                e.getHitEntity().setVelocity(Utils.genVector(e.getEntity().getLocation(), e.getHitEntity().getLocation()));
+            }
         }
     }
 

@@ -15,6 +15,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class BonusIntergalactic extends BonusColored {
+
     public BonusIntergalactic(BonusManager bonusManager, Player p) {
         super(bonusManager, p, "§a§lIntergalactic Sheep", 5, 8+random.nextInt(3));
         setMulticolor(true);
@@ -32,7 +33,7 @@ public class BonusIntergalactic extends BonusColored {
         location = sheep.getLocation();
         Location finalLocation = location;
         runSync(() -> {
-            Pig pig = (Pig) finalLocation.getWorld().spawnEntity(finalLocation.add(0, 100, 0), EntityType.PIG);
+            Pig pig = (Pig) finalLocation.getWorld().spawnEntity(finalLocation.add(0, 200, 0), EntityType.PIG);
             if(pig == null){
                 return;
             }
@@ -40,6 +41,11 @@ public class BonusIntergalactic extends BonusColored {
             pig.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999999, 10));
             CollectionManager.SECOND_THREAD_RUNNABLE_SET.add(() -> runPigTicker(pig));
         });
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
     }
 
     private void runPigTicker(Pig pig) {
@@ -63,10 +69,8 @@ public class BonusIntergalactic extends BonusColored {
             }
 
             sendParticle(new ParticleBuffer()
-                    .add(pig.getLocation(), "FLAME", 4, 4, 4, 8, 1f)
-                    .add(pig.getLocation(), "EXPLOSION_HUGE", 2, 2, 2, 2, 1)
-                    .add(pig.getLocation(), "TOWN_AURA", 4, 4, 4, 4, 1)
-                    .add(pig.getLocation(), "EXPLOSION_LARGE", 2, 2, 2, 2, 1));
+                    .add(pig.getLocation(), "FLAME", 4, 4, 4, 5, 0.3f)
+                    .add(pig.getLocation(), "EXPLOSION_HUGE", 2, 2, 2, 1, 0.5f));
             if(pig.getLocation().add(0, -1, 0).getBlock().getType() != Material.AIR){
                 runSync(() -> pig.teleport(pig.getLocation().clone().add(0, -1, 0)));
             }

@@ -720,7 +720,7 @@ public class SpleefCommands implements CommandExecutor {
         if(sender.hasPermission("spleef.help")){
             if(page == 1){
                 sendNormalMessage(sender, "§6/§7spleef help <[Page]>");
-                sendNormalMessage(sender, "§6/§7spleef <Create, Delete> <Spleef name> <[Splegg, Bow]>");
+                sendNormalMessage(sender, "§6/§7spleef <Create, Delete> <Spleef name> <[Splegg, Bow, Team_Two, Team_Three, Team_Four]>");
                 sendNormalMessage(sender, "§6/§7spleef reload");
                 sendNormalMessage(sender, "§6/§7spleef setMin <Spleef name> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setMax <Spleef name> <Number>");
@@ -743,7 +743,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§bPage: §22/3");
             }else if(page == 3){
                 sendNormalMessage(sender, "§6/§7spleef setHologram §7(Location)");
-                sendNormalMessage(sender, "§6/§7spleef setGameMode <Spleef name> <Spleef, Splegg, Bow>");
+                sendNormalMessage(sender, "§6/§7spleef setGameMode <Spleef name> <Spleef, Splegg, Bow, Team_Two, Team_Three, Team_Four>");
                 sendNormalMessage(sender, "§6/§7spleef checkUpdate");
                 sendNormalMessage(sender, "§6/§7spleef setStats <Player> <Win, Loose> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef disabledCommands <Add, Remove> <Command>");

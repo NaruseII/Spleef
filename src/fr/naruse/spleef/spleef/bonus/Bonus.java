@@ -1,7 +1,6 @@
 package fr.naruse.spleef.spleef.bonus;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.type.Spleef;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public abstract class Bonus {
@@ -104,6 +104,8 @@ public abstract class Bonus {
 
     public abstract void run();
 
+    public void onRestart() {};
+
     public void onSheepSpawned(Sheep sheep){ }
 
     public void giveWool(){
@@ -162,27 +164,31 @@ public abstract class Bonus {
         CollectionManager.SECOND_THREAD_RUNNABLE_SET.add(runnable);
     }
 
-    protected void sendParticle(Location location, String particle, float xOffset, float yOffset, float zOffset, int count, float speed){
-        Object object = Utils.Particle.buildPacket(Utils.Particle.fromName(Utils.Particle.getParticleNameFromNative(particle)), location.getX(), location.getY(), location.getZ(), xOffset, yOffset, zOffset, speed, count, 0);
+    public void sendParticle(Location location, String particle, float xOffset, float yOffset, float zOffset, int count, float speed){
+        Object object = Utils.PacketParticle.buildPacket(Utils.PacketParticle.fromName(Utils.PacketParticle.getParticleNameFromNative(particle)), location.getX(), location.getY(), location.getZ(), xOffset, yOffset, zOffset, speed, count, 0);
         this.sendParticle(location, object);
     }
 
-    protected void sendParticle(Location location, String particle, float offsetX, float offsetY, float offsetZ, int amount){
+    public void sendParticle(Location location, String particle, float offsetX, float offsetY, float offsetZ, int amount){
         this.sendParticle(location, particle, offsetX, offsetY, offsetZ, amount, 0f);
     }
 
-    protected void sendParticle(Location location, Object packet){
-        this.getNearbyPlayers(location, 50, 50, 50).forEach(entity -> Utils.Particle.sendPacket(entity, packet));
+    public void sendParticle(Location location, Object packet){
+        this.getNearbyPlayers(location, 50, 50, 50).forEach(entity -> Utils.PacketParticle.sendPacket(entity, packet));
     }
 
-    protected void sendParticle(ParticleBuffer buffer){
+    public void sendParticle(ParticleBuffer buffer){
         for (Object packet : buffer.packets) {
             this.sendParticle(buffer.getLocation(), packet);
         }
     }
 
     public Stream<Entity> getNearbySheeps(Location location, double x, double y, double z){
-        return bonusManager.getAliveBonus().stream().map((Function<Bonus, Entity>) bonus -> bonus.getSheep()).filter(entity -> entity != null && !entity.isDead()
+        return this.getNearbySheeps(location, x, y, z, false, null);
+    }
+
+    public Stream<Entity> getNearbySheeps(Location location, double x, double y, double z, boolean filterFriendlyBonuses, Player owner){
+        return bonusManager.getAliveBonus().stream().filter(bonus -> filterFriendlyBonuses ? !(bonus.getPlayer() == owner && bonus instanceof IFriendlyBonus) : true).map((Function<Bonus, Entity>) bonus -> bonus.getSheep()).filter(entity -> entity != null && !entity.isDead()
                 && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.X) <= NumberConversions.square(x)
                 && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Y) <= NumberConversions.square(y)
                 && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Z) <= NumberConversions.square(z));
@@ -194,6 +200,13 @@ public abstract class Bonus {
 
     public Stream<? extends Player> getNearbyPlayers(Location location, double x, double y, double z){
         return Bukkit.getOnlinePlayers().stream().filter(entity -> Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.X) <= NumberConversions.square(x)
+                && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Y) <= NumberConversions.square(y)
+                && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Z) <= NumberConversions.square(z));
+    }
+
+    public Stream<Entity> getNearbyEntities(Location location, double x, double y, double z){
+        return location.getWorld().getEntities().stream().filter(entity ->
+                Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.X) <= NumberConversions.square(x)
                 && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Y) <= NumberConversions.square(y)
                 && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Z) <= NumberConversions.square(z));
     }
@@ -232,13 +245,13 @@ public abstract class Bonus {
         private Location location;
 
         public ParticleBuffer add(Location location, String particle, float offsetX, float offsetY, float offsetZ, int amount){
-            packets.add(Utils.Particle.buildPacket(Utils.Particle.fromName(Utils.Particle.getParticleNameFromNative(particle)), location.getX(), location.getY(), location.getZ(), offsetX, offsetY, offsetZ, 0f, amount, 0));
+            packets.add(Utils.PacketParticle.buildPacket(Utils.PacketParticle.fromName(Utils.PacketParticle.getParticleNameFromNative(particle)), location.getX(), location.getY(), location.getZ(), offsetX, offsetY, offsetZ, 0f, amount, 0));
             this.location = location;
             return this;
         }
 
         public ParticleBuffer add(Location location, String particle, float offsetX, float offsetY, float offsetZ, int amount, float speed){
-            packets.add(Utils.Particle.buildPacket(Utils.Particle.fromName(Utils.Particle.getParticleNameFromNative(particle)), location.getX(), location.getY(), location.getZ(), offsetX, offsetY, offsetZ, speed, amount, 0));
+            packets.add(Utils.PacketParticle.buildPacket(Utils.PacketParticle.fromName(Utils.PacketParticle.getParticleNameFromNative(particle)), location.getX(), location.getY(), location.getZ(), offsetX, offsetY, offsetZ, speed, amount, 0));
             this.location = location;
             return this;
         }

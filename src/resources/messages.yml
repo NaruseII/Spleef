@@ -53,6 +53,7 @@ english:
   spadeDeliverIn: "§7§l> §aYour spade come in 5 seconds."
   playerFell: "§7§l> §d{name} §cfell!"
   playerWins: "§7§l> §d{name} §ewins this game!"
+  playersWins: "§7§l> §d{name} §ewin this game!"
   closed: "§7§l> §cClosed."
   dontStayOnTheSameBlock: "§f§l» §cDo not stay on the same block!"
   needToRestart: "§4§lHey! §cThe Spleef was automatically updated. You just have to reload or restart your server for the update to take effect!"
@@ -140,6 +141,31 @@ english:
             1: "§c{size}/{max}"
           line3: ""
           line4: "§5BowSpleef"
+    team:
+      isClosed:
+        line1: "{name}"
+        line2: ""
+        line3: "§cClosed"
+        line4: ""
+      isOpened:
+        isWaiting:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3:
+            1: "§aReady"
+            2: "§4{missing} missing"
+          line4: "§5Team"
+        isPlaying:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3: ""
+          line4: "§5Team"
   inventory:
     statisticsTitle: "§c§l{name}'s statistics"
     notFound: "§4Statistics not found!"
@@ -212,6 +238,7 @@ french:
   spadeDeliverIn: "§aVotre pelle arrive dans 5 secondes."
   playerFell: "§7§l> §d{name} §cest tombé!"
   playerWins: "§7§l> §d{name} §eremporte la partie!"
+  playersWins: "§7§l> §d{name} §eremportent la partie!"
   closed: "§7§l> §cFermé."
   dontStayOnTheSameBlock: "§f§l» §cNe restez pas sur le même bloc!"
   needToRestart: "§4§lHey! §cLe Spleef a été automatiquement mis à jour. Tu as juste à recharger ou redémarrer ton serveur pour que la mise à jour prenne effet!"
@@ -299,6 +326,31 @@ french:
             1: "§c{size}/{max}"
           line3: ""
           line4: "§5BowSpleef"
+    team:
+      isClosed:
+        line1: "{name}"
+        line2: ""
+        line3: "§cFermé"
+        line4: ""
+      isOpened:
+        isWaiting:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3:
+            1: "§aPrêt"
+            2: "§4{missing} manquants"
+          line4: "§5Team"
+        isPlaying:
+          line1: "{name}"
+          line2:
+            3: "§a{size}/{max}"
+            2: "§6{size}/{max}"
+            1: "§c{size}/{max}"
+          line3: ""
+          line4: "§5Team"
   inventory:
     statisticsTitle: "§c§lStatistiques de {name}"
     notFound: "§4Statistiques introuvables !"
@@ -372,6 +424,7 @@ russian:
   spadeDeliverIn: §7§l> §aВам будет выдана лопата через 5 секунд.
   playerFell: §7§l> §d{name} §cумер!
   playerWins: §7§l> §d{name} §eвыиграл игру!
+  playersWins: §7§l> §d{name} §eвыиграли игру!
   closed: §7§l> §cЗакрыто.
   dontStayOnTheSameBlock: §f§l» §cНе стой на одном блоке!
   needToRestart: §4§lПривет! §cСплиф обновился автоматически. Вам просто нужно перезагрузить
@@ -461,6 +514,31 @@ russian:
             '1': §c{size}/{max}
           line3: ''
           line4: §5BowSpleef
+    team:
+      isClosed:
+        line1: '{name}'
+        line2: ''
+        line3: §cЗакрыто
+        line4: ''
+      isOpened:
+        isWaiting:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3:
+            '1': §aИгра
+            '2': §4{missing} missing
+          line4: §5Team
+        isPlaying:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3: ''
+          line4: §5Team
   inventory:
     statisticsTitle: §c§lСтатистика игрока {name}
     notFound: §4Статистика не найдена!

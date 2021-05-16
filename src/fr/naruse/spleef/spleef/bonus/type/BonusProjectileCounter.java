@@ -7,13 +7,14 @@ import fr.naruse.spleef.spleef.bonus.utils.MoveToGoal;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class BonusSheepRepulsion extends BonusColored implements IFriendlyBonus {
-    public BonusSheepRepulsion(BonusManager bonusManager, Player p) {
-        super(bonusManager, p, "§9§lDeviant Sheep", 11, 8);
+public class BonusProjectileCounter extends BonusColored implements IFriendlyBonus {
+    public BonusProjectileCounter(BonusManager bonusManager, Player p) {
+        super(bonusManager, p, "§5§lProjectile Counter Sheep", 10, 8);
         setApplyVelocity(false);
     }
 
@@ -22,7 +23,7 @@ public class BonusSheepRepulsion extends BonusColored implements IFriendlyBonus 
         super.onTick();
         if(sheep != null && !sheep.isDead()){
             sheep.setTarget(p);
-            List<Entity> stream = getNearbySheeps(sheep.getLocation(), 10, 5, 10, true, p).filter(entity -> entity != sheep).collect(Collectors.toList());;
+            Set<Entity> stream = getNearbyEntities(sheep.getLocation(), 50, 5, 50).filter(entity -> entity instanceof Projectile).collect(Collectors.toSet());
             runSync(() -> {
                 new MoveToGoal(sheep, p.getLocation()).execute(2);
                 stream.forEach(entity -> entity.setVelocity(Utils.genVector(sheep.getLocation(), entity.getLocation()).multiply(1.5).setY(0.5)));
