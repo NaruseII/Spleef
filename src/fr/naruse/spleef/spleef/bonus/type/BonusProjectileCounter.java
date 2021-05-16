@@ -23,7 +23,7 @@ public class BonusProjectileCounter extends BonusColored implements IFriendlyBon
         super.onTick();
         if(sheep != null && !sheep.isDead()){
             sheep.setTarget(p);
-            Set<Entity> stream = getNearbyEntities(sheep.getLocation(), 50, 5, 50).filter(entity -> entity instanceof Projectile).collect(Collectors.toSet());
+            Set<Entity> stream = getNearbyEntities(sheep.getLocation(), 10, 5, 10).filter(entity -> entity instanceof Projectile).collect(Collectors.toSet());
             runSync(() -> {
                 new MoveToGoal(sheep, p.getLocation()).execute(2);
                 stream.forEach(entity -> entity.setVelocity(Utils.genVector(sheep.getLocation(), entity.getLocation()).multiply(1.5).setY(0.5)));
