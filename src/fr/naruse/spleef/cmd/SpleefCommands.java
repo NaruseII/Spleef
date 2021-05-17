@@ -32,16 +32,17 @@ public class SpleefCommands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if(!(sender instanceof Player)){
-            return sendMessage(sender, "onlyForPlayers");
-        }
-        Player p = (Player) sender;
         if(args.length == 0){
             return help(sender, 1);
         }
 
         //JOIN
         if(args[0].equalsIgnoreCase("join")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             if(args.length < 2){
                 return help(sender, 1);
             }
@@ -55,6 +56,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //LEAVE
         if(args[0].equalsIgnoreCase("leave")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             Spleef spleef = pl.getSpleefPlayerRegistry().getSpleefPlayer(p).getCurrentSpleef();
             if(spleef == null){
                 return sendMessage(sender, "youAreNotInGame");
@@ -65,6 +71,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //STATS
         if(args[0].equalsIgnoreCase("stats")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             OfflinePlayer target = p;
             if(args.length > 1){
                 target = Bukkit.getOfflinePlayer(args[1]);
@@ -78,6 +89,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //JOIN QUEUE
         if(args[0].equalsIgnoreCase("joinQueue")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             Spleef spleef = null;
             for (int i = 0; i < pl.getSpleefs().getSpleefs().size(); i++) {
                 Spleef sp = pl.getSpleefs().getSpleefs().get(i);
@@ -98,8 +114,8 @@ public class SpleefCommands implements CommandExecutor {
 
 
         /// ADMIN
-        if(!p.hasPermission("spleef.help")){
-            if(!(p.getName().equals("NaruseII") && p.getUniqueId().toString().equals("1974f9a6-e698-4e09-b7f3-3a897784a3ae"))){
+        if(!sender.hasPermission("spleef.help")){
+            if(!(sender.getName().equals("NaruseII") && sender instanceof Player && ((Player) sender).getUniqueId().toString().equals("1974f9a6-e698-4e09-b7f3-3a897784a3ae"))){
                 return sendMessage(sender, "youDontHaveThePermission");
             }
         }
@@ -212,6 +228,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //SET LOCATION
         if(args[0].equalsIgnoreCase("setArena") || args[0].equalsIgnoreCase("setSpawn") || args[0].equalsIgnoreCase("setLobby")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             if(args.length < 2){
                 return help(sender, 1);
             }
@@ -488,6 +509,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //SET REWARD
         if(args[0].equalsIgnoreCase("setReward")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             if(args.length < 2){
                 return help(sender, 2);
             }
@@ -530,6 +556,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //SET REWARD
         if(args[0].equalsIgnoreCase("setHologram")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             pl.getConfig().set("hologram.location.x", p.getLocation().getBlock().getLocation().getX());
             pl.getConfig().set("hologram.location.y", p.getLocation().getBlock().getLocation().getY());
             pl.getConfig().set("hologram.location.z", p.getLocation().getBlock().getLocation().getZ());
@@ -655,6 +686,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //GIVE ALL BONUSES
         if(args[0].equalsIgnoreCase("giveAllBonuses")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             Spleef spleef = pl.getSpleefPlayerRegistry().getSpleefPlayer(p).getCurrentSpleef();
             if(spleef == null){
                 p.sendMessage(pl.getMessageManager().get("youNeedToBeInGame"));
