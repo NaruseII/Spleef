@@ -8,6 +8,7 @@ standingLimit: true
 tpToLastLoc: false
 snowballs: false
 instantGiveShovel: false
+autoUpdate: true
 randomSpawn: false
 spectators: false
 noScoreboard: false

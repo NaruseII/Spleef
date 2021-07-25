@@ -52,7 +52,9 @@ public class SpleefPlugin extends JavaPlugin {
 
             this.spleefs = new Spleefs(this);
 
-            SpleefUpdater.checkNewVersion(this, false);
+            if(getConfig().getBoolean("autoUpdate")) {
+                SpleefUpdater.checkNewVersion(this, false);
+            }
 
             Utils.formatItems(this);
 
