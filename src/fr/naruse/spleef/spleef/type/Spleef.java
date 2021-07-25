@@ -142,6 +142,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         time = pl.getConfig().getInt("timer.start");
         currentStatus = GameStatus.GAME;
         sendMessage(getFullName()+" "+pl.getMessageManager().get("gameStarts"));
+
         for (Player player : playerInGame) {
             if(pl.getConfig().getBoolean("randomSpawn")){
                 player.teleport(getRandomLocationFrom(arena.clone()));
