@@ -1,20 +1,27 @@
 package fr.naruse.spleef.cmd;
 
 import com.google.common.collect.Lists;
+import fr.naruse.spleef.database.DatabaseSQLManager;
 import fr.naruse.spleef.inventory.InventoryStatistics;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
+import fr.naruse.spleef.player.statistic.StatisticBuilder;
 import fr.naruse.spleef.player.statistic.StatisticType;
 import fr.naruse.spleef.spleef.GameStatus;
 import fr.naruse.spleef.spleef.GameType;
+import fr.naruse.spleef.spleef.bonus.Bonus;
+import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.SpleefUpdater;
+import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import java.util.List;
 
 public class SpleefCommands implements CommandExecutor {
@@ -25,16 +32,17 @@ public class SpleefCommands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if(!(sender instanceof Player)){
-            return sendMessage(sender, "onlyForPlayers");
-        }
-        Player p = (Player) sender;
         if(args.length == 0){
             return help(sender, 1);
         }
 
         //JOIN
         if(args[0].equalsIgnoreCase("join")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             if(args.length < 2){
                 return help(sender, 1);
             }
@@ -48,6 +56,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //LEAVE
         if(args[0].equalsIgnoreCase("leave")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             Spleef spleef = pl.getSpleefPlayerRegistry().getSpleefPlayer(p).getCurrentSpleef();
             if(spleef == null){
                 return sendMessage(sender, "youAreNotInGame");
@@ -58,6 +71,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //STATS
         if(args[0].equalsIgnoreCase("stats")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             OfflinePlayer target = p;
             if(args.length > 1){
                 target = Bukkit.getOfflinePlayer(args[1]);
@@ -71,6 +89,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //JOIN QUEUE
         if(args[0].equalsIgnoreCase("joinQueue")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             Spleef spleef = null;
             for (int i = 0; i < pl.getSpleefs().getSpleefs().size(); i++) {
                 Spleef sp = pl.getSpleefs().getSpleefs().get(i);
@@ -91,8 +114,8 @@ public class SpleefCommands implements CommandExecutor {
 
 
         /// ADMIN
-        if(!p.hasPermission("spleef.help")){
-            if(!(p.getName().equals("NaruseII") && p.getUniqueId().toString().equals("1974f9a6-e698-4e09-b7f3-3a897784a3ae"))){
+        if(!sender.hasPermission("spleef.help")){
+            if(!(sender.getName().equals("NaruseII") && sender instanceof Player && ((Player) sender).getUniqueId().toString().equals("1974f9a6-e698-4e09-b7f3-3a897784a3ae"))){
                 return sendMessage(sender, "youDontHaveThePermission");
             }
         }
@@ -159,6 +182,7 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getHolographicManager().reloadLines();
             }
             pl.getConfigurations().reload();
+            Utils.formatItems(pl);
             return sendMessage(sender, "reload");
         }
 
@@ -204,6 +228,11 @@ public class SpleefCommands implements CommandExecutor {
 
         //SET LOCATION
         if(args[0].equalsIgnoreCase("setArena") || args[0].equalsIgnoreCase("setSpawn") || args[0].equalsIgnoreCase("setLobby")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             if(args.length < 2){
                 return help(sender, 1);
             }
@@ -307,6 +336,13 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfigurations().reset(0);
                 pl.getConfigurations().reload();
                 return sendMessage(sender, "langChanged");
+            }else if(args[1].equalsIgnoreCase("russian")){
+                pl.getMessageManager().setLang("russian");
+                pl.getConfig().set("currentLang", "russian");
+                pl.saveConfig();
+                pl.getConfigurations().reset(0);
+                pl.getConfigurations().reload();
+                return sendMessage(sender, "langChanged");
             }else{
                 return sendMessage(sender, "argumentNotFound", new String[]{"arg"}, new String[]{args[1]});
             }
@@ -351,10 +387,6 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfig().set("instantGiveShovel", !pl.getConfig().getBoolean("instantGiveShovel"));
                 pl.saveConfig();
                 return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(InstantGiveShovel: "+pl.getConfig().getBoolean("instantGiveShovel")+")");
-            }else if(args[1].equalsIgnoreCase("autoUpdater")){
-                pl.getConfig().set("autoUpdater", !pl.getConfig().getBoolean("autoUpdater"));
-                pl.saveConfig();
-                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(AutoUpdater: "+pl.getConfig().getBoolean("autoUpdater")+")");
             }else if(args[1].equalsIgnoreCase("randomSpawn")){
                 pl.getConfig().set("randomSpawn", !pl.getConfig().getBoolean("randomSpawn"));
                 pl.saveConfig();
@@ -366,7 +398,19 @@ public class SpleefCommands implements CommandExecutor {
             }else if(args[1].equalsIgnoreCase("broadcastWinWorld")){
                 pl.getConfig().set("broadcastWinWorld", !pl.getConfig().getBoolean("broadcastWinWorld"));
                 pl.saveConfig();
-                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(BroadcastWinWorld: "+pl.getConfig().getBoolean("broadcastWinWorld")+")");
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(BroadcastWinWorld: "+pl.getConfig().getBoolean("broadcastWinWorld"));
+            }else if(args[1].equalsIgnoreCase("SheepBonuses")){
+                pl.getConfig().set("sheepBonuses", !pl.getConfig().getBoolean("sheepBonuses"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(SheepBonuses: "+pl.getConfig().getBoolean("sheepBonuses")+" §c(Need /spleef reload)§7)");
+            }else if(args[1].equalsIgnoreCase("diamondSpade")){
+                pl.getConfig().set("diamondSpade", !pl.getConfig().getBoolean("diamondSpade"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(DiamondSpade: "+pl.getConfig().getBoolean("diamondSpade")+")");
+            }else if(args[1].equalsIgnoreCase("yamlStatistics")){
+                pl.getConfig().set("yamlStatistics", !pl.getConfig().getBoolean("yamlStatistics"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(YAMLStatistics: "+pl.getConfig().getBoolean("yamlStatistics")+") §c(Need server restart/reload)§7)");
             }else{
                 return help(sender, 2);
             }
@@ -384,10 +428,11 @@ public class SpleefCommands implements CommandExecutor {
             if(spleef.getCurrentStatus() == GameStatus.GAME){
                 return sendMessage(sender, "gameAlreadyStarted");
             }
-            if(spleef.getPlayerInGame().size() < spleef.getMin()){
+            if(spleef.getPlayerInGame().size() <= 0){
                 return sendMessage(sender, "notEnoughPlayers", new String[]{"size", "min"}, new String[]{spleef.getPlayerInGame().size()+"", spleef.getMin()+""});
             }
             spleef.start();
+            spleef.checkWin();
             return sendMessage(sender, "gameStarted");
         }
 
@@ -444,7 +489,8 @@ public class SpleefCommands implements CommandExecutor {
                 if(pl.getConfig().contains("spleef."+i+".name")){
                     String name = pl.getConfig().getString("spleef."+i+".name");
                     if(!list.contains(name)){
-                        breakdownSpleef += ", "+name;
+                        String reason = pl.getSpleefs().getMisconfiguredReasons().get(i);
+                        breakdownSpleef += ", "+name+(reason == null ? "" : " ("+reason+")");
                     }
                 }
             }
@@ -463,21 +509,38 @@ public class SpleefCommands implements CommandExecutor {
 
         //SET REWARD
         if(args[0].equalsIgnoreCase("setReward")){
-            if(args.length < 3){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
+            if(args.length < 2){
                 return help(sender, 2);
             }
-            double number;
-            try{
-                number = Double.parseDouble(args[2]);
-            }catch (Exception e){
-                return sendMessage(sender, "wrongNumber");
-            }
-            if(args[1].equalsIgnoreCase("win")){
-                pl.getConfig().set("reward.win", number);
-            }else if(args[1].equalsIgnoreCase("loose")){
-                pl.getConfig().set("reward.loose", number);
-            }else{
-                return help(sender, 2);
+            if(args[1].equalsIgnoreCase("winItem")){
+                ItemStack itemStack = p.getItemInHand();
+                if(itemStack == null){
+                    pl.getConfig().set("reward.winItem", null);
+                }else{
+                    pl.getConfig().set("reward.winItem", StatisticBuilder.GSON.toJson(itemStack.serialize()));
+                }
+            }else {
+                if(args.length < 3){
+                    return help(sender, 2);
+                }
+                double number;
+                try{
+                    number = Double.parseDouble(args[2]);
+                }catch (Exception e){
+                    return sendMessage(sender, "wrongNumber");
+                }
+                if(args[1].equalsIgnoreCase("win")){
+                    pl.getConfig().set("reward.win", number);
+                }else if(args[1].equalsIgnoreCase("loose")){
+                    pl.getConfig().set("reward.loose", number);
+                }else{
+                    return help(sender, 2);
+                }
             }
             pl.saveConfig();
             return sendMessage(sender, "settingSaved");
@@ -485,14 +548,19 @@ public class SpleefCommands implements CommandExecutor {
 
         //CLEAR STATS
         if(args[0].equalsIgnoreCase("clearStats")){
-            if(pl.getSqlManager() != null){
-                pl.getSqlManager().clearAll();
+            if(pl.getDatabaseManager() != null){
+                pl.getDatabaseManager().clearAll();
             }
             return sendMessage(sender, "statsCleared");
         }
 
         //SET REWARD
         if(args[0].equalsIgnoreCase("setHologram")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
             pl.getConfig().set("hologram.location.x", p.getLocation().getBlock().getLocation().getX());
             pl.getConfig().set("hologram.location.y", p.getLocation().getBlock().getLocation().getY());
             pl.getConfig().set("hologram.location.z", p.getLocation().getBlock().getLocation().getZ());
@@ -550,7 +618,7 @@ public class SpleefCommands implements CommandExecutor {
             if(spleefPlayer == null){
                 return sendMessage(sender, "playerNotFound");
             }
-            if(pl.getSqlManager() == null){
+            if(pl.getDatabaseManager() == null){
                 return sendMessage(sender, "sqlNotFound");
             }
 
@@ -615,6 +683,68 @@ public class SpleefCommands implements CommandExecutor {
                 return sendMessage(sender, "argumentNotFound", new String[]{"arg"}, new String[]{args[1]});
             }
         }
+
+        //GIVE ALL BONUSES
+        if(args[0].equalsIgnoreCase("giveAllBonuses")){
+            if(!(sender instanceof Player)){
+                return sendMessage(sender, "onlyForPlayers");
+            }
+            Player p = (Player) sender;
+
+            Spleef spleef = pl.getSpleefPlayerRegistry().getSpleefPlayer(p).getCurrentSpleef();
+            if(spleef == null){
+                p.sendMessage(pl.getMessageManager().get("youNeedToBeInGame"));
+            }
+            if(spleef.getBonusManager() == null){
+                return sendMessage(p, pl.getMessageManager().get("settingShouldBeEnabled", new String[]{"setting"}, new String[]{"SheepBonuses"}));
+            }
+            for (Class<? extends Bonus> bonus : BonusManager.getBonuses()) {
+                spleef.getBonusManager().giveBonus(p, bonus.getSimpleName());
+            }
+            return true;
+        }
+
+        //BONUS
+        if(args[0].equalsIgnoreCase("bonus")){
+            if(args.length < 3){
+                return help(sender, 3);
+            }
+            int id = getIdByName(args[1]);
+            if(id == -1){
+                return sendMessage(sender, "spleefNotFound", new String[]{"name"}, new String[]{args[1]});
+            }
+            sendMessage(sender, "bonusList");
+            if(args[2].equalsIgnoreCase("list")){
+                for (Class<? extends Bonus> bonus : BonusManager.getBonuses()) {
+                    String path = "spleef."+id+".bonus."+bonus.getSimpleName();
+                    if(!pl.getConfig().contains(path)){
+                        pl.getConfig().set(path, true);
+                    }
+                    boolean isEnabled = pl.getConfig().getBoolean(path);
+                    sendNormalMessage(sender, "§5- §e"+bonus.getSimpleName()+" §6(Enabled: "+(isEnabled ? "§aEnabled" : "§cDisabled")+"§6)");
+                }
+                pl.saveConfig();
+                return true;
+            }else if(args[2].equalsIgnoreCase("enable")){
+                if(args.length < 4){
+                    return help(sender, 3);
+                }
+                for (Class<? extends Bonus> bonus : BonusManager.getBonuses()) {
+                    if(bonus.getSimpleName().equalsIgnoreCase(args[3])){
+                        String path = "spleef."+id+".bonus."+bonus.getSimpleName();
+                        if(!pl.getConfig().contains(path)){
+                            pl.getConfig().set(path, true);
+                        }
+                        boolean finalBoolean;
+                        pl.getConfig().set(path, finalBoolean = !pl.getConfig().getBoolean(path));
+
+                        return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7("+bonus.getSimpleName()+": "+finalBoolean+")");
+                    }
+                }
+                return sendMessage(sender, "argumentNotFound", new String[]{"arg"}, new String[]{args[3]});
+            }
+            return true;
+        }
         return false;
     }
 
@@ -626,7 +756,7 @@ public class SpleefCommands implements CommandExecutor {
         if(sender.hasPermission("spleef.help")){
             if(page == 1){
                 sendNormalMessage(sender, "§6/§7spleef help <[Page]>");
-                sendNormalMessage(sender, "§6/§7spleef <Create, Delete> <Spleef name> <[Splegg, Bow]>");
+                sendNormalMessage(sender, "§6/§7spleef <Create, Delete> <Spleef name> <[Splegg, Bow, Team_Two, Team_Three, Team_Four]>");
                 sendNormalMessage(sender, "§6/§7spleef reload");
                 sendNormalMessage(sender, "§6/§7spleef setMin <Spleef name> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setMax <Spleef name> <Number>");
@@ -637,22 +767,25 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§bPage: §21/3");
             }else if(page == 2){
                 sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
-                sendNormalMessage(sender, "§6/§7spleef setLang <French, English> §7(It will erase your changes)");
-                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs, InstantGiveShovel, AutoUpdater, RandomSpawn, Spectator, BroadcastWinWorld>");
+                sendNormalMessage(sender, "§6/§7spleef setLang <French, English, Russian> §7(It will erase your changes)");
+                sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs," +
+                        " InstantGiveShovel, RandomSpawn, Spectator, BroadcastWinWorld, SheepBonuses, DiamondSpade, YAMLStatistics>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");
                 sendNormalMessage(sender, "§6/§7spleef list");
-                sendNormalMessage(sender, "§6/§7spleef setReward <Win, Loose> <Number> §7(-1 means no reward)");
+                sendNormalMessage(sender, "§6/§7spleef setReward <Win, Loose, WinItem> <[Number]> §7(-1 means no reward) (WinItem select item in hand & need /spleef reload)");
                 sendNormalMessage(sender, "§6/§7spleef clearStats §7(Irreversible action)");
                 sendNormalMessage(sender, "§bPage: §22/3");
             }else if(page == 3){
                 sendNormalMessage(sender, "§6/§7spleef setHologram §7(Location)");
-                sendNormalMessage(sender, "§6/§7spleef setGameMode <Spleef name> <Spleef, Splegg, Bow>");
+                sendNormalMessage(sender, "§6/§7spleef setGameMode <Spleef name> <Spleef, Splegg, Bow, Team_Two, Team_Three, Team_Four>");
                 sendNormalMessage(sender, "§6/§7spleef checkUpdate");
                 sendNormalMessage(sender, "§6/§7spleef setStats <Player> <Win, Loose> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef disabledCommands <Add, Remove> <Command>");
                 sendNormalMessage(sender, "§6/§7spleef disabledCommands <Clear, List>");
+                sendNormalMessage(sender, "§6/§7spleef giveAllBonuses");
+                sendNormalMessage(sender, "§6/§7spleef bonus <Spleef Name> <List, Enable> <[Bonus Name]>");
                 sendNormalMessage(sender, "§bPage: §23/3");
             }
         }

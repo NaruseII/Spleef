@@ -5,12 +5,13 @@ import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.statistic.StatisticBuilder;
 import fr.naruse.spleef.player.statistic.StatisticType;
 import fr.naruse.spleef.spleef.type.Spleef;
-import fr.naruse.spleef.sql.SpleefSQLResponse;
+import fr.naruse.spleef.database.SpleefSQLResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.Map;
 
@@ -21,6 +22,9 @@ public class SpleefPlayer {
     private final String uuid;
     private Location lastLocation;
     private GameMode gameMode;
+    private Scoreboard lastScoreboard;
+    private boolean flying;
+    private boolean allowFly;
 
     private final Map<StatisticType, Integer> statisticMap = Maps.newHashMap();
 
@@ -31,10 +35,10 @@ public class SpleefPlayer {
     }
 
     public void reloadStatistics(){
-        if(pl.getSqlManager() == null){
+        if(pl.getDatabaseManager() == null){
             return;
         }
-        pl.getSqlManager().isRegistered(uuid, new SpleefSQLResponse() {
+        pl.getDatabaseManager().isRegistered(uuid, new SpleefSQLResponse() {
             @Override
             public void handleResponse(Object response) {
                 if(response == null){
@@ -42,7 +46,7 @@ public class SpleefPlayer {
                 }
                 boolean exists = (boolean) response;
                 if(exists){
-                    pl.getSqlManager().getProperties(uuid, new SpleefSQLResponse(){
+                    pl.getDatabaseManager().getProperties(uuid, new SpleefSQLResponse(){
                         @Override
                         public void handleResponse(Object response) {
                             if(response == null){
@@ -62,10 +66,10 @@ public class SpleefPlayer {
     }
 
     public void saveStatistics(){
-        if(pl.getSqlManager() == null || (getStatistic(StatisticType.WIN) == 0 && getStatistic(StatisticType.LOSE) == 0)){
+        if(pl.getDatabaseManager() == null || (getStatistic(StatisticType.WIN) == 0 && getStatistic(StatisticType.LOSE) == 0)){
             return;
         }
-        pl.getSqlManager().isRegistered(uuid, new SpleefSQLResponse() {
+        pl.getDatabaseManager().isRegistered(uuid, new SpleefSQLResponse() {
             @Override
             public void handleResponse(Object response) {
                 if(response == null){
@@ -73,9 +77,9 @@ public class SpleefPlayer {
                 }
                 boolean exists = (boolean) response;
                 if(exists){
-                    pl.getSqlManager().save(uuid, StatisticBuilder.toJson(statisticMap));
+                    pl.getDatabaseManager().save(uuid, StatisticBuilder.toJson(statisticMap));
                 }else{
-                    pl.getSqlManager().register(uuid, statisticMap);
+                    pl.getDatabaseManager().register(uuid, statisticMap);
                 }
             }
         });
@@ -111,6 +115,9 @@ public class SpleefPlayer {
             }
         }
         this.gameMode = p.getGameMode();
+        this.lastScoreboard = p.getScoreboard();
+        this.flying = p.isFlying();
+        this.allowFly = p.getAllowFlight();
     }
 
     public void setPlayerInventory(Player p){
@@ -123,6 +130,12 @@ public class SpleefPlayer {
             }
         }
         p.setGameMode(gameMode);
+        if(this.lastScoreboard != null){
+            p.setScoreboard(this.lastScoreboard);
+            this.lastScoreboard = null;
+        }
+        p.setAllowFlight(allowFly);
+        p.setFlying(flying);
     }
 
     public Spleef getCurrentSpleef() {

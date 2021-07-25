@@ -1,4 +1,4 @@
-package fr.naruse.spleef.sql;
+package fr.naruse.spleef.database;
 
 public class SpleefSQLResponse {
     public SpleefSQLResponse() {

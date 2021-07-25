@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class StatisticBuilder {
 
-    private static final Gson GSON = new Gson();
-    private static final Type MAP_TYPE = new TypeToken<Map<String, Object>>(){}.getType();
+    public static final Gson GSON = new Gson();
+    public static final Type MAP_TYPE = new TypeToken<Map<String, Object>>(){}.getType();
 
     public static String toJson(Map<StatisticType, Integer> map){
         if(map == null){

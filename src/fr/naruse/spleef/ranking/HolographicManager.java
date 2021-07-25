@@ -40,7 +40,7 @@ public class HolographicManager extends BukkitRunnable {
             this.hologram = null;
         }
 
-        if(!pl.getConfig().getBoolean("holographicRanking") || pl.getSqlManager() == null){
+        if(!pl.getConfig().getBoolean("holographicRanking") || pl.getDatabaseManager() == null){
             return;
         }
 

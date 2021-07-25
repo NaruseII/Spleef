@@ -6,12 +6,15 @@ import fr.naruse.spleef.event.Listeners;
 import fr.naruse.spleef.manager.MessageManager;
 import fr.naruse.spleef.spleef.Spleefs;
 import fr.naruse.spleef.player.SpleefPlayerRegistry;
-import fr.naruse.spleef.sql.SQLManager;
+import fr.naruse.spleef.database.DatabaseSQLManager;
 import fr.naruse.spleef.ranking.HolographicManager;
+import fr.naruse.spleef.database.DatabaseYAMLManagerDatabase;
+import fr.naruse.spleef.database.IDatabaseManager;
 import fr.naruse.spleef.support.PlaceHolderManager;
 import fr.naruse.spleef.support.VaultManager;
 import fr.naruse.spleef.utils.Metrics;
 import fr.naruse.spleef.utils.SpleefUpdater;
+import fr.naruse.spleef.utils.ThreadGlobal;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,7 +28,7 @@ public class SpleefPlugin extends JavaPlugin {
     private Spleefs spleefs;
     private SpleefPlayerRegistry spleefPlayerRegistry;
 
-    private SQLManager sqlManager;
+    private IDatabaseManager databaseManager;
     private VaultManager vaultManager;
     private HolographicManager holographicManager;
 
@@ -49,19 +52,24 @@ public class SpleefPlugin extends JavaPlugin {
 
             this.spleefs = new Spleefs(this);
 
-            if(getConfig().getBoolean("autoUpdater")){
-                SpleefUpdater.checkNewVersion(this, false);
-            }
+            SpleefUpdater.checkNewVersion(this, false);
+
             Utils.formatItems(this);
+
+            ThreadGlobal.launch();
         }, 20);
 
         Utils.addCharts(this, new Metrics(this, 9924));
     }
 
     private void registerDependencies() {
-        if(getServer().getPluginManager().getPlugin("DBAPI") != null){
+        boolean yamlStats = getConfig().getBoolean("yamlStatistics");
+        if(yamlStats){
+            getLogger().log(Level.INFO, "Using YAML statistic system");
+            this.databaseManager = new DatabaseYAMLManagerDatabase(this);
+        }else if(getServer().getPluginManager().getPlugin("DBAPI") != null){
             getLogger().log(Level.INFO, "DBAPI found");
-            this.sqlManager = new SQLManager(this);
+            this.databaseManager = new DatabaseSQLManager(this);
         }
         if(getServer().getPluginManager().getPlugin("Vault") != null){
             getLogger().log(Level.INFO, "Vault found");
@@ -80,12 +88,15 @@ public class SpleefPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         super.onDisable();
-        for (int i = 0; i < spleefs.getSpleefs().size(); i++) {
-            spleefs.getSpleefs().get(i).disable();
+        if(spleefs != null){
+            for (int i = 0; i < spleefs.getSpleefs().size(); i++) {
+                spleefs.getSpleefs().get(i).disable();
+            }
         }
         if(holographicManager != null){
             holographicManager.disable();
         }
+        ThreadGlobal.shutdown();
     }
 
     public Spleefs getSpleefs() {
@@ -104,8 +115,8 @@ public class SpleefPlugin extends JavaPlugin {
         return spleefPlayerRegistry;
     }
 
-    public SQLManager getSqlManager() {
-        return sqlManager;
+    public IDatabaseManager getDatabaseManager() {
+        return databaseManager;
     }
 
     public VaultManager getVaultManager() {

@@ -1,4 +1,4 @@
-package fr.naruse.spleef.sql;
+package fr.naruse.spleef.database;
 
 import fr.naruse.dbapi.api.DatabaseAPI;
 import fr.naruse.dbapi.database.Database;
@@ -13,13 +13,13 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.Map;
 
-public class SQLManager {
+public class DatabaseSQLManager implements IDatabaseManager {
 
     private final SpleefPlugin pl;
     private final Database database;
     private final String TABLE_NAME;
 
-    public SQLManager(SpleefPlugin spleefPlugin) {
+    public DatabaseSQLManager(SpleefPlugin spleefPlugin) {
         this.pl = spleefPlugin;
         this.TABLE_NAME = pl.getConfig().getString("sql.tableName");
 
@@ -33,11 +33,8 @@ public class SQLManager {
         });
     }
 
-    public void isRegistered(String uuid, SpleefSQLResponse sqlResponse){
-        isRegistered(uuid, sqlResponse, false);
-    }
-
-    public void isRegistered(String uuid, SpleefSQLResponse sqlResponse, boolean inMainThread){
+    @Override
+    public void isRegistered(String uuid, fr.naruse.spleef.database.SpleefSQLResponse sqlResponse, boolean inMainThread){
         SQLRequest sqlRequest = new SQLRequest(SQLHelper.getSelectRequest(TABLE_NAME, "properties", "uuid"), uuid);
         if(inMainThread){
             boolean exists = database.hasDirectAccount(sqlRequest);
@@ -57,11 +54,13 @@ public class SQLManager {
         }
     }
 
+    @Override
     public void register(String uuid, Map<StatisticType, Integer> map) {
         SQLRequest sqlRequest = new SQLRequest(SQLHelper.getInsertRequest(TABLE_NAME, new String[]{"uuid", "properties"}), uuid, StatisticBuilder.toJson(map));
         database.prepareStatement(sqlRequest);
     }
 
+    @Override
     public void getProperties(String uuid, SpleefSQLResponse sqlResponse) {
         SQLRequest.GetObject sqlRequest = new SQLRequest.GetObject(SQLHelper.getSelectRequest(TABLE_NAME, "properties", "uuid"), "properties", uuid);
         database.getObject(sqlRequest, new SQLResponse() {
@@ -76,10 +75,7 @@ public class SQLManager {
         });
     }
 
-    public void save(String uuid, String toJson) {
-        this.save(uuid, toJson, false);
-    }
-
+    @Override
     public void save(String uuid, String toJson, boolean mainThread) {
         SQLRequest sqlRequest = new SQLRequest(SQLHelper.getUpdateRequest(TABLE_NAME, "properties", "uuid"), toJson, uuid);
         if(mainThread){
@@ -89,6 +85,7 @@ public class SQLManager {
         }
     }
 
+    @Override
     public void clearAll() {
         SQLRequest sqlRequest = new SQLRequest(SQLHelper.getTruncateRequest(TABLE_NAME));
         database.prepareStatement(sqlRequest);
