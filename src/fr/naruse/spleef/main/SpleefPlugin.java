@@ -19,7 +19,6 @@ import fr.naruse.spleef.utils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.Objects;
 import java.util.logging.Level;
 
 public class SpleefPlugin extends JavaPlugin {
@@ -48,7 +47,7 @@ public class SpleefPlugin extends JavaPlugin {
             this.messageManager = new MessageManager.StringManager(this);
             this.spleefPlayerRegistry = new SpleefPlayerRegistry(this);
 
-            Objects.requireNonNull(getCommand("spleef")).setExecutor(new SpleefCommands(this));
+            getCommand("spleef").setExecutor(new SpleefCommands(this));
             getServer().getPluginManager().registerEvents(new Listeners(this), this);
 
             this.spleefs = new Spleefs(this);
