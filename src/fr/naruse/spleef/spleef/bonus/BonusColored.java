@@ -17,7 +17,7 @@ public abstract class BonusColored extends Bonus {
     protected int timer = -1;
     private boolean wasRed = true;
     @Override
-    public void run() {
+    public void bonusRun() {
         if(sheep == null){
             return;
         }

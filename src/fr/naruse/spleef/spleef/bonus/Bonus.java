@@ -2,9 +2,13 @@ package fr.naruse.spleef.spleef.bonus;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import fr.naruse.api.MathUtils;
+import fr.naruse.api.ParticleUtils;
+import fr.naruse.api.async.CollectionManager;
+import fr.naruse.api.async.Runner;
 import fr.naruse.spleef.main.SpleefPlugin;
+import fr.naruse.spleef.spleef.bonus.type.BonusMelt;
 import fr.naruse.spleef.spleef.type.Spleef;
-import fr.naruse.spleef.utils.CollectionManager;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
@@ -23,15 +27,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public abstract class Bonus {
+public abstract class Bonus extends Runner {
 
     protected final Player p;
     protected final SpleefPlugin pl;
     protected final Spleef spleef;
     protected final BonusManager bonusManager;
+    private final int tickInterval;
 
     private final int woolColorId;
     private final String name;
@@ -55,36 +59,36 @@ public abstract class Bonus {
         this.p = p;
         this.name = name;
         this.woolColorId = woolColorId;
-        runTaskTimerTick(tickInterval != 1);
-        attributeTicker();
+        this.tickInterval = tickInterval;
+
+        this.start();
+        this.attributeTicker();
     }
 
     private int tick = 0;
-    protected void runTaskTimerTick(boolean onTick){
+    @Override
+    public void run() {
         if(isCancelled()){
             return;
         }
         boolean run = false;
+        boolean onTick = this.tickInterval != 1;
         if(onTick){
-            if(tick >= 20){
-                tick = 0;
+            if(this.tick >= 20){
+                this.tick = 0;
                 run = true;
             }else{
-                tick++;
+                this.tick++;
             }
         }
-        boolean finalRun = run;
-        Runnable runnable = () -> {
-            if(onTick){
-                if(finalRun){
-                    run();
-                }
-            }else{
-                run();
+
+        if(onTick){
+            if(run){
+               this.bonusRun();
             }
-            runTaskTimerTick(onTick);
-        };
-        CollectionManager.SECOND_THREAD_RUNNABLE_SET.add(runnable);
+        }else{
+            this.bonusRun();
+        }
     }
 
     public void cancel(){
@@ -102,7 +106,7 @@ public abstract class Bonus {
         return isCancelled;
     }
 
-    public abstract void run();
+    public abstract void bonusRun();
 
     public void onRestart() {};
 
@@ -126,7 +130,7 @@ public abstract class Bonus {
             return;
         }
         isSheepLaunched = true;
-        this.sheep = (Sheep) p.getWorld().spawnEntity(spawnLocation == null ? p.getLocation() : spawnLocation, EntityType.SHEEP);
+        this.sheep = (Sheep) p.getWorld().spawnEntity(spawnLocation == null ? (this instanceof  BonusMelt ? p.getLocation() : p.getEyeLocation()) : spawnLocation, EntityType.SHEEP);
         sheep.setColor(DyeColor.getByWoolData((byte) woolColorId));
         if(applyVelocity){
             sheep.setVelocity(p.getLocation().getDirection().multiply(3.5).add(new Vector(0, 0.3, 0)));
@@ -134,8 +138,8 @@ public abstract class Bonus {
         sheep.setInvulnerable(true);
         onSheepSpawned(sheep);
         if(isMulticolor){
+            sheep.setCustomNameVisible(true);
             sheep.setCustomName("jeb_");
-            sheep.setCustomNameVisible(false);
         }
         bonusManager.getAliveBonus().add(this);
     }
@@ -165,22 +169,15 @@ public abstract class Bonus {
     }
 
     public void sendParticle(Location location, String particle, float xOffset, float yOffset, float zOffset, int count, float speed){
-        Object object = Utils.PacketParticle.buildPacket(Utils.PacketParticle.fromName(Utils.PacketParticle.getParticleNameFromNative(particle)), location.getX(), location.getY(), location.getZ(), xOffset, yOffset, zOffset, speed, count, 0);
-        this.sendParticle(location, object);
+        ParticleUtils.buildParticle(location, ParticleUtils.fromName(particle), xOffset, yOffset, zOffset, count, speed).toNearbyFifty();
     }
 
     public void sendParticle(Location location, String particle, float offsetX, float offsetY, float offsetZ, int amount){
         this.sendParticle(location, particle, offsetX, offsetY, offsetZ, amount, 0f);
     }
 
-    public void sendParticle(Location location, Object packet){
-        this.getNearbyPlayers(location, 50, 50, 50).forEach(entity -> Utils.PacketParticle.sendPacket(entity, packet));
-    }
-
-    public void sendParticle(ParticleBuffer buffer){
-        for (Object packet : buffer.packets) {
-            this.sendParticle(buffer.getLocation(), packet);
-        }
+    public void sendParticle(ParticleUtils.Buffer buffer){
+        buffer.send(ParticleUtils.ParticleSender.buildToNearbyFifty());
     }
 
     public Stream<Entity> getNearbySheeps(Location location, double x, double y, double z){
@@ -189,9 +186,9 @@ public abstract class Bonus {
 
     public Stream<Entity> getNearbySheeps(Location location, double x, double y, double z, boolean filterFriendlyBonuses, Player owner){
         return bonusManager.getAliveBonus().stream().filter(bonus -> filterFriendlyBonuses ? !(bonus.getPlayer() == owner && bonus instanceof IFriendlyBonus) : true).map((Function<Bonus, Entity>) bonus -> bonus.getSheep()).filter(entity -> entity != null && !entity.isDead()
-                && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.X) <= NumberConversions.square(x)
-                && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Y) <= NumberConversions.square(y)
-                && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Z) <= NumberConversions.square(z));
+                && MathUtils.distanceSquared(entity.getLocation(), location, MathUtils.Axis.X) <= NumberConversions.square(x)
+                && MathUtils.distanceSquared(entity.getLocation(), location, MathUtils.Axis.Y) <= NumberConversions.square(y)
+                && MathUtils.distanceSquared(entity.getLocation(), location, MathUtils.Axis.Z) <= NumberConversions.square(z));
     }
 
     public Stream<Entity> getNearbySheepsAndPlayers(Location location, double x, double y, double z){
@@ -199,16 +196,16 @@ public abstract class Bonus {
     }
 
     public Stream<? extends Player> getNearbyPlayers(Location location, double x, double y, double z){
-        return Bukkit.getOnlinePlayers().stream().filter(entity -> Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.X) <= NumberConversions.square(x)
-                && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Y) <= NumberConversions.square(y)
-                && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Z) <= NumberConversions.square(z));
+        return Bukkit.getOnlinePlayers().stream().filter(entity -> MathUtils.distanceSquared(entity.getLocation(), location, MathUtils.Axis.X) <= NumberConversions.square(x)
+                && MathUtils.distanceSquared(entity.getLocation(), location, MathUtils.Axis.Y) <= NumberConversions.square(y)
+                && MathUtils.distanceSquared(entity.getLocation(), location, MathUtils.Axis.Z) <= NumberConversions.square(z));
     }
 
     public Stream<Entity> getNearbyEntities(Location location, double x, double y, double z){
-        return location.getWorld().getEntities().stream().filter(entity ->
-                Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.X) <= NumberConversions.square(x)
-                && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Y) <= NumberConversions.square(y)
-                && Utils.distanceSquared(entity.getLocation(), location, Utils.Axis.Z) <= NumberConversions.square(z));
+        return CollectionManager.ASYNC_ENTITY_LIST.getList().stream().filter(entity ->
+                MathUtils.distanceSquared(entity.getLocation(), location, MathUtils.Axis.X) <= NumberConversions.square(x)
+                && MathUtils.distanceSquared(entity.getLocation(), location, MathUtils.Axis.Y) <= NumberConversions.square(y)
+                && MathUtils.distanceSquared(entity.getLocation(), location, MathUtils.Axis.Z) <= NumberConversions.square(z));
     }
 
     public void setMulticolor(boolean multicolor) {
@@ -237,28 +234,6 @@ public abstract class Bonus {
 
     public Player getPlayer() {
         return p;
-    }
-
-    public static class ParticleBuffer {
-
-        private Set<Object> packets = Sets.newHashSet();
-        private Location location;
-
-        public ParticleBuffer add(Location location, String particle, float offsetX, float offsetY, float offsetZ, int amount){
-            packets.add(Utils.PacketParticle.buildPacket(Utils.PacketParticle.fromName(Utils.PacketParticle.getParticleNameFromNative(particle)), location.getX(), location.getY(), location.getZ(), offsetX, offsetY, offsetZ, 0f, amount, 0));
-            this.location = location;
-            return this;
-        }
-
-        public ParticleBuffer add(Location location, String particle, float offsetX, float offsetY, float offsetZ, int amount, float speed){
-            packets.add(Utils.PacketParticle.buildPacket(Utils.PacketParticle.fromName(Utils.PacketParticle.getParticleNameFromNative(particle)), location.getX(), location.getY(), location.getZ(), offsetX, offsetY, offsetZ, speed, amount, 0));
-            this.location = location;
-            return this;
-        }
-
-        public Location getLocation() {
-            return location;
-        }
     }
 
 }

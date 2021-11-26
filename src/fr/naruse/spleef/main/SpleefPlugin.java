@@ -1,5 +1,6 @@
 package fr.naruse.spleef.main;
 
+import fr.naruse.api.main.APIInit;
 import fr.naruse.spleef.cmd.SpleefCommands;
 import fr.naruse.spleef.config.Configurations;
 import fr.naruse.spleef.event.Listeners;
@@ -14,7 +15,6 @@ import fr.naruse.spleef.support.PlaceHolderManager;
 import fr.naruse.spleef.support.VaultManager;
 import fr.naruse.spleef.utils.Metrics;
 import fr.naruse.spleef.utils.SpleefUpdater;
-import fr.naruse.spleef.utils.ThreadGlobal;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,6 +36,8 @@ public class SpleefPlugin extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
 
+        APIInit.init(this);
+
         if(!new File(getDataFolder(), "config.yml").exists()){
             saveResource("config.yml", false);
         }
@@ -55,8 +57,6 @@ public class SpleefPlugin extends JavaPlugin {
             SpleefUpdater.checkNewVersion(this, false);
 
             Utils.formatItems(this);
-
-            ThreadGlobal.launch();
         }, 20);
 
         Utils.addCharts(this, new Metrics(this, 9924));
@@ -96,7 +96,7 @@ public class SpleefPlugin extends JavaPlugin {
         if(holographicManager != null){
             holographicManager.disable();
         }
-        ThreadGlobal.shutdown();
+        APIInit.shutdown();
     }
 
     public Spleefs getSpleefs() {

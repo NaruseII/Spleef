@@ -28,19 +28,7 @@ public class BonusBallistic extends BonusColored {
                 public void onSheepSpawned(Sheep sheep) {
                     super.onSheepSpawned(sheep);
                     sendParticle(sheep.getLocation(), "EXPLOSION_HUGE", 3, 3, 3, 2);
-                    if(random.nextBoolean()){
-                        if(random.nextBoolean()){
-                            sheep.setVelocity(new Vector(-random.nextInt(3), 0.5F, random.nextInt(3)));
-                        }else{
-                            sheep.setVelocity(new Vector(-random.nextInt(3), 0.5F, -random.nextInt(3)));
-                        }
-                    }else{
-                        if(random.nextBoolean()){
-                            sheep.setVelocity(new Vector(-random.nextInt(3), 0.5F, -random.nextInt(3)));
-                        }else{
-                            sheep.setVelocity(new Vector(random.nextInt(3), 0.5F, -random.nextInt(3)));
-                        }
-                    }
+                    sheep.setVelocity(new Vector(random.nextInt(3)*(random.nextBoolean() ? 1 : -1), 0.5F, random.nextInt(3)*(random.nextBoolean() ? 1 : -1)));
                 }
             };
             bonus.setSpawnLocation(sheep.getLocation());

@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -231,7 +230,7 @@ public class TeamSpleef extends Spleef {
         }
 
         @Override
-        public int compareTo(@NotNull Team o) {
+        public int compareTo(Team o) {
             return this.players.size() > o.getPlayers().size() ? 1 : this.players.size() == o.getPlayers().size() ? 0 : -1;
         }
     }

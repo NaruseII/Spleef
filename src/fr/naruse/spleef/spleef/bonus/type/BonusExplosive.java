@@ -1,5 +1,6 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
+import fr.naruse.api.MathUtils;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.utils.BlockBuffer;
@@ -20,7 +21,7 @@ public class BonusExplosive extends BonusColored {
         sendParticle(sheep.getLocation(), "EXPLOSION_HUGE", 4, 3, 4, 5);
         BlockBuffer blockBuffer = new BlockBuffer();
         for (int i = 0; i < 5; i++) {
-            for (Block block : Utils.getCircle(sheep.getLocation().clone().add(0, -1, 0), i)) {
+            for (Block block : MathUtils.get2DCircleBlock(sheep.getLocation().clone().add(0, -1, 0), i)) {
                 if(block.getType() == Material.SNOW_BLOCK || block.getType() == Material.TNT){
                     blockBuffer.add(block);
                 }

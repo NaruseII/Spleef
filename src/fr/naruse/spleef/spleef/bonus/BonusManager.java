@@ -3,6 +3,7 @@ package fr.naruse.spleef.spleef.bonus;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import fr.naruse.api.MathUtils;
 import fr.naruse.spleef.api.SpleefBonusInitEvent;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.GameStatus;
@@ -184,7 +185,7 @@ public class BonusManager extends BukkitRunnable implements Listener {
         if(e.getHitEntity() != null && e.getHitEntity() instanceof Player && spleef.getPlayerInGame().contains(e.getHitEntity()) && e.getEntity() instanceof Snowball){
             Snowball snowball = (Snowball) e.getEntity();
             if(snowball.getShooter() != null && snowball.getShooter() instanceof Sheep){
-                e.getHitEntity().setVelocity(Utils.genVector(e.getEntity().getLocation(), e.getHitEntity().getLocation()));
+                e.getHitEntity().setVelocity(MathUtils.genVector(e.getEntity().getLocation(), e.getHitEntity().getLocation()));
             }
         }
     }

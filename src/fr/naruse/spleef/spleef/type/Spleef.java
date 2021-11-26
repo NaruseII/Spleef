@@ -2,6 +2,7 @@ package fr.naruse.spleef.spleef.type;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import fr.naruse.api.MathUtils;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.player.statistic.StatisticType;
@@ -114,7 +115,7 @@ public class Spleef extends BukkitRunnable implements Listener {
                             int time = lastPlayerBlockTime.get(p);
                             if(time <= 0){
                                 for (int j = 0; j < 3; j++) {
-                                    for (Block block : Utils.getCircle(p.getLocation().getBlock().getRelative(0, -1, 0).getLocation(), j)) {
+                                    for (Block block : MathUtils.get2DCircleBlock(p.getLocation().getBlock().getRelative(0, -1, 0).getLocation(), j)) {
                                         removeBlockUnderFoot(block);
                                     }
                                 }

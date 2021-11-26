@@ -1,11 +1,15 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
 import com.google.common.collect.Sets;
+import fr.naruse.api.MathUtils;
+import fr.naruse.api.ParticleUtils;
+import fr.naruse.api.async.CollectionManager;
+import fr.naruse.api.effect.particle.FollowingParticle;
+import fr.naruse.api.effect.particle.FollowingParticlePath;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.spleef.bonus.IFriendlyBonus;
 import fr.naruse.spleef.spleef.bonus.utils.MoveToGoal;
-import fr.naruse.spleef.utils.CollectionManager;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -20,9 +24,9 @@ import java.util.Set;
 
 public class BonusIntergalacticShield extends BonusColored implements IFriendlyBonus {
 
-    private final Set<Utils.FollowingParticle> particles = Sets.newHashSet();
-    private final Set<Utils.FollowingParticlePath> loopingParticles = Sets.newHashSet();
-    private final Set<Utils.FollowingParticle> counterParticles = Sets.newHashSet();
+    private final Set<FollowingParticle> particles = Sets.newHashSet();
+    private final Set<FollowingParticlePath> loopingParticles = Sets.newHashSet();
+    private final Set<FollowingParticle> counterParticles = Sets.newHashSet();
     private boolean cancel = false;
     private int attackCount = 0;
     private long millis = 0;
@@ -36,19 +40,20 @@ public class BonusIntergalacticShield extends BonusColored implements IFriendlyB
     protected void onTick() {
         super.onTick();
         if(sheep != null && !sheep.isDead()){
-            sheep.setTarget(p);
-
             Optional<Entity> optional = getNearbyEntities(sheep.getLocation(), 12, 200, 12)
                     .filter(entity -> entity instanceof Pig && ((Pig) entity).hasPotionEffect(PotionEffectType.INVISIBILITY) && entity.isInvulnerable())
                     .findFirst();
 
-            runSync(() -> new MoveToGoal(sheep, p.getLocation()).execute(2));
+            runSync(() -> {
+                sheep.setTarget(p);
+                new MoveToGoal(sheep, p.getLocation()).execute(2);
+            });
 
             if(!optional.isPresent()){
                 return;
             }
 
-            sheep.remove();
+            runSync(() -> sheep.remove());
             cancel();
 
             this.createShield(optional.get());
@@ -57,16 +62,16 @@ public class BonusIntergalacticShield extends BonusColored implements IFriendlyB
 
     @Override
     protected void onAction() {
-        this.createShield(null);
+
     }
 
     @Override
     public void onRestart() {
         this.particles.forEach(followingParticle -> followingParticle.setDone(true));
-        for (Utils.FollowingParticlePath loopingParticle : this.loopingParticles) {
+        for (FollowingParticlePath loopingParticle : this.loopingParticles) {
             loopingParticle.setCancelled(true);
         }
-        for (Utils.FollowingParticle particle : this.counterParticles) {
+        for (FollowingParticle particle : this.counterParticles) {
             particle.setDone(true);
         }
         this.cancel = true;
@@ -82,25 +87,25 @@ public class BonusIntergalacticShield extends BonusColored implements IFriendlyB
         int r = 3;
         int amount = 20;
         for (int i = 0; i < 4; i++) {
-            for (Location loc : Utils.getCircle(center, r, amount)) {
-                this.particles.add(new Utils.FollowingParticle(this, loc, "SPELL_WITCH", sheep.getEyeLocation(), 15).setStopOnTouchTarget(false).start());
+            for (Location loc : MathUtils.getCircle(center, r, amount)) {
+                this.particles.add(new FollowingParticle(loc, ParticleUtils.fromName("SPELL_WITCH"), ParticleUtils.ParticleSender.buildToNearbyFifty(), sheep.getEyeLocation(), 15).setStopOnTouchTarget(false).start());
             }
             r += 2;
             amount += 4;
             center.add(0, 0.5, 0);
         }
 
-        List<Location> loop = Utils.getCircle(center, 11, 24);
+        List<Location> loop = MathUtils.getCircle(center, 11, 24);
 
         int startIndex = 0;
         for (int i = 0; i < 8; i++) {
 
             Location loc = loop.get(startIndex);
 
-            this.loopingParticles.add(new Utils.FollowingParticlePath(loop, new Utils.FollowingParticle[] {
-                    new Utils.FollowingParticle(this, loc, "SPELL_WITCH", sheep.getEyeLocation(), 10).setStopOnTouchTarget(false).start()
-                    , new Utils.FollowingParticle(this, loc, "CLOUD", sheep.getEyeLocation(), 10).setStopOnTouchTarget(false).start()
-                    , new Utils.FollowingParticle(this, loc, "SMOKE_NORMAL", sheep.getEyeLocation(), 10).setStopOnTouchTarget(false).start()
+            this.loopingParticles.add(new FollowingParticlePath(loop, new FollowingParticle[] {
+                    new FollowingParticle(loc, ParticleUtils.fromName("SPELL_WITCH"), ParticleUtils.ParticleSender.buildToNearbyFifty(), sheep.getEyeLocation(), 10).setStopOnTouchTarget(false).start()
+                    , new FollowingParticle(loc, ParticleUtils.fromName("CLOUD"), ParticleUtils.ParticleSender.buildToNearbyFifty(), sheep.getEyeLocation(), 10).setStopOnTouchTarget(false).start()
+                    , new FollowingParticle(loc, ParticleUtils.fromName("SMOKE_NORMAL"), ParticleUtils.ParticleSender.buildToNearbyFifty(), sheep.getEyeLocation(), 10).setStopOnTouchTarget(false).start()
             }, startIndex).start());
 
             startIndex += 3;
@@ -117,21 +122,21 @@ public class BonusIntergalacticShield extends BonusColored implements IFriendlyB
             }
 
             double distance = entity.getLocation().distanceSquared(center);
-            if(distance <= 180){
+            if(distance <= 100){
                 runSync(() -> {
                     if(!entity.isDead()){
                         entity.setFallDistance(0);
-                        entity.setVelocity(new Vector());
+                        entity.setVelocity(new Vector(0, 0.1, 0));
                     }
                 });
             }
 
             if(distance <= 225 && this.counterParticles.size() <= 8){
                 Location clone = center.clone().add(0, -2, 0);
-                clone.setZ(Utils.offSet(clone.getZ(), 800));
-                clone.setX(Utils.offSet(clone.getX(), 800));
+                clone.setZ(MathUtils.offSet(clone.getZ(), 800));
+                clone.setX(MathUtils.offSet(clone.getX(), 800));
 
-                Utils.FollowingParticle particle = new Utils.FollowingParticle(this, entity, "FLAME", clone, 15){
+                FollowingParticle particle = new FollowingParticle(entity, ParticleUtils.fromName("TOWN_AURA"), ParticleUtils.ParticleSender.buildToNearbyFifty(), clone, 15){
                     @Override
                     public void onAsyncParticleTouchTarget(Entity target) {
                         counterParticles.remove(this);
@@ -145,7 +150,7 @@ public class BonusIntergalacticShield extends BonusColored implements IFriendlyB
                 this.cancel = true;
                 this.onRestart();
                 if(!entity.isDead()){
-                    entity.remove();
+                    runSync(() -> entity.remove());
                 }
                 return;
             }

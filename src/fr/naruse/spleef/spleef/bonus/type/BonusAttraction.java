@@ -1,5 +1,6 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
+import fr.naruse.api.MathUtils;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.utils.Utils;
@@ -21,6 +22,6 @@ public class BonusAttraction extends BonusColored {
         sheep.getWorld().playSound(sheep.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 100, 100);
         sendParticle(sheep.getLocation(), "EXPLOSION_HUGE", 5, 3, 5, 2);
         List<Entity> list = getNearbySheepsAndPlayers(sheep.getLocation(), 12, 5, 12).filter(entity -> entity != p).collect(Collectors.toList());;
-        runSync(() -> list.forEach(entity -> entity.setVelocity(Utils.genVector(entity.getLocation(), sheep.getLocation()).multiply(2).setY(0.6))));
+        runSync(() -> list.forEach(entity -> entity.setVelocity(MathUtils.genVector(entity.getLocation(), sheep.getLocation()).multiply(2).setY(0.6))));
     }
 }

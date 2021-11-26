@@ -2,6 +2,7 @@ package fr.naruse.spleef.spleef.bonus.type;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import fr.naruse.api.MathUtils;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.utils.BlockBuffer;
@@ -30,7 +31,7 @@ public class BonusLittleLightning extends BonusColored {
     protected void onAction() {
         List<Location> locations = Lists.newArrayList();
         for (int i = 0; i < 15; i++) {
-            for (Block block : Utils.getCircle(sheep.getLocation(), i)) {
+            for (Block block : MathUtils.get2DCircleBlock(sheep.getLocation(), i)) {
                 locations.add(block.getLocation());
             }
         }

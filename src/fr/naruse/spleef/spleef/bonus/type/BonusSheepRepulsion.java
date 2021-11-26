@@ -1,5 +1,6 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
+import fr.naruse.api.MathUtils;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.spleef.bonus.IFriendlyBonus;
@@ -25,7 +26,7 @@ public class BonusSheepRepulsion extends BonusColored implements IFriendlyBonus 
             List<Entity> stream = getNearbySheeps(sheep.getLocation(), 10, 5, 10, true, p).filter(entity -> entity != sheep).collect(Collectors.toList());;
             runSync(() -> {
                 new MoveToGoal(sheep, p.getLocation()).execute(2);
-                stream.forEach(entity -> entity.setVelocity(Utils.genVector(sheep.getLocation(), entity.getLocation()).multiply(1.5).setY(0.5)));
+                stream.forEach(entity -> entity.setVelocity(MathUtils.genVector(sheep.getLocation(), entity.getLocation()).multiply(1.5).setY(0.5)));
             });
         }
     }

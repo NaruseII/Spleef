@@ -1,13 +1,15 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
+import fr.naruse.api.MathUtils;
+import fr.naruse.api.ParticleUtils;
+import fr.naruse.api.async.CollectionManager;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.utils.BlockBuffer;
-import fr.naruse.spleef.utils.CollectionManager;
-import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
@@ -34,6 +36,7 @@ public class BonusIntergalactic extends BonusColored {
         Location finalLocation = location;
         runSync(() -> {
             Pig pig = (Pig) finalLocation.getWorld().spawnEntity(finalLocation.add(0, 200, 0), EntityType.PIG);
+
             if(pig == null){
                 return;
             }
@@ -52,15 +55,18 @@ public class BonusIntergalactic extends BonusColored {
         if(pig == null || pig.isDead()){
             return;
         }
+
         if(pig.getLocation().getY() <= -20 || pig.getLocation().getBlock().getType().name().contains("LAVA") || pig.getLocation().getBlock().getType().name().contains("WATER")){
             runSync(() -> pig.remove());
             return;
         }
+
         Runnable runnable = () -> {
+
             BlockBuffer blockBuffer = new BlockBuffer();
-            for (Location loc : Utils.getSphere(pig.getLocation().add(0, -1, 0), 6, 2, false, true, 0)) {
-                if(loc.getBlock().getType() == Material.SNOW_BLOCK || loc.getBlock().getType() == Material.TNT){
-                    blockBuffer.add(loc.getBlock());
+            for (Block block : MathUtils.get3DCylinder(pig.getLocation().clone().add(0, -2, 0), 6, 3, true)) {
+                if(block.getType() == Material.SNOW_BLOCK || block.getType() == Material.TNT){
+                    blockBuffer.add(block);
                 }
             }
 
@@ -68,12 +74,14 @@ public class BonusIntergalactic extends BonusColored {
                 spleef.destroyBlock(p, blockBuffer);
             }
 
-            sendParticle(new ParticleBuffer()
-                    .add(pig.getLocation(), "FLAME", 4, 4, 4, 5, 0.3f)
-                    .add(pig.getLocation(), "EXPLOSION_HUGE", 2, 2, 2, 1, 0.5f));
+            sendParticle(new ParticleUtils.Buffer()
+                    .buildParticle(pig.getLocation(), ParticleUtils.fromName("FLAME"), 4, 4, 4, 20, 0.3f)
+                    .buildParticle(pig.getLocation(), ParticleUtils.fromName("EXPLOSION_HUGE"), 2, 2, 2, 5, 0.5f));
+
             if(pig.getLocation().add(0, -1, 0).getBlock().getType() != Material.AIR){
                 runSync(() -> pig.teleport(pig.getLocation().clone().add(0, -1, 0)));
             }
+
             runPigTicker(pig);
         };
         CollectionManager.SECOND_THREAD_RUNNABLE_SET.add(runnable);

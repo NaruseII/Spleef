@@ -20,7 +20,7 @@ public class BonusRandom extends Bonus {
     }
 
     @Override
-    public void run() {
+    public void bonusRun() {
 
     }
 }

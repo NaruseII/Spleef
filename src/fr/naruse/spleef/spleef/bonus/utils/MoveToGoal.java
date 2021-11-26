@@ -30,6 +30,9 @@ public class MoveToGoal {
 
     public void execute(double speed) {
         try{
+
+            //1.12
+
             Class<?> craftEntityClass = this.getCBClass("entity.CraftEntity");
             Method getHandle = craftEntityClass.getMethod("getHandle");
             Object craftEntity = getHandle.invoke(entity);
@@ -44,6 +47,9 @@ public class MoveToGoal {
                 a.invoke(nav, path, speed);
             }
         }catch (Exception e){
+
+            //1.13
+
             try{
                 Class<?> craftEntityClass = this.getCBClass("entity.CraftEntity");
                 Method getHandle = craftEntityClass.getMethod("getHandle");
@@ -59,7 +65,27 @@ public class MoveToGoal {
                     a.invoke(nav, path, speed);
                 }
             }catch (Exception ee){
-                ee.printStackTrace();
+
+                // 1.17
+
+                try{
+                    Class<?> craftEntityClass = this.getCBClass("entity.CraftEntity");
+                    Method getHandle = craftEntityClass.getMethod("getHandle");
+                    Object craftEntity = getHandle.invoke(entity);
+                    Class<?> craftEntityInsentient = Class.forName("net.minecraft.world.entity.EntityInsentient");
+                    Object entityInsentient = craftEntityInsentient.cast(craftEntity);
+                    Method getNavigation = craftEntityInsentient.getMethod("getNavigation");
+                    Object nav = getNavigation.invoke(entityInsentient);
+                    Method a = nav.getClass().getMethod("a", double.class, double.class, double.class, int.class);
+                    Object path = a.invoke(nav, location.getX(), location.getY(), location.getZ(), 1);
+                    if(path != null){
+                        a = nav.getClass().getMethod("a", path.getClass(), double.class);
+                        a.invoke(nav, path, speed);
+                    }
+                }catch (Exception eee){
+                    eee.printStackTrace();
+                }
+
             }
         }
     }
