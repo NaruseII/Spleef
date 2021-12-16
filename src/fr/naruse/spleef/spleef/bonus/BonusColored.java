@@ -1,5 +1,6 @@
 package fr.naruse.spleef.spleef.bonus;
 
+import fr.naruse.api.async.CollectionManager;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 
@@ -34,7 +35,10 @@ public abstract class BonusColored extends Bonus {
         if(timer <= 0){
             onAction();
             cancel();
-            runSync(() -> sheep.remove());
+            runSync(() -> {
+                sheep.remove();
+                CollectionManager.ASYNC_ENTITY_LIST.remove(sheep);
+            });
             return;
         }else{
             timer--;

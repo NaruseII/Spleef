@@ -23,6 +23,8 @@ public class BonusIntergalactic extends BonusColored {
         setMulticolor(true);
     }
 
+    private long startTime;
+
     @Override
     protected void onAction() {
         sheep.getWorld().playSound(sheep.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 100, 100);
@@ -35,6 +37,7 @@ public class BonusIntergalactic extends BonusColored {
         location = sheep.getLocation();
         Location finalLocation = location;
         runSync(() -> {
+            startTime = System.currentTimeMillis();
             Pig pig = (Pig) finalLocation.getWorld().spawnEntity(finalLocation.add(0, 200, 0), EntityType.PIG);
 
             if(pig == null){
@@ -56,8 +59,11 @@ public class BonusIntergalactic extends BonusColored {
             return;
         }
 
-        if(pig.getLocation().getY() <= -20 || pig.getLocation().getBlock().getType().name().contains("LAVA") || pig.getLocation().getBlock().getType().name().contains("WATER")){
-            runSync(() -> pig.remove());
+        if(System.currentTimeMillis()-startTime > 40000 || pig.getLocation().getY() <= -20 || pig.getLocation().getBlock().getType().name().contains("LAVA") || pig.getLocation().getBlock().getType().name().contains("WATER")){
+            runSync(() -> {
+                pig.remove();
+                CollectionManager.ASYNC_ENTITY_LIST.remove(pig);
+            });
             return;
         }
 
@@ -78,12 +84,18 @@ public class BonusIntergalactic extends BonusColored {
                     .buildParticle(pig.getLocation(), ParticleUtils.fromName("FLAME"), 4, 4, 4, 20, 0.3f)
                     .buildParticle(pig.getLocation(), ParticleUtils.fromName("EXPLOSION_HUGE"), 2, 2, 2, 5, 0.5f));
 
-            if(pig.getLocation().add(0, -1, 0).getBlock().getType() != Material.AIR){
-                runSync(() -> pig.teleport(pig.getLocation().clone().add(0, -1, 0)));
+            if(!this.checkBlocks(pig.getLocation())){
+                runSync(() -> pig.teleport(pig.getLocation().clone().add(0, -4, 0)));
             }
 
             runPigTicker(pig);
         };
         CollectionManager.SECOND_THREAD_RUNNABLE_SET.add(runnable);
+    }
+
+    private boolean checkBlocks(Location initialLocation){
+        return initialLocation.add(0, -1, 0).getBlock().getType() != Material.AIR || initialLocation.add(0, -2, 0).getBlock().getType() != Material.AIR ||
+                initialLocation.getBlock().getType() != Material.AIR && initialLocation.add(0, -1, 0).getBlock().getType() != Material.SNOW_BLOCK ||
+                initialLocation.add(0, -2, 0).getBlock().getType() != Material.SNOW_BLOCK || initialLocation.getBlock().getType() != Material.SNOW_BLOCK;
     }
 }

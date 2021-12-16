@@ -122,11 +122,11 @@ public class BonusIntergalacticShield extends BonusColored implements IFriendlyB
             }
 
             double distance = entity.getLocation().distanceSquared(center);
-            if(distance <= 100){
+            if(distance <= 200){
                 runSync(() -> {
                     if(!entity.isDead()){
                         entity.setFallDistance(0);
-                        entity.setVelocity(new Vector(0, 0.1, 0));
+                        entity.setVelocity(new Vector(0, 0.3, 0));
                     }
                 });
             }
@@ -150,7 +150,10 @@ public class BonusIntergalacticShield extends BonusColored implements IFriendlyB
                 this.cancel = true;
                 this.onRestart();
                 if(!entity.isDead()){
-                    runSync(() -> entity.remove());
+                    runSync(() -> {
+                        entity.remove();
+                        CollectionManager.ASYNC_ENTITY_LIST.remove(entity);
+                    });
                 }
                 return;
             }

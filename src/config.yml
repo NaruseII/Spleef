@@ -14,6 +14,9 @@ noScoreboard: false
 sheepBonuses: false
 diamondSpade: false
 yamlStatistics: false
+allowShowIP: false
+allowShowIPAsked: false
+serverIP: "nope"
 disabledCommands:
 
 timer:

@@ -10,6 +10,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -114,9 +118,41 @@ public class Utils {
                 map.put("Java 1.8", entry);
             } else if (javaVersion.startsWith("1.9")) {
                 map.put("Java 1.9", entry);
-            } else {
+            }else if (javaVersion.startsWith("1.10")) {
+                map.put("Java 1.10", entry);
+            }else if (javaVersion.startsWith("1.11")) {
+                map.put("Java 1.11", entry);
+            }else if (javaVersion.startsWith("1.12")) {
+                map.put("Java 1.12", entry);
+            }else if (javaVersion.startsWith("1.13")) {
+                map.put("Java 1.13", entry);
+            }else if (javaVersion.startsWith("1.14")) {
+                map.put("Java 1.14", entry);
+            }else if (javaVersion.startsWith("1.15")) {
+                map.put("Java 1.15", entry);
+            }else if (javaVersion.startsWith("1.16")) {
+                map.put("Java 1.16", entry);
+            } else if (javaVersion.startsWith("1.17")) {
+                map.put("Java 1.17", entry);
+            } else if (javaVersion.startsWith("1.18")) {
+                map.put("Java 1.18", entry);
+            }else {
                 map.put("Other", entry);
             }
+            return map;
+        }));
+        metrics.addCustomChart(new Metrics.DrilldownPie("servers_running_spleef", () -> {
+            Map<String, Map<String, Integer>> map = new HashMap<>();
+            Map<String, Integer> entry = new HashMap<>();
+            String address = pl.getConfig().getString("serverIP");
+            if(address != null && address.equalsIgnoreCase("nope")){
+                entry.put(address, 1);
+                map.put(address, entry);
+            }else{
+                entry.put("Hidden", 1);
+                map.put("Hidden", entry);
+            }
+
             return map;
         }));
     }

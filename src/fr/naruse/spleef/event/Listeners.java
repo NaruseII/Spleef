@@ -5,6 +5,8 @@ import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.SpleefUpdater;
 import fr.naruse.spleef.utils.Utils;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -30,8 +32,14 @@ public class Listeners implements Listener {
     public void join(PlayerJoinEvent e){
         Player p = e.getPlayer();
         pl.getSpleefPlayerRegistry().registerPlayer(p).reloadStatistics();
-        if((p.isOp() || p.hasPermission("spleef.help")) && SpleefUpdater.updateAvailable()){
-            SpleefUpdater.sendMessage(pl, p);
+        if((p.isOp() || p.hasPermission("spleef.help"))){
+            if(SpleefUpdater.updateAvailable()){
+                SpleefUpdater.sendMessage(pl, p);
+            }
+            if(this.pl.getConfig().getString("serverIp") != null && this.pl.getConfig().getString("serverIp").equalsIgnoreCase("nope")){
+                p.sendMessage("§4Hey! §cDo you allow Spleef to show your server's ip address on BStats ? (Only for non-local servers)");
+                p.sendMessage("§7If §aYES§7, please execute §f/spleef specifyMyIP <Your IP>§7. Thanks!");
+            }
         }
     }
 

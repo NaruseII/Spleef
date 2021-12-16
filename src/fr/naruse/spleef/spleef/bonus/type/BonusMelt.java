@@ -18,7 +18,7 @@ public class BonusMelt extends BonusColored {
     protected void onTick() {
         super.onTick();
         BlockBuffer blockBuffer = new BlockBuffer();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             for (Block block : MathUtils.get2DCircleBlock(sheep.getLocation().add(0, -1, 0), i)) {
                 if((block.getType() == Material.SNOW_BLOCK || block.getType() == Material.TNT) && block.getLocation().distanceSquared(p.getLocation()) > 9){
                     blockBuffer.add(block);

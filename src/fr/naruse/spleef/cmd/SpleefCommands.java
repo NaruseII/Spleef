@@ -14,6 +14,8 @@ import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.spleef.type.Spleef;
 import fr.naruse.spleef.utils.SpleefUpdater;
 import fr.naruse.spleef.utils.Utils;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -22,6 +24,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.awt.*;
 import java.util.List;
 
 public class SpleefCommands implements CommandExecutor {
@@ -38,10 +41,16 @@ public class SpleefCommands implements CommandExecutor {
 
         //JOIN
         if(args[0].equalsIgnoreCase("join")){
-            if(!(sender instanceof Player)){
+            Player p = null;
+            if(args.length > 3 && sender.hasPermission("spleef.console.join")){
+                p = Bukkit.getPlayer(args[2]);
+            }
+            if(p == null && !(sender instanceof Player)){
                 return sendMessage(sender, "onlyForPlayers");
             }
-            Player p = (Player) sender;
+            if(p == null){
+                p = (Player) sender;
+            }
 
             if(args.length < 2){
                 return help(sender, 1);
@@ -56,10 +65,16 @@ public class SpleefCommands implements CommandExecutor {
 
         //LEAVE
         if(args[0].equalsIgnoreCase("leave")){
-            if(!(sender instanceof Player)){
+            Player p = null;
+            if(args.length > 3 && sender.hasPermission("spleef.console.join")){
+                p = Bukkit.getPlayer(args[2]);
+            }
+            if(p == null && !(sender instanceof Player)){
                 return sendMessage(sender, "onlyForPlayers");
             }
-            Player p = (Player) sender;
+            if(p == null){
+                p = (Player) sender;
+            }
 
             Spleef spleef = pl.getSpleefPlayerRegistry().getSpleefPlayer(p).getCurrentSpleef();
             if(spleef == null){
@@ -414,6 +429,13 @@ public class SpleefCommands implements CommandExecutor {
             }else{
                 return help(sender, 2);
             }
+        }
+
+        //SPECIFY IP
+        if(args[0].equalsIgnoreCase("specifyMyIP") && args.length == 2){
+            pl.getConfig().set("serverIP", args[1]);
+            pl.saveConfig();
+            return sendNormalMessage(sender, "§aIP registered. Thanks! §7(IP: "+args[1]+")");
         }
 
         //FORCE START
