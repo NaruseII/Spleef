@@ -128,11 +128,8 @@ public class PlaceHolderManager extends PlaceholderExpansion {
                 }
             } catch (Exception e) {
             }
-            if(place < 0 || spleef.getPlayerInGame().size() < place){
-                place = 1;
-            }
-            if(spleef.getPlayerInGame().isEmpty()){
-                return "Empty";
+            if(spleef.getPlayerInGame().isEmpty() || place < 0 || spleef.getPlayerInGame().size() < place){
+                return "No Player";
             }
             return spleef.getPlayerInGame().get(place-1).getName();
         }
