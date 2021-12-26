@@ -145,7 +145,7 @@ public class Utils {
             Map<String, Map<String, Integer>> map = new HashMap<>();
             Map<String, Integer> entry = new HashMap<>();
             String address = pl.getConfig().getString("serverIP");
-            if(address != null && address.equalsIgnoreCase("nope")){
+            if(address != null && !address.equalsIgnoreCase("nope")){
                 entry.put(address, 1);
                 map.put(address, entry);
             }else{

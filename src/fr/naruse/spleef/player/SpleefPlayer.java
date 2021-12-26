@@ -103,7 +103,7 @@ public class SpleefPlayer {
     }
 
     private Inventory inv;
-    public void registerInventory(Player p){
+    public void registerData(Player p){
         inv = Bukkit.createInventory(null, 9*6, uuid);
         for(int i = 0; i < inv.getSize(); i++){
             try{
@@ -120,7 +120,7 @@ public class SpleefPlayer {
         this.allowFly = p.getAllowFlight();
     }
 
-    public void setPlayerInventory(Player p){
+    public void giveBackData(Player p){
         if(inv == null){
             return;
         }

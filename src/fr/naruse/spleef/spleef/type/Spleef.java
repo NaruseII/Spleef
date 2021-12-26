@@ -237,14 +237,11 @@ public class Spleef extends BukkitRunnable implements Listener {
             return false;
         }
 
-        if(!pl.getConfig().getBoolean("noScoreboard")){
-            p.setScoreboard(scoreboardSign.getScoreboard());
-        }
         playerInGame.add(p);
 
         sendMessage(getFullName() +" "+ pl.getMessageManager().get("joinSpleef", new String[]{"name"}, new String[]{p.getName()}));
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
-        spleefPlayer.registerInventory(p);
+        spleefPlayer.registerData(p);
         spleefPlayer.setLastLocation(p.getLocation());
         p.setGameMode(GameMode.SURVIVAL);
         p.getInventory().clear();
@@ -259,6 +256,9 @@ public class Spleef extends BukkitRunnable implements Listener {
         p.setAllowFlight(false);
         if(lobby != null){
             p.teleport(lobby);
+        }
+        if(!pl.getConfig().getBoolean("noScoreboard")){
+            p.setScoreboard(scoreboardSign.getScoreboard());
         }
         pl.getSpleefPlayerRegistry().getSpleefPlayer(p).setCurrentSpleef(this);
         if(currentStatus == GameStatus.GAME){
@@ -300,7 +300,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         p.setHealth(p.getMaxHealth());
 
         spleefPlayer.setCurrentSpleef(null);
-        spleefPlayer.setPlayerInventory(p);
+        spleefPlayer.giveBackData(p);
         if(currentStatus == GameStatus.GAME && isSpectator){
             spleefPlayer.incrementStatistic(StatisticType.LOSE, 1);
             spleefPlayer.saveStatistics();
@@ -431,7 +431,7 @@ public class Spleef extends BukkitRunnable implements Listener {
             }
 
             spleefPlayer.setCurrentSpleef(null);
-            spleefPlayer.setPlayerInventory(p);
+            spleefPlayer.giveBackData(p);
 
             p.setInvulnerable(false);
             p.setFireTicks(0);
@@ -482,7 +482,7 @@ public class Spleef extends BukkitRunnable implements Listener {
             spleefPlayer.setCurrentSpleef(null);
             spleefPlayer.incrementStatistic(StatisticType.WIN, 1);
             spleefPlayer.saveStatistics();
-            spleefPlayer.setPlayerInventory(p);
+            spleefPlayer.giveBackData(p);
             if(pl.getVaultManager() != null){
                 pl.getVaultManager().giveWinReward(p);
             }
@@ -575,6 +575,10 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     public Location getLobby() {
         return lobby;
+    }
+
+    public int getCurrentTimer() {
+        return time;
     }
 
     protected Location getRandomLocationFrom(Location arena) {

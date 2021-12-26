@@ -84,8 +84,8 @@ public class BonusIntergalactic extends BonusColored {
                     .buildParticle(pig.getLocation(), ParticleUtils.fromName("FLAME"), 4, 4, 4, 20, 0.3f)
                     .buildParticle(pig.getLocation(), ParticleUtils.fromName("EXPLOSION_HUGE"), 2, 2, 2, 5, 0.5f));
 
-            if(!this.checkBlocks(pig.getLocation())){
-                runSync(() -> pig.teleport(pig.getLocation().clone().add(0, -4, 0)));
+            if(this.checkBlocks(pig.getLocation())){
+                runSync(() -> pig.teleport(pig.getLocation().clone().add(0, -1, 0)));
             }
 
             runPigTicker(pig);
@@ -93,9 +93,7 @@ public class BonusIntergalactic extends BonusColored {
         CollectionManager.SECOND_THREAD_RUNNABLE_SET.add(runnable);
     }
 
-    private boolean checkBlocks(Location initialLocation){
-        return initialLocation.add(0, -1, 0).getBlock().getType() != Material.AIR || initialLocation.add(0, -2, 0).getBlock().getType() != Material.AIR ||
-                initialLocation.getBlock().getType() != Material.AIR && initialLocation.add(0, -1, 0).getBlock().getType() != Material.SNOW_BLOCK ||
-                initialLocation.add(0, -2, 0).getBlock().getType() != Material.SNOW_BLOCK || initialLocation.getBlock().getType() != Material.SNOW_BLOCK;
+    private boolean checkBlocks(Location location){
+        return location.getBlock().getRelative(0, -1, 0).getType() != Material.AIR && location.getBlock().getRelative(0, -1, 0).getType() != Material.SNOW_BLOCK && location.getBlock().getRelative(0, -1, 0).getType() != Material.TNT;
     }
 }

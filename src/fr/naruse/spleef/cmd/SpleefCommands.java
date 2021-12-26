@@ -644,9 +644,9 @@ public class SpleefCommands implements CommandExecutor {
                 return sendMessage(sender, "sqlNotFound");
             }
 
-            if(args[2].equals("win")){
+            if(args[2].equalsIgnoreCase("win")){
                 spleefPlayer.setStatistic(StatisticType.WIN, value);
-            }else if(args[2].equals("loose")){
+            }else if(args[2].equalsIgnoreCase("loose")){
                 spleefPlayer.setStatistic(StatisticType.LOSE, value);
             }else{
                 return sendMessage(sender, "argumentNotFound", new String[]{"arg"}, new String[]{args[2]});

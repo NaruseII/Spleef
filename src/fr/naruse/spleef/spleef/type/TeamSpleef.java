@@ -143,7 +143,7 @@ public class TeamSpleef extends Spleef {
                 spleefPlayer.setCurrentSpleef(null);
                 spleefPlayer.incrementStatistic(StatisticType.WIN, 1);
                 spleefPlayer.saveStatistics();
-                spleefPlayer.setPlayerInventory(p);
+                spleefPlayer.giveBackData(p);
                 if(pl.getVaultManager() != null){
                     pl.getVaultManager().giveWinReward(p);
                 }
