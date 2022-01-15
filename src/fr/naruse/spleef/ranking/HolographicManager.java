@@ -9,6 +9,7 @@ import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.player.statistic.StatisticType;
 import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -113,7 +114,13 @@ public class HolographicManager extends BukkitRunnable {
             return false;
         }
 
-        this.hologram = HologramsAPI.createHologram(pl, Utils.getLocation(pl, "hologram.location"));
+        Location location = Utils.getLocation(pl, "hologram.location");
+        if(location == null){
+            pl.getLogger().warning("Location for hologram is null. Did you removed the world ?");
+            return false;
+        }
+
+        this.hologram = HologramsAPI.createHologram(pl, location);
         return true;
     }
 

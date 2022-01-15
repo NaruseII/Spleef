@@ -1,5 +1,6 @@
 package fr.naruse.spleef.main;
 
+import fr.naruse.api.NaruseAPIDownloader;
 import fr.naruse.api.main.APIInit;
 import fr.naruse.spleef.cmd.SpleefCommands;
 import fr.naruse.spleef.config.Configurations;
@@ -36,7 +37,7 @@ public class SpleefPlugin extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
 
-        APIInit.init(this);
+        NaruseAPIDownloader.checkSecondThreadAPI(this);
 
         if(!new File(getDataFolder(), "config.yml").exists()){
             saveResource("config.yml", false);
@@ -96,7 +97,6 @@ public class SpleefPlugin extends JavaPlugin {
         if(holographicManager != null){
             holographicManager.disable();
         }
-        APIInit.shutdown();
     }
 
     public Spleefs getSpleefs() {

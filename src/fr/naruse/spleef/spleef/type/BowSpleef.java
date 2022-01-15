@@ -1,6 +1,7 @@
 package fr.naruse.spleef.spleef.type;
 
 import com.google.common.collect.Lists;
+import fr.naruse.api.async.ThreadGlobal;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.GameStatus;
 import fr.naruse.spleef.utils.Utils;
@@ -122,12 +123,14 @@ public class BowSpleef extends Spleef {
             if(!hasPlayer(p) || currentStatus == GameStatus.WAIT){
                 return;
             }
-            p.getInventory().addItem(new ItemStack(Material.ARROW, 64));
+            p.getInventory().addItem(new ItemStack(Material.ARROW, 1));
             if(e.getHitBlock() != null && e.getHitBlock().getType() == Material.TNT){
                 Block block = e.getHitBlock();
                 blocks.add(block);
                 block.setType(Material.AIR);
                 tnts.add(block.getWorld().spawnEntity(block.getLocation(), EntityType.PRIMED_TNT));
+
+                ThreadGlobal.runSyncLater(() -> e.getEntity().remove(), 20);
             }
         }
     }
