@@ -3,9 +3,12 @@ package fr.naruse.spleef.spleef.bonus;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import fr.naruse.api.MathUtils;
-import fr.naruse.api.ParticleUtils;
 import fr.naruse.api.async.CollectionManager;
 import fr.naruse.api.async.Runner;
+import fr.naruse.api.particle.IParticle;
+import fr.naruse.api.particle.Particle;
+import fr.naruse.api.particle.sender.ParticleBuffer;
+import fr.naruse.api.particle.sender.ParticleSender;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.bonus.type.BonusMelt;
 import fr.naruse.spleef.spleef.type.Spleef;
@@ -168,16 +171,16 @@ public abstract class Bonus extends Runner {
         CollectionManager.SECOND_THREAD_RUNNABLE_SET.add(runnable);
     }
 
-    public void sendParticle(Location location, String particle, float xOffset, float yOffset, float zOffset, int count, float speed){
-        ParticleUtils.buildParticle(location, ParticleUtils.fromName(particle), xOffset, yOffset, zOffset, count, speed).toNearbyFifty();
+    public void sendParticle(Location location, IParticle particle, float xOffset, float yOffset, float zOffset, int count, float speed){
+        Particle.buildParticle(location, particle, xOffset, yOffset, zOffset, count, speed).toNearbyFifty();
     }
 
-    public void sendParticle(Location location, String particle, float offsetX, float offsetY, float offsetZ, int amount){
+    public void sendParticle(Location location, IParticle particle, float offsetX, float offsetY, float offsetZ, int amount){
         this.sendParticle(location, particle, offsetX, offsetY, offsetZ, amount, 0f);
     }
 
-    public void sendParticle(ParticleUtils.Buffer buffer){
-        buffer.send(ParticleUtils.ParticleSender.buildToNearbyFifty());
+    public void sendParticle(ParticleBuffer buffer){
+        buffer.send(ParticleSender.buildToNearbyFifty());
     }
 
     public Stream<Entity> getNearbySheeps(Location location, double x, double y, double z){

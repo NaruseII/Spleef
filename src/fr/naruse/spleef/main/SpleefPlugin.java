@@ -1,15 +1,16 @@
 package fr.naruse.spleef.main;
 
 import fr.naruse.api.NaruseAPIDownloader;
-import fr.naruse.api.main.APIInit;
 import fr.naruse.spleef.cmd.SpleefCommands;
 import fr.naruse.spleef.config.Configurations;
 import fr.naruse.spleef.event.Listeners;
 import fr.naruse.spleef.manager.MessageManager;
+import fr.naruse.spleef.ranking.ExternalDecentHologramPlugin;
+import fr.naruse.spleef.ranking.ExternalHolographicDisplaysPlugin;
+import fr.naruse.spleef.ranking.HologramPlugin;
 import fr.naruse.spleef.spleef.Spleefs;
 import fr.naruse.spleef.player.SpleefPlayerRegistry;
 import fr.naruse.spleef.database.DatabaseSQLManager;
-import fr.naruse.spleef.ranking.HolographicManager;
 import fr.naruse.spleef.database.DatabaseYAMLManagerDatabase;
 import fr.naruse.spleef.database.IDatabaseManager;
 import fr.naruse.spleef.support.PlaceHolderManager;
@@ -31,7 +32,7 @@ public class SpleefPlugin extends JavaPlugin {
 
     private IDatabaseManager databaseManager;
     private VaultManager vaultManager;
-    private HolographicManager holographicManager;
+    private HologramPlugin holographicManager;
 
     @Override
     public void onEnable() {
@@ -78,8 +79,14 @@ public class SpleefPlugin extends JavaPlugin {
         }
         if(getServer().getPluginManager().getPlugin("HolographicDisplays") != null){
             getLogger().log(Level.INFO, "HolographicDisplays found");
-            this.holographicManager = new HolographicManager(this);
+            this.holographicManager = new ExternalHolographicDisplaysPlugin(this);
         }
+
+        if(getServer().getPluginManager().getPlugin("DecentHolograms") != null && this.holographicManager == null){
+            getLogger().info("'DecentHolograms' found");
+            this.holographicManager = new ExternalDecentHologramPlugin(this);
+        }
+
         if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null){
             getLogger().log(Level.INFO, "PlaceholderAPI found");
             new PlaceHolderManager(this).register();
@@ -95,7 +102,7 @@ public class SpleefPlugin extends JavaPlugin {
             }
         }
         if(holographicManager != null){
-            holographicManager.disable();
+            holographicManager.onDisable();
         }
     }
 
@@ -123,7 +130,7 @@ public class SpleefPlugin extends JavaPlugin {
         return vaultManager;
     }
 
-    public HolographicManager getHolographicManager() {
+    public HologramPlugin getHolographicManager() {
         return holographicManager;
     }
 }

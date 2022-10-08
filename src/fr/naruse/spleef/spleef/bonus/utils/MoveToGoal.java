@@ -1,6 +1,6 @@
 package fr.naruse.spleef.spleef.bonus.utils;
 
-import fr.naruse.api.ParticleUtils;
+import fr.naruse.api.particle.version.MinecraftVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -30,7 +30,7 @@ public class MoveToGoal {
     }
 
     public void execute(double speed) {
-        if(ParticleUtils.DOUBLE_VERSION == 1.12){
+        if(MinecraftVersion.getCurrentVersion() == MinecraftVersion.V1_12){
             try{
 
                 //1.12
@@ -51,7 +51,10 @@ public class MoveToGoal {
             }catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if(ParticleUtils.DOUBLE_VERSION >= 1.13 && ParticleUtils.DOUBLE_VERSION < 1.17){
+        }else if(MinecraftVersion.getCurrentVersion() == MinecraftVersion.V1_13 ||
+                MinecraftVersion.getCurrentVersion() == MinecraftVersion.V1_14 ||
+                MinecraftVersion.getCurrentVersion() == MinecraftVersion.V1_15 ||
+                MinecraftVersion.getCurrentVersion() == MinecraftVersion.V1_16){
             try{
                 Class<?> craftEntityClass = this.getCBClass("entity.CraftEntity");
                 Method getHandle = craftEntityClass.getMethod("getHandle");
@@ -69,7 +72,7 @@ public class MoveToGoal {
             }catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if(ParticleUtils.DOUBLE_VERSION == 1.12) {
+        }else if(MinecraftVersion.getCurrentVersion() == MinecraftVersion.V1_17) {
             try{
                 Class<?> craftEntityClass = this.getCBClass("entity.CraftEntity");
                 Method getHandle = craftEntityClass.getMethod("getHandle");
@@ -87,7 +90,7 @@ public class MoveToGoal {
             }catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if(ParticleUtils.DOUBLE_VERSION == 1.18){
+        }else if(MinecraftVersion.getCurrentVersion() == MinecraftVersion.V1_18 || MinecraftVersion.getCurrentVersion() == MinecraftVersion.V1_19){
             try{
                 Class<?> craftEntityClass = this.getCBClass("entity.CraftEntity");
                 Method getHandle = craftEntityClass.getMethod("getHandle");

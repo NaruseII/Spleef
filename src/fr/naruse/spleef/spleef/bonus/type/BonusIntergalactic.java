@@ -1,8 +1,9 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
 import fr.naruse.api.MathUtils;
-import fr.naruse.api.ParticleUtils;
 import fr.naruse.api.async.CollectionManager;
+import fr.naruse.api.particle.Particle;
+import fr.naruse.api.particle.sender.ParticleBuffer;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.utils.BlockBuffer;
@@ -29,9 +30,9 @@ public class BonusIntergalactic extends BonusColored {
     protected void onAction() {
         sheep.getWorld().playSound(sheep.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 100, 100);
         Location location = sheep.getLocation();
-        sendParticle(location, "FLAME", 0.3f, 1, 0.3f, 60, 1);
+        sendParticle(location, Particle.getEnumParticle().FLAME(), 0.3f, 1, 0.3f, 60, 1);
         for (int i = 0; i < 100; i++) {
-            sendParticle(location, "TOWN_AURA", 0.25f, 0.5f, 0.25f, 20);
+            sendParticle(location, Particle.getEnumParticle().TOWN_AURA(), 0.25f, 0.5f, 0.25f, 20);
             location.add(0, 1, 0);
         }
         location = sheep.getLocation();
@@ -80,9 +81,9 @@ public class BonusIntergalactic extends BonusColored {
                 spleef.destroyBlock(p, blockBuffer);
             }
 
-            sendParticle(new ParticleUtils.Buffer()
-                    .buildParticle(pig.getLocation(), ParticleUtils.fromName("FLAME"), 4, 4, 4, 20, 0.3f)
-                    .buildParticle(pig.getLocation(), ParticleUtils.fromName("EXPLOSION_HUGE"), 2, 2, 2, 5, 0.5f));
+            sendParticle(new ParticleBuffer()
+                    .buildParticle(pig.getLocation(), Particle.getEnumParticle().FLAME(), 4, 4, 4, 20, 0.3f)
+                    .buildParticle(pig.getLocation(), Particle.getEnumParticle().EXPLOSION_HUGE(), 2, 2, 2, 5, 0.5f));
 
             if(this.checkBlocks(pig.getLocation())){
                 runSync(() -> pig.teleport(pig.getLocation().clone().add(0, -1, 0)));

@@ -1,6 +1,7 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
 import com.google.common.collect.Sets;
+import fr.naruse.api.particle.Particle;
 import fr.naruse.spleef.spleef.bonus.Bonus;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
@@ -20,14 +21,14 @@ public class BonusBallistic extends BonusColored {
     @Override
     protected void onAction() {
         sheep.getWorld().playSound(sheep.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 100, 100);
-        sendParticle(sheep.getLocation(), "EXPLOSION_HUGE", 5, 2, 5, 3);
+        sendParticle(sheep.getLocation(), Particle.getEnumParticle().EXPLOSION_HUGE(), 5, 2, 5, 3);
         Set<Bonus> set = Sets.newHashSet();
         for (int i = 0; i < 5; i++) {
             Bonus bonus = new BonusExplosive(bonusManager, p){
                 @Override
                 public void onSheepSpawned(Sheep sheep) {
                     super.onSheepSpawned(sheep);
-                    sendParticle(sheep.getLocation(), "EXPLOSION_HUGE", 3, 3, 3, 2);
+                    sendParticle(sheep.getLocation(), Particle.getEnumParticle().EXPLOSION_HUGE(), 3, 3, 3, 2);
                     sheep.setVelocity(new Vector(random.nextInt(3)*(random.nextBoolean() ? 1 : -1), 0.5F, random.nextInt(3)*(random.nextBoolean() ? 1 : -1)));
                 }
             };

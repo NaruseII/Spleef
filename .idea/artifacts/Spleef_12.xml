@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Spleef 12">
+    <output-path>D:/Minecraft Server/1-19/plugins</output-path>
+    <root id="archive" name="Spleef.jar">
+      <element id="module-output" name="Spleef" />
+    </root>
+  </artifact>
+</component>

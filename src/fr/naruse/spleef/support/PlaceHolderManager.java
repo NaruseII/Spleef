@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.player.statistic.StatisticType;
-import fr.naruse.spleef.ranking.HolographicManager;
+import fr.naruse.spleef.ranking.HologramPlugin;
 import fr.naruse.spleef.spleef.GameStatus;
 import fr.naruse.spleef.spleef.type.Spleef;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class PlaceHolderManager extends PlaceholderExpansion {
@@ -52,7 +52,7 @@ public class PlaceHolderManager extends PlaceholderExpansion {
         String args[] = params.split("_");
 
         if(params.startsWith("top")){
-            HolographicManager holographicManager = this.pl.getHolographicManager();
+            HologramPlugin holographicManager = this.pl.getHolographicManager();
 
             int place = 1;
             try {
@@ -67,21 +67,38 @@ public class PlaceHolderManager extends PlaceholderExpansion {
                 return "HolographicDisplays Not Found";
             }
 
-            List<Integer> sortedWins = Lists.newArrayList(holographicManager.getMapSortedList().keySet());
+            List<Integer> sortedWins = Lists.newArrayList(holographicManager.getSortedMap().keySet());
             Collections.reverse(sortedWins);
             if (sortedWins.size() < place) {
                 return "No Data";
             }
 
             if(params.endsWith("names")) {
-                return holographicManager.getMapSortedList().get(sortedWins.get(place-1))
+                List<String> doubled = Lists.newArrayList();
+                ((List<OfflinePlayer>) holographicManager.getSortedMap().get(sortedWins.get(place-1)))
                         .stream()
-                        .map(s -> Bukkit.getOfflinePlayer(UUID.fromString(s)).getName())
-                        .collect(Collectors.joining(", "));
+                        .map(player -> player.getName())
+                        .forEach(new Consumer<String>() {
+                            @Override
+                            public void accept(String s) {
+                                if(doubled.contains(s)){
+                                    return;
+                                }
+                                doubled.add(s.trim());
+                            }
+                        });
+                return doubled.stream().collect(Collectors.joining(", "));
             }
 
             if(params.endsWith("wins")) {
-                return holographicManager.getWinMap().get(holographicManager.getMapSortedList().get(sortedWins.get(place-1)).stream().findFirst().get())+"";
+                OfflinePlayer offlinePlayer = ((List<OfflinePlayer>) holographicManager.getSortedMap().get(sortedWins.get(place-1))).stream().findFirst().get();
+                if(offlinePlayer != null){
+                    SpleefPlayer player = pl.getSpleefPlayerRegistry().getSpleefPlayer(offlinePlayer);
+                    if(player != null){
+                        return player.getStatistic(StatisticType.WIN)+"";
+                    }
+                }
+                return "";
             }
 
             return "Argument Not Found";

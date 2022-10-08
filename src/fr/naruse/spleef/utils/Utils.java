@@ -66,8 +66,8 @@ public class Utils {
     }
 
     public static Location getLocation(SpleefPlugin pl, String path) {
-        if(!pl.getConfig().contains(path+".x")){
-            return null;
+        if(!pl.getConfig().contains(path+".world")){
+           return null;
         }
         double x = pl.getConfig().getDouble(path+".x");
         double y = pl.getConfig().getDouble(path+".y");

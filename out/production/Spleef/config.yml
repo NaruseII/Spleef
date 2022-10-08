@@ -1,0 +1,38 @@
+currentLang: "english"
+
+broadcastWin: true
+broadcastWinWorld: false
+holographicRanking: false
+lightnings: true
+standingLimit: true
+tpToLastLoc: false
+snowballs: false
+instantGiveShovel: false
+randomSpawn: false
+spectators: false
+noScoreboard: false
+sheepBonuses: false
+diamondSpade: false
+yamlStatistics: false
+allowShowIP: false
+allowShowIPAsked: false
+serverIP: "nope"
+disabledCommands:
+
+timer:
+  start: 30
+  blockStanding: 7
+
+sql:
+  tableName: "spleef"
+
+reward:
+  win: -1
+  loose: -1
+
+leaveItem:
+  type: BARRIER
+  data: 0
+
+snowballsGivenOnBlockBreak: 16
+snowballCooldown: 0

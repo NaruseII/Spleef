@@ -194,7 +194,7 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getVaultManager().reload();
             }
             if(pl.getHolographicManager() != null){
-                pl.getHolographicManager().reloadLines();
+                pl.getHolographicManager().reload();
             }
             pl.getConfigurations().reload();
             Utils.formatItems(pl);
@@ -378,8 +378,7 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfig().set("holographicRanking", !pl.getConfig().getBoolean("holographicRanking"));
                 pl.saveConfig();
                 if(pl.getHolographicManager() != null){
-                    pl.getHolographicManager().reloadHologram();
-                    pl.getHolographicManager().reloadLines();
+                    pl.getHolographicManager().reload();
                 }
                 return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(HolographicRanking: "+pl.getConfig().getBoolean("holographicRanking")+")");
             }else if(args[1].equalsIgnoreCase("Lightnings")){
@@ -589,8 +588,7 @@ public class SpleefCommands implements CommandExecutor {
             pl.getConfig().set("hologram.location.world", p.getWorld().getName());
             pl.saveConfig();
             if(pl.getHolographicManager() != null){
-                pl.getHolographicManager().reloadHologram();
-                pl.getHolographicManager().reloadLines();
+                pl.getHolographicManager().reload();
             }
             return sendMessage(sender, "hologramSaved");
         }

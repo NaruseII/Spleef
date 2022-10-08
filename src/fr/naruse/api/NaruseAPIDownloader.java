@@ -17,7 +17,10 @@ public class NaruseAPIDownloader {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("NaruseAPI");
         if(plugin != null){
             String version = getVersion("https://raw.githubusercontent.com/NaruseII/ConfigAPI/master/src/plugin.yml");
-            if(!version.equalsIgnoreCase(plugin.getDescription().getVersion())){
+            if(version.equals("error")){
+                javaPlugin.getLogger().severe("Could not check online dependecies!");
+                return;
+            }else if(!version.equalsIgnoreCase(plugin.getDescription().getVersion())){
                 Bukkit.getPluginManager().disablePlugin(plugin);
             }else{
                 return;
@@ -45,7 +48,10 @@ public class NaruseAPIDownloader {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("SecondThreadAPI");
         if(plugin != null){
             String version = getVersion("https://raw.githubusercontent.com/NaruseII/SecondThreadAPI/master/src/plugin.yml");
-            if(!version.equalsIgnoreCase(plugin.getDescription().getVersion())){
+            if(version.equals("error")){
+                javaPlugin.getLogger().severe("Could not check online dependecies!");
+                return;
+            }else if(!version.equalsIgnoreCase(plugin.getDescription().getVersion())){
                 Bukkit.getPluginManager().disablePlugin(plugin);
             }else{
                 return;
@@ -56,8 +62,8 @@ public class NaruseAPIDownloader {
         if(file.exists()){
             file.delete();
         }
-        if(!downloadFile("https://github.com/NaruseII/SecondThreadAPI/blob/master/out/artifacts/NaruseSpigotAPI/NaruseSpigotAPI.jar?raw=true", file)){
-            javaPlugin.getLogger().severe("Unable to download ConfigAPI");
+        if(!downloadFile("https://github.com/NaruseII/SecondThreadAPI/blob/master/out/artifacts/NaruseSpigotAPI/SecondThreadAPI.jar?raw=true", file)){
+            javaPlugin.getLogger().severe("Unable to download SecondThreadAPI");
             Bukkit.getPluginManager().disablePlugin(javaPlugin);
             return;
         }
@@ -79,10 +85,8 @@ public class NaruseAPIDownloader {
                     return line.split(": ")[1];
                 }
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
+        }catch (Exception e){ }
+        return "error";
     }
 
     private static boolean downloadFile(String host, File dest) {

@@ -129,9 +129,9 @@ public class BowSpleef extends Spleef {
                 blocks.add(block);
                 block.setType(Material.AIR);
                 tnts.add(block.getWorld().spawnEntity(block.getLocation(), EntityType.PRIMED_TNT));
-
-                ThreadGlobal.runSyncLater(() -> e.getEntity().remove(), 20);
             }
+
+            ThreadGlobal.runSyncLater(() -> e.getEntity().remove(), 20);
         }
     }
 

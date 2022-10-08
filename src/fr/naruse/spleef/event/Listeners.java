@@ -21,6 +21,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Listeners implements Listener {
     private SpleefPlugin pl;
@@ -124,8 +127,14 @@ public class Listeners implements Listener {
     public void command(PlayerCommandPreprocessEvent e){
         Player p = e.getPlayer();
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
-        List<String> list = pl.getConfig().getStringList("disabledCommands");
-        if(spleefPlayer != null && spleefPlayer.hasSpleef() && list.contains(e.getMessage())){
+        List<String> list = pl.getConfig().getStringList("disabledCommands").stream().map(new Function<String, String>() {
+            @Override
+            public String apply(String s) {
+                return s.toLowerCase(Locale.ROOT);
+            }
+        }).collect(Collectors.toList());
+
+        if(spleefPlayer != null && spleefPlayer.hasSpleef() && list.contains(e.getMessage().toLowerCase(Locale.ROOT))){
             e.setCancelled(true);
         }
     }

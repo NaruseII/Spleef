@@ -131,7 +131,7 @@ public class Spleef extends BukkitRunnable implements Listener {
                         }
                     }
                 }
-                if(p.getLocation().getBlock().getType().name().contains("WATER") || p.getLocation().getBlock().getType().name().contains("LAVA") || p.getLocation().getY() < 0){
+                if(p.getLocation().getBlock().getType().name().contains("WATER") || p.getLocation().getBlock().getType().name().contains("LAVA")){
                     makeLose(p);
                 }
             }
@@ -254,8 +254,6 @@ public class Spleef extends BukkitRunnable implements Listener {
         p.setHealth(p.getMaxHealth());
         p.setFlying(false);
         p.setAllowFlight(false);
-        p.setWalkSpeed(0.2f);
-        p.setFlySpeed(0.2f);
         if(lobby != null){
             p.teleport(lobby);
         }
