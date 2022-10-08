@@ -23,10 +23,7 @@ public class ExternalDecentHologramPlugin extends HologramPlugin<Hologram>{
 
         hologramPage.addLine(new HologramLine(hologramPage, this.location, pl.getMessageManager().get("hologram.title")));
         for (String line : lines) {
-            for (int i = 0; i < 5; i++) {
-                hologramPage.addLine(new HologramLine(hologramPage, this.location, line+new Random().nextFloat()+"\n"));
-            }
-
+            hologramPage.addLine(new HologramLine(hologramPage, this.location, line));
         }
         this.hologram.showAll();
     }
