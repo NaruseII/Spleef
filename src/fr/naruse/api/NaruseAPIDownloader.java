@@ -62,6 +62,16 @@ public class NaruseAPIDownloader {
         if(file.exists()){
             file.delete();
         }
+
+        File oldfile = new File(javaPlugin.getDataFolder().getParentFile(), "SecondThreadAPI.jar");
+        if(oldfile.exists()){
+            oldfile.delete();
+        }
+        oldfile = new File(javaPlugin.getDataFolder().getParentFile(), "NaruseAPI.jar");
+        if(oldfile.exists()){
+            oldfile.delete();
+        }
+
         if(!downloadFile("https://github.com/NaruseII/SecondThreadAPI/blob/master/out/artifacts/NaruseSpigotAPI/SecondThreadAPI.jar?raw=true", file)){
             javaPlugin.getLogger().severe("Unable to download SecondThreadAPI");
             Bukkit.getPluginManager().disablePlugin(javaPlugin);

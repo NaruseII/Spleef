@@ -21,9 +21,9 @@ public class ExternalDecentHologramPlugin extends HologramPlugin<Hologram>{
         }
         HologramPage hologramPage = this.hologram.addPage();
 
-        hologramPage.addLine(new HologramLine(hologramPage, this.location, pl.getMessageManager().get("hologram.title")));
+        hologramPage.addLine(new HologramLine(hologramPage, hologramPage.getNextLineLocation(), pl.getMessageManager().get("hologram.title")));
         for (String line : lines) {
-            hologramPage.addLine(new HologramLine(hologramPage, this.location, line));
+            hologramPage.addLine(new HologramLine(hologramPage, hologramPage.getNextLineLocation(), line));
         }
         this.hologram.showAll();
     }

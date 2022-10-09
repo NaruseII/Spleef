@@ -10,6 +10,7 @@
     <orderEntry type="library" name="NaruseSpigotAPI" level="project" />
     <orderEntry type="library" name="DBAPI" level="project" />
     <orderEntry type="library" name="HolographicDisplays" level="project" />
-    <orderEntry type="library" name="DecentHolograms-2.5.1" level="project" />
+    <orderEntry type="library" name="DecentHolograms-2.7.3" level="project" />
+    <orderEntry type="library" name="NaruseSecondThreadAPI" level="project" />
   </component>
 </module>
