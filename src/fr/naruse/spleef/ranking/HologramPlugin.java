@@ -31,7 +31,7 @@ public abstract class HologramPlugin<T> {
         this.reload();
 
         CollectionManager.INFINITE_SECOND_THREAD_RUNNABLE_SET.add(() -> {
-            if(System.currentTimeMillis()-this.millis > 60000 && this.isHologramPlaced()){
+            if(System.currentTimeMillis()-this.millis > 60000 && this.isHologramPlaced() && pl.getSpleefPlayerRegistry() != null){
                 this.millis = System.currentTimeMillis();
 
                 this.sortedMap = Maps.newHashMap();

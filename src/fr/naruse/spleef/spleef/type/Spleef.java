@@ -766,4 +766,8 @@ public class Spleef extends BukkitRunnable implements Listener {
             snowballCooldownMap.put(p, System.currentTimeMillis());
         }
     }
+
+    public List<Block> getDestroyedBlocks() {
+        return this.blocks;
+    }
 }

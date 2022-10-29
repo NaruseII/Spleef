@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
 public class Utils {
@@ -155,6 +156,13 @@ public class Utils {
 
             return map;
         }));
+        metrics.addCustomChart(new Metrics.SimplePie("sheep_bonuses_enabled", new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return pl.getConfig().getString("sheepBonuses");
+            }
+        }));
+
     }
 
 }

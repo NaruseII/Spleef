@@ -9,7 +9,6 @@ import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.GameStatus;
 import fr.naruse.spleef.spleef.bonus.type.*;
 import fr.naruse.spleef.spleef.type.Spleef;
-import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -37,6 +36,7 @@ public class BonusManager extends BukkitRunnable implements Listener {
     }
 
     static {
+
         bonuses.add(BonusExplosive.class);
         bonuses.add(BonusRepulsion.class);
         bonuses.add(BonusPlayerTeleporter.class);
@@ -54,6 +54,11 @@ public class BonusManager extends BukkitRunnable implements Listener {
         bonuses.add(BonusIntergalactic.class);
         bonuses.add(BonusProjectileCounter.class);
         bonuses.add(BonusIntergalacticShield.class);
+        bonuses.add(BonusJinton.class);
+        bonuses.add(BonusLittleJinton.class);
+        bonuses.add(BonusFloorFixer.class);
+        bonuses.add(BonusMegaFloorFixer.class);
+        bonuses.add(BonusFloorHidder.class);
 
         Bukkit.getPluginManager().callEvent(new SpleefBonusInitEvent(bonuses));
     }
