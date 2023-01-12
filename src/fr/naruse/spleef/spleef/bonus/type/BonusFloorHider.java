@@ -1,36 +1,21 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import fr.naruse.api.MathUtils;
 import fr.naruse.api.async.CollectionManager;
-import fr.naruse.api.effect.RotationData;
-import fr.naruse.api.effect.particle.FollowingParticleEffect;
-import fr.naruse.api.effect.particle.ParticleShapeEffect;
-import fr.naruse.api.particle.IParticle;
 import fr.naruse.api.particle.Particle;
-import fr.naruse.api.particle.sender.ParticleSender;
 import fr.naruse.spleef.spleef.GameStatus;
-import fr.naruse.spleef.spleef.bonus.Bonus;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-public class BonusFloorHidder extends BonusColored {
+public class BonusFloorHider extends BonusColored {
 
     private int duration = 20*8;
 
-    public BonusFloorHidder(BonusManager bonusManager, Player p) {
-        super(bonusManager, p, "§2§lFloor Hidder Sheep", 2, 7);
+    public BonusFloorHider(BonusManager bonusManager, Player p) {
+        super(bonusManager, p, "§2§lFloor Hider Sheep", 2, 7);
     }
 
     @Override

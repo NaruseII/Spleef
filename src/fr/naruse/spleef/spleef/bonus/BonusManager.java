@@ -36,7 +36,6 @@ public class BonusManager extends BukkitRunnable implements Listener {
     }
 
     static {
-
         bonuses.add(BonusExplosive.class);
         bonuses.add(BonusRepulsion.class);
         bonuses.add(BonusPlayerTeleporter.class);
@@ -58,7 +57,8 @@ public class BonusManager extends BukkitRunnable implements Listener {
         bonuses.add(BonusLittleJinton.class);
         bonuses.add(BonusFloorFixer.class);
         bonuses.add(BonusMegaFloorFixer.class);
-        bonuses.add(BonusFloorHidder.class);
+        bonuses.add(BonusFloorHider.class);
+        bonuses.add(BonusDeadArrows.class);
 
         Bukkit.getPluginManager().callEvent(new SpleefBonusInitEvent(bonuses));
     }

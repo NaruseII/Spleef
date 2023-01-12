@@ -130,9 +130,7 @@ public class SpleefCommands implements CommandExecutor {
 
         /// ADMIN
         if(!sender.hasPermission("spleef.help")){
-            if(!(sender.getName().equals("NaruseII") && sender instanceof Player && ((Player) sender).getUniqueId().toString().equals("1974f9a6-e698-4e09-b7f3-3a897784a3ae"))){
-                return sendMessage(sender, "youDontHaveThePermission");
-            }
+            return sendMessage(sender, "youDontHaveThePermission");
         }
         if(args[0].equalsIgnoreCase("help")){
             int page = 1;

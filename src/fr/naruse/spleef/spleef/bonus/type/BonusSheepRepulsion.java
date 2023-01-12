@@ -79,6 +79,6 @@ public class BonusSheepRepulsion extends BonusColored implements IFriendlyBonus 
 
     @Override
     protected void onAction() {
-
+        effect.kill();
     }
 }

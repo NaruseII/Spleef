@@ -26,7 +26,7 @@ public class SpleefUpdater {
                 pl.getLogger().log(Level.INFO, "[Updater]");
                 if(needToUpdate(pl)){
                     pl.getLogger().log(Level.INFO, "[Updater]");
-                    pl.getLogger().log(Level.WARNING, "[Updater] The plugin needs to be updated! https://www.spigotmc.org/resources/spleef.61787/");
+                    pl.getLogger().log(Level.WARNING, "[Updater] The plugin needs to be updated! https://www.spigotmc.org/resources/spleef.107351/");
                     pl.getLogger().log(Level.INFO, "[Updater]");
 
                     updateAvailable = true;
