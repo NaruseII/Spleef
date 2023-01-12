@@ -85,6 +85,43 @@ public class NaruseAPIDownloader {
         }
     }
 
+    public static boolean checkDBAPI(JavaPlugin javaPlugin, boolean onlyIfPresent){
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("DBAPI");
+        if(plugin != null){
+            String version = getVersion("https://raw.githubusercontent.com/NaruseII/DBAPI/master/src/plugin.yml");
+            if(version.equals("error")){
+                javaPlugin.getLogger().severe("Could not check online dependecies!");
+                return false;
+            }else if(!version.equalsIgnoreCase(plugin.getDescription().getVersion())){
+                Bukkit.getPluginManager().disablePlugin(plugin);
+            }else{
+                return false;
+            }
+        }else if(onlyIfPresent){
+            return false;
+        }
+
+        File file = new File(javaPlugin.getDataFolder().getParentFile(), "DBAPI.jar");
+        if(file.exists()){
+            file.delete();
+        }
+
+        if(!downloadFile("https://github.com/NaruseII/DBAPI/blob/master/out/artifacts/DBAPI/DBAPI.jar?raw=true", file)){
+            javaPlugin.getLogger().severe("Unable to download SecondThreadAPI");
+            Bukkit.getPluginManager().disablePlugin(javaPlugin);
+            return false;
+        }
+        try {
+            Plugin pl = Bukkit.getPluginManager().loadPlugin(file);
+            pl.onLoad();
+            Bukkit.getPluginManager().enablePlugin(pl);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     private static String getVersion(String urlString){
         try{
             URL url = new URL(urlString);

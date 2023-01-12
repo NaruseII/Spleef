@@ -39,6 +39,7 @@ public class SpleefPlugin extends JavaPlugin {
         super.onEnable();
 
         NaruseAPIDownloader.checkSecondThreadAPI(this);
+        NaruseAPIDownloader.checkDBAPI(this, true);
 
         if(!new File(getDataFolder(), "config.yml").exists()){
             saveResource("config.yml", false);

@@ -1,6 +1,7 @@
 package fr.naruse.spleef.cmd;
 
 import com.google.common.collect.Lists;
+import fr.naruse.api.NaruseAPIDownloader;
 import fr.naruse.spleef.database.DatabaseSQLManager;
 import fr.naruse.spleef.inventory.InventoryStatistics;
 import fr.naruse.spleef.main.SpleefPlugin;
@@ -763,6 +764,16 @@ public class SpleefCommands implements CommandExecutor {
             }
             return true;
         }
+
+        //DOWNLOAD DBAPI
+        if(args[0].equalsIgnoreCase("downloadDBAPI")){
+            if(NaruseAPIDownloader.checkDBAPI(this.pl, false)){
+                return this.sendNormalMessage(sender, "§aDBAPI was downloaded and launched, but you will need to edit its configuration. Then, a server reload/restart must be performed.");
+            }else{
+                return this.sendNormalMessage(sender, "§cAn error occured while downloading DBAPI.");
+            }
+        }
+
         return false;
     }
 
@@ -804,6 +815,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef disabledCommands <Clear, List>");
                 sendNormalMessage(sender, "§6/§7spleef giveAllBonuses");
                 sendNormalMessage(sender, "§6/§7spleef bonus <Spleef Name> <List, Enable> <[Bonus Name]>");
+                sendNormalMessage(sender, "§6/§7spleef downloadDBAPI");
                 sendNormalMessage(sender, "§bPage: §23/3");
             }
         }

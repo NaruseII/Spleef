@@ -1,5 +1,6 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import fr.naruse.api.MathUtils;
 import fr.naruse.api.async.CollectionManager;
