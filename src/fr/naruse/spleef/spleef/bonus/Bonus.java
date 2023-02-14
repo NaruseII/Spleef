@@ -122,7 +122,18 @@ public abstract class Bonus extends Runner {
         isWoolGiven = true;
         ItemStack item = new ItemStack(Material.WOOL, 1, (byte) woolColorId);
         ItemMeta meta = item.getItemMeta();
-        meta.setLore(Lists.newArrayList());
+        List<String> lore = Lists.newArrayList();
+
+        String desc = pl.getMessageManager().get("bonuses."+getClass().getSimpleName());
+        if(!desc.isEmpty()){
+            if(desc.contains("\n")){
+                lore = Lists.newArrayList(desc.split("\n"));
+            }else{
+                lore.add(desc);
+            }
+        }
+
+        meta.setLore(lore);
         meta.setDisplayName(name);
         item.setItemMeta(meta);
         p.getInventory().addItem(item);

@@ -43,7 +43,6 @@ public class BonusJinton extends BonusColored {
 
         this.location = sheep.getLocation();
 
-
         this.effect = new ParticleShapeEffect(sheep.getLocation(), 3, 15,
                 new RotationData()
                         .addRotationAxis(MathUtils.Axis.X, MathUtils.Axis.Y, MathUtils.Axis.Z)

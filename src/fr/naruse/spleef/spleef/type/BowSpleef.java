@@ -24,8 +24,8 @@ public class BowSpleef extends Spleef {
 
     private final List<Entity> tnts = Lists.newArrayList();
 
-    public BowSpleef(SpleefPlugin pl, int id, String name, boolean isOpened, int max, int min, Location arena, Location spawn, Location lobby) {
-        super(pl, id, name, isOpened, max, min, arena, spawn, lobby);
+    public BowSpleef(SpleefPlugin pl, int id, String name, boolean isOpened, int max, int min, Location arena, Location spawn, Location lobby, boolean sheepBonusEnabled) {
+        super(pl, id, name, isOpened, max, min, arena, spawn, lobby, sheepBonusEnabled);
     }
 
     @Override

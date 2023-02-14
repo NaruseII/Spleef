@@ -412,10 +412,6 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfig().set("broadcastWinWorld", !pl.getConfig().getBoolean("broadcastWinWorld"));
                 pl.saveConfig();
                 return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(BroadcastWinWorld: "+pl.getConfig().getBoolean("broadcastWinWorld"));
-            }else if(args[1].equalsIgnoreCase("SheepBonuses")){
-                pl.getConfig().set("sheepBonuses", !pl.getConfig().getBoolean("sheepBonuses"));
-                pl.saveConfig();
-                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(SheepBonuses: "+pl.getConfig().getBoolean("sheepBonuses")+" §c(Need /spleef reload)§7)");
             }else if(args[1].equalsIgnoreCase("diamondSpade")){
                 pl.getConfig().set("diamondSpade", !pl.getConfig().getBoolean("diamondSpade"));
                 pl.saveConfig();
@@ -715,7 +711,7 @@ public class SpleefCommands implements CommandExecutor {
                 p.sendMessage(pl.getMessageManager().get("youNeedToBeInGame"));
             }
             if(spleef.getBonusManager() == null){
-                return sendMessage(p, pl.getMessageManager().get("settingShouldBeEnabled", new String[]{"setting"}, new String[]{"SheepBonuses"}));
+                return sendNormalMessage(p, pl.getMessageManager().get("settingShouldBeEnabled", new String[]{"setting"}, new String[]{"SheepBonuses"}));
             }
             for (Class<? extends Bonus> bonus : BonusManager.getBonuses()) {
                 spleef.getBonusManager().giveBonus(p, bonus.getSimpleName());
@@ -774,6 +770,22 @@ public class SpleefCommands implements CommandExecutor {
             }
         }
 
+        //ENABLE BONUS
+        if(args[0].equalsIgnoreCase("enableSheep")){
+            if(args.length < 2){
+                return help(sender, 3);
+            }
+            int id = getIdByName(args[1]);
+            if(id == -1){
+                return sendMessage(sender, "spleefNotFound", new String[]{"name"}, new String[]{args[1]});
+            }
+
+            boolean newValue = pl.getConfig().contains("spleef."+id+".sheepBonusEnabled") ? !pl.getConfig().getBoolean("spleef."+id+".sheepBonusEnabled") : false;
+            pl.getConfig().set("spleef."+id+".sheepBonusEnabled", newValue);
+            pl.saveConfig();
+            return sendNormalMessage(sender, "§aSetting saved. §6(SheepBonus: "+newValue+"§6)");
+        }
+
         return false;
     }
 
@@ -798,7 +810,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setLang <French, English, Russian> §7(It will erase your changes)");
                 sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs," +
-                        " InstantGiveShovel, RandomSpawn, Spectator, BroadcastWinWorld, SheepBonuses, DiamondSpade, YAMLStatistics>");
+                        " InstantGiveShovel, RandomSpawn, Spectator, BroadcastWinWorld, DiamondSpade, YAMLStatistics>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");
@@ -816,6 +828,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef giveAllBonuses");
                 sendNormalMessage(sender, "§6/§7spleef bonus <Spleef Name> <List, Enable> <[Bonus Name]>");
                 sendNormalMessage(sender, "§6/§7spleef downloadDBAPI");
+                sendNormalMessage(sender, "§6/§7spleef enableSheep <Spleef name>");
                 sendNormalMessage(sender, "§bPage: §23/3");
             }
         }

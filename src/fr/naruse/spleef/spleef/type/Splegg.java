@@ -14,8 +14,8 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 
 public class Splegg extends Spleef {
-    public Splegg(SpleefPlugin pl, int id, String name, boolean isOpened, int max, int min, Location arena, Location spawn, Location lobby) {
-        super(pl, id, name, isOpened, max, min, arena, spawn, lobby);
+    public Splegg(SpleefPlugin pl, int id, String name, boolean isOpened, int max, int min, Location arena, Location spawn, Location lobby, boolean sheepBonusEnabled) {
+        super(pl, id, name, isOpened, max, min, arena, spawn, lobby, sheepBonusEnabled);
     }
 
     @Override

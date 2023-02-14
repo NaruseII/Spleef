@@ -88,25 +88,34 @@ public class Spleefs {
                 }
                 int max = pl.getConfig().getInt("spleef."+i+".max");
 
+                boolean sheepBonusEnabled = false;
+                if(pl.getConfig().contains("spleef."+i+".sheepBonusEnabled")){
+                    sheepBonusEnabled = pl.getConfig().getBoolean("spleef."+i+".sheepBonusEnabled");
+                }else{
+                    sheepBonusEnabled = pl.getConfig().contains("sheepBonuses") ? pl.getConfig().getBoolean("sheepBonuses") : true;
+                    pl.getConfig().set("spleef."+i+".sheepBonusEnabled", sheepBonusEnabled);
+                    pl.saveConfig();
+                }
+
                 Spleef spleef;
                 switch (gameType){
                     case SPLEGG:
-                        spleef = new Splegg(pl, i, name, isOpened, max, min, arena, spawn, lobby);
+                        spleef = new Splegg(pl, i, name, isOpened, max, min, arena, spawn, lobby, sheepBonusEnabled);
                         break;
                     case BOW:
-                        spleef = new BowSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby);
+                        spleef = new BowSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, sheepBonusEnabled);
                         break;
                     case TEAM_TWO:
-                        spleef = new TeamSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, 2);
+                        spleef = new TeamSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, 2, sheepBonusEnabled);
                         break;
                     case TEAM_THREE:
-                        spleef = new TeamSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, 3);
+                        spleef = new TeamSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, 3, sheepBonusEnabled);
                         break;
                     case TEAM_FOUR:
-                        spleef = new TeamSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, 4);
+                        spleef = new TeamSpleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, 4, sheepBonusEnabled);
                         break;
                     default:
-                        spleef = new Spleef(pl, i, name, isOpened, max, min, arena, spawn, lobby);
+                        spleef = new Spleef(pl, i, name, isOpened, max, min, arena, spawn, lobby, sheepBonusEnabled);
                 }
 
                 pl.getServer().getPluginManager().registerEvents(spleef, pl);

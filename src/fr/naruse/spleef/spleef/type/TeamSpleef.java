@@ -31,8 +31,8 @@ public class TeamSpleef extends Spleef {
     private Team[] teams;
     private Map<Player, Team> playerTeamMap = Maps.newHashMap();
 
-    public TeamSpleef(SpleefPlugin pl, int id, String name, boolean isOpened, int max, int min, Location arena, Location spawn, Location lobby, int teamCount) {
-        super(pl, id, name, isOpened, max, min, arena, spawn, lobby);
+    public TeamSpleef(SpleefPlugin pl, int id, String name, boolean isOpened, int max, int min, Location arena, Location spawn, Location lobby, int teamCount, boolean sheepBonusEnabled) {
+        super(pl, id, name, isOpened, max, min, arena, spawn, lobby, sheepBonusEnabled);
         this.teams = new Team[teamCount];
 
         List<DyeColor> dyeColors = Lists.newArrayList(DyeColor.values());

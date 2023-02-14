@@ -89,7 +89,7 @@ public class SpleefUpdater {
     }
 
     public static void sendMessage(SpleefPlugin pl, Player p){
-        p.sendMessage(pl.getMessageManager().get("needHasAnUpdate", new String[]{"currentVersion", "newVersion", "url"}, new String[]{currentVersion, onlineVersion, "https://www.spigotmc.org/resources/spleef.61787/"}));
+        p.sendMessage(pl.getMessageManager().get("needHasAnUpdate", new String[]{"currentVersion", "newVersion", "url"}, new String[]{currentVersion, onlineVersion, "https://www.spigotmc.org/resources/spleef.107351/"}));
     }
 
     public static boolean updateAvailable() {

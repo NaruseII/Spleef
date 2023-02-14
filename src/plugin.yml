@@ -1,6 +1,6 @@
 name: Spleef
-version: 2.2.7
-author: [Naruse, jeremaier]
+version: 2.2.8
+author: Naruse
 main: fr.naruse.spleef.main.SpleefPlugin
 softdepend: [DBAPI, Vault, HolographicDisplays, PlaceholderAPI, SecondThreadAPI, DecentHolograms]
 commands:

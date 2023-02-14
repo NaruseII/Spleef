@@ -58,7 +58,7 @@ public class Spleef extends BukkitRunnable implements Listener {
     protected final HashMap<Player, Integer> lastPlayerBlockTime = Maps.newHashMap();
     protected GameStatus currentStatus = GameStatus.WAIT;
 
-    public Spleef(SpleefPlugin pl, int id, String name, boolean isOpened, int max, int min, Location arena, Location spawn, Location lobby) {
+    public Spleef(SpleefPlugin pl, int id, String name, boolean isOpened, int max, int min, Location arena, Location spawn, Location lobby, boolean sheepBonusEnabled) {
         this.pl = pl;
         this.id = id;
         this.name = name;
@@ -73,7 +73,7 @@ public class Spleef extends BukkitRunnable implements Listener {
         this.time = pl.getConfig().getInt("timer.start");
         scoreboardSign.getObjective().setDisplayName(pl.getMessageManager().get("scoreboard.scoreboardName", new String[]{"name", "time"}, new String[]{getFullName(), time+""}));
 
-        if(this.isBonusEnabled()){
+        if(sheepBonusEnabled){
             this.bonusManager = new BonusManager(pl, this);
         }
 
@@ -551,10 +551,6 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     private boolean isSpectatorEnabled(){
         return pl.getConfig().getBoolean("spectator");
-    }
-
-    private boolean isBonusEnabled(){
-        return pl.getConfig().getBoolean("sheepBonuses");
     }
 
     private int getSnowballCooldown(){

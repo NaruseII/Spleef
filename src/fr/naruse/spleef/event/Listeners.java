@@ -39,10 +39,6 @@ public class Listeners implements Listener {
             if(SpleefUpdater.updateAvailable()){
                 SpleefUpdater.sendMessage(pl, p);
             }
-            if(this.pl.getConfig().getString("serverIp") != null && this.pl.getConfig().getString("serverIp").equalsIgnoreCase("nope")){
-                p.sendMessage("§4Hey! §cDo you allow Spleef to show your server's ip address on BStats ? (Only for non-local servers)");
-                p.sendMessage("§7If §aYES§7, please execute §f/spleef specifyMyIP <Your IP>§7. Thanks!");
-            }
         }
     }
 
