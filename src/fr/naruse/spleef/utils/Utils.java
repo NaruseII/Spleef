@@ -2,6 +2,7 @@ package fr.naruse.spleef.utils;
 
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.statistic.StatisticBuilder;
+import fr.naruse.spleef.spleef.type.Spleef;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,10 +11,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.URL;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -142,27 +143,46 @@ public class Utils {
             }
             return map;
         }));
-        metrics.addCustomChart(new Metrics.DrilldownPie("servers_running_spleef", () -> {
-            Map<String, Map<String, Integer>> map = new HashMap<>();
-            Map<String, Integer> entry = new HashMap<>();
-            String address = pl.getConfig().getString("serverIP");
-            if(address != null && !address.equalsIgnoreCase("nope")){
-                entry.put(address, 1);
-                map.put(address, entry);
-            }else{
-                entry.put("Hidden", 1);
-                map.put("Hidden", entry);
-            }
-
-            return map;
-        }));
         metrics.addCustomChart(new Metrics.SimplePie("sheep_bonuses_enabled", new Callable<String>() {
             @Override
             public String call() throws Exception {
-                return pl.getConfig().getString("sheepBonuses");
+                for (Spleef spleef : pl.getSpleefs().getSpleefs()) {
+                    if(spleef.getBonusManager() != null){
+                        return "true";
+                    }
+                }
+                return "false";
             }
         }));
+        metrics.addCustomChart(new Metrics.SingleLineChart("arena_count", () -> pl.getSpleefs().getSpleefs().size()));
+        metrics.addCustomChart(new Metrics.SingleLineChart("player_playing_count", () -> {
+            int count = 0;
+            for (Spleef spleef : pl.getSpleefs().getSpleefs()) {
+                count += spleef.getPlayerInGame().size();
+            }
+            return count;
+        }));
+        metrics.addCustomChart(new Metrics.SimplePie("servers_name", () -> {
+           if(pl.getConfig().getBoolean("allowShowIP2")){
+               InetAddress address = getCurrentAddress();
+               if(address == null){
+                   return "offline";
+               }
+               return address.getCanonicalHostName();
+           }
+           return "not shown";
+        }));
+    }
 
+    private static InetAddress getCurrentAddress() {
+        try{
+            final Socket socket = new Socket();
+            socket.connect(new InetSocketAddress("google.com", 80));
+            return socket.getLocalAddress();
+        }catch (Exception e){
+            //e.printStackTrace();
+        }
+        return null;
     }
 
 }

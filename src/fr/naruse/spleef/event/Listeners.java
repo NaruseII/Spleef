@@ -39,6 +39,14 @@ public class Listeners implements Listener {
             if(SpleefUpdater.updateAvailable()){
                 SpleefUpdater.sendMessage(pl, p);
             }
+            if(!this.pl.getConfig().getBoolean("allowShowIPAsked2")){
+                p.sendMessage("§cDo you allow the Spleef to reference your server's name ? §oOnly for public server.");
+                TextComponent textComponent = new TextComponent("§a§lYES");
+                textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/spleef allowShowIp yes"));
+                TextComponent textComponent1 = new TextComponent("§4§lNO");
+                textComponent1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/spleef allowShowIp no"));
+                p.spigot().sendMessage(textComponent, new TextComponent(" §7§l| "), textComponent1);
+            }
         }
     }
 

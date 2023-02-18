@@ -786,6 +786,22 @@ public class SpleefCommands implements CommandExecutor {
             return sendNormalMessage(sender, "§aSetting saved. §6(SheepBonus: "+newValue+"§6)");
         }
 
+        // ALLOWSHOWIP
+        if(args[0].equalsIgnoreCase("allowShowIp")){
+            if(args.length < 2){
+                return false;
+            }
+
+            pl.getConfig().set("allowShowIPAsked2", true);
+            if(args[1].equalsIgnoreCase("no")){
+                pl.getConfig().set("allowShowIP2", false);
+            }else{
+                pl.getConfig().set("allowShowIP2", true);
+            }
+            pl.saveConfig();
+            return this.sendNormalMessage(sender, "§aSetting saved.");
+        }
+
         return false;
     }
 

@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 public class BonusManager extends BukkitRunnable implements Listener {
 
     private static final List<Class<? extends Bonus>> bonuses = Lists.newArrayList();
+    private static final List<Runnable> onRestartRunnableList = Lists.newArrayList();
 
     public static List<Class<? extends Bonus>> getBonuses() {
         return bonuses;
@@ -59,6 +60,9 @@ public class BonusManager extends BukkitRunnable implements Listener {
         bonuses.add(BonusMegaFloorFixer.class);
         bonuses.add(BonusFloorHider.class);
         bonuses.add(BonusDeadArrows.class);
+        bonuses.add(BonusSeekerExplosive.class);
+        bonuses.add(BonusVirus.class);
+        bonuses.add(BonusCubeVacuum.class);
 
         Bukkit.getPluginManager().callEvent(new SpleefBonusInitEvent(bonuses));
     }
@@ -117,6 +121,10 @@ public class BonusManager extends BukkitRunnable implements Listener {
             bonus.cancel(false);
             bonus.onRestart();
         }
+        for (Runnable runnable : onRestartRunnableList) {
+            runnable.run();
+        }
+        onRestartRunnableList.clear();
         playerBonusMap.clear();
         secondBeforeBonus.clear();
 
@@ -193,6 +201,10 @@ public class BonusManager extends BukkitRunnable implements Listener {
                 e.getHitEntity().setVelocity(MathUtils.genVector(e.getEntity().getLocation(), e.getHitEntity().getLocation()));
             }
         }
+    }
+
+    public static void addRestartRunnable(Runnable runnable){
+        onRestartRunnableList.add(runnable);
     }
 
     public Spleef getSpleef() {

@@ -11,7 +11,6 @@ import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.spleef.bonus.IFriendlyBonus;
 import fr.naruse.spleef.spleef.bonus.utils.MoveToGoal;
-import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Pig;

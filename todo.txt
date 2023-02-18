@@ -1,10 +1,3 @@
-- Add stats on Bstats:
-  - Arena count
-  - In game arenas
-  - True currently playing player count
-- Fix Bstat sheepEnabled
 - Add new sheep bonus:
   - BonusBouncingBall: 3D sphere ? 3D cube ? Bouncing on Y axis effect, melt on a 4 circle block radius on every bounce. Goes through walls. 25 block distance ?
   Vectorial force: between 1 block per second and 5 per second
-  - BonusVirus: Randomly affect surroundding blocks. Melt them smoothly after 10 seconds (Infect 1 block per second for every infected block : to test)
-  - BonusSeekingExplosive: Explosive sheep targeting the closest player.

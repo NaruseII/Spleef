@@ -69,9 +69,11 @@ public class BonusSheepRepulsion extends BonusColored implements IFriendlyBonus 
                 stream.forEach(entity -> entity.setVelocity(MathUtils.genVector(sheep.getLocation(), entity.getLocation()).multiply(1.5).setY(0.5)));
             });
 
-            for (ParticleRotatingCircleEffect effect : this.effect.getEffectList()) {
-                effect.setLocation(sheep.getLocation().clone());
-                effect.calculateShape();
+            if(this.effect != null){
+                for (ParticleRotatingCircleEffect effect : this.effect.getEffectList()) {
+                    effect.setLocation(sheep.getLocation().clone());
+                    effect.calculateShape();
+                }
             }
 
         }

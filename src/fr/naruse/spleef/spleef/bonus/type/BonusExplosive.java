@@ -12,6 +12,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public class BonusExplosive extends BonusColored {
+
+    protected BonusExplosive(BonusManager bonusManager, Player p, String name) {
+        super(bonusManager, p, name, 14, 2+random.nextInt(6));
+    }
+
     public BonusExplosive(BonusManager bonusManager, Player p) {
         super(bonusManager, p, "§c§lExplosive Sheep", 14, 2+random.nextInt(6));
     }

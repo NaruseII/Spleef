@@ -206,6 +206,9 @@ english:
     BonusSheepRepulsion: "§7Follows you for 8 seconds. Will repel every sheep.\n§7Radius: 10 blocks."
     BonusSlowness: "§7Slows nearby players for 8 seconds.\n§7Radius: 10 blocks."
     BonusSpeed: "§7Speed up nearby players for 15 seconds.\n§7Radius: 10 blocks."
+    BonusSeekerExplosive: "§7Targeted melting explosion.\n§7Radius: 5 blocks."
+    BonusVirus: "§7Green virus affecting random blocks. Melts them after 10 seconds."
+    BonusCubeVacuum: "§710 cubes floating in circle and melting every snow bloc on their way."
 
 french:
   commands:
@@ -415,6 +418,9 @@ french:
     BonusSheepRepulsion: "§7Vous suit pendant 8 secondes. Repousse tous les moutons.\n§7Rayon: 10 blocs."
     BonusSlowness: "§7Ralentit les joueurs environnants pendant 8 secondes.\n§7Rayon: 10 blocs."
     BonusSpeed: "§7Accélère les joueurs environnants pendant 15 secondes.\n§7Rayon: 10 blocs."
+    BonusSeekerExplosive: "§7Explosion ciblée faisant fondre la neige.\n§7Rayon: 5 blocs."
+    BonusVirus: "§7Virus vert affectant aléatoirement les blocs. Les fera fondre après 10 secondes."
+    BonusCubeVacuum: "§710 cubes flottants en cercle qui fondront tous les blocs de neige sur leur passage."
 
 russian:
   commands:

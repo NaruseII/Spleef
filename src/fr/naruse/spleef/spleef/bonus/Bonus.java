@@ -1,7 +1,6 @@
 package fr.naruse.spleef.spleef.bonus;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import fr.naruse.api.MathUtils;
 import fr.naruse.api.async.CollectionManager;
 import fr.naruse.api.async.Runner;
@@ -12,7 +11,6 @@ import fr.naruse.api.particle.sender.ParticleSender;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.bonus.type.BonusMelt;
 import fr.naruse.spleef.spleef.type.Spleef;
-import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -28,7 +26,6 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -160,6 +157,10 @@ public abstract class Bonus extends Runner {
 
     public void runSync(Runnable runnable){
         Bukkit.getScheduler().runTask(pl, runnable);
+    }
+
+    public void runSyncLater(Runnable runnable, int ticks){
+        Bukkit.getScheduler().runTaskLater(pl, runnable, ticks);
     }
 
     public void registerAttribute(IBonusAttribute bonusAttribute){

@@ -47,7 +47,7 @@ public class BonusJinton extends BonusColored {
                 new RotationData()
                         .addRotationAxis(MathUtils.Axis.X, MathUtils.Axis.Y, MathUtils.Axis.Z)
                         .setTickInterval(random.nextInt(3))
-                        .setDegreeIncrement(1),
+                        .setDegreeIncrement(1.0),
                  Particle.getEnumParticle().SOUL_FIRE_FLAME());
         this.effect.start();
 
