@@ -420,6 +420,10 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfig().set("yamlStatistics", !pl.getConfig().getBoolean("yamlStatistics"));
                 pl.saveConfig();
                 return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(YAMLStatistics: "+pl.getConfig().getBoolean("yamlStatistics")+") §c(Need server restart/reload)§7)");
+            }else if(args[1].equalsIgnoreCase("checkForUpdates")){
+                pl.getConfig().set("checkForUpdates", !pl.getConfig().getBoolean("checkForUpdates"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(CheckForUpdates: "+pl.getConfig().getBoolean("checkForUpdates")+")");
             }else{
                 return help(sender, 2);
             }
@@ -826,7 +830,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setLang <French, English, Russian> §7(It will erase your changes)");
                 sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs," +
-                        " InstantGiveShovel, RandomSpawn, Spectator, BroadcastWinWorld, DiamondSpade, YAMLStatistics>");
+                        " InstantGiveShovel, RandomSpawn, Spectator, BroadcastWinWorld, DiamondSpade, YAMLStatistics, CheckForUpdates>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");

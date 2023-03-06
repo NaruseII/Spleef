@@ -18,6 +18,7 @@ allowShowIP2: false
 allowShowIPAsked2: false
 serverIP: "nope"
 disabledCommands:
+checkForUpdates: true
 
 timer:
   start: 30

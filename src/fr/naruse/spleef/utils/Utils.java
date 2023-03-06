@@ -168,7 +168,7 @@ public class Utils {
                if(address == null){
                    return "offline";
                }
-               return address.getCanonicalHostName();
+               return address.getHostAddress()+":"+Bukkit.getPort();
            }
            return "not shown";
         }));

@@ -348,7 +348,9 @@ public class Spleef extends BukkitRunnable implements Listener {
 
     public void updateSigns() {
         for(Sign sign : signs){
-            updateSign(sign);
+            if(sign.getChunk().isLoaded()){
+                updateSign(sign);
+            }
         }
     }
 
