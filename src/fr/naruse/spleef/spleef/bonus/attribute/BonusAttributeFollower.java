@@ -1,8 +1,8 @@
 package fr.naruse.spleef.spleef.bonus.attribute;
 
+import fr.naruse.api.particle.version.VersionManager;
 import fr.naruse.spleef.spleef.bonus.Bonus;
 import fr.naruse.spleef.spleef.bonus.IBonusAttribute;
-import fr.naruse.spleef.spleef.bonus.utils.MoveToGoal;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -18,7 +18,7 @@ public class BonusAttributeFollower implements IBonusAttribute {
     }
 
     public void nearestPlayerFound(Player target) {
-        new MoveToGoal(bonus.getSheep(), target.getLocation()).execute(speed);
+        VersionManager.getVersion().moveEntityToDestination(bonus.getSheep(), target.getLocation(), speed);
     }
 
     @Override

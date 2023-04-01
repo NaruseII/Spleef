@@ -5,11 +5,10 @@ import fr.naruse.api.effect.RotationData;
 import fr.naruse.api.effect.particle.ParticleRotatingCircleEffect;
 import fr.naruse.api.effect.particle.ParticleRotatingCirclesEffect;
 import fr.naruse.api.particle.Particle;
+import fr.naruse.api.particle.version.VersionManager;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.spleef.bonus.IFriendlyBonus;
-import fr.naruse.spleef.spleef.bonus.utils.MoveToGoal;
-import fr.naruse.spleef.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -65,7 +64,7 @@ public class BonusSheepRepulsion extends BonusColored implements IFriendlyBonus 
             sheep.setTarget(p);
             List<Entity> stream = getNearbySheeps(sheep.getLocation(), 10, 5, 10, true, p).filter(entity -> entity != sheep).collect(Collectors.toList());;
             runSync(() -> {
-                new MoveToGoal(sheep, p.getLocation()).execute(2);
+                VersionManager.getVersion().moveEntityToDestination(sheep, p.getLocation(), 2);
                 stream.forEach(entity -> entity.setVelocity(MathUtils.genVector(sheep.getLocation(), entity.getLocation()).multiply(1.5).setY(0.5)));
             });
 

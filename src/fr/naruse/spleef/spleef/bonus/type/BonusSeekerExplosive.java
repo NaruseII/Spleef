@@ -1,7 +1,7 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
+import fr.naruse.api.particle.version.VersionManager;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
-import fr.naruse.spleef.spleef.bonus.utils.MoveToGoal;
 import org.bukkit.entity.*;
 
 import java.util.Optional;
@@ -27,7 +27,7 @@ public class BonusSeekerExplosive extends BonusExplosive {
 
             this.runSync(() -> {
                 this.sheep.setTarget(optional.get());
-                new MoveToGoal(this.sheep, optional.get().getLocation()).execute(1.5);
+                VersionManager.getVersion().moveEntityToDestination(sheep, optional.get().getLocation(), 1.5);
             });
         }
     }

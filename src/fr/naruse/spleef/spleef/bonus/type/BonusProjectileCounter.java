@@ -1,11 +1,10 @@
 package fr.naruse.spleef.spleef.bonus.type;
 
 import fr.naruse.api.MathUtils;
+import fr.naruse.api.particle.version.VersionManager;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.spleef.bonus.IFriendlyBonus;
-import fr.naruse.spleef.spleef.bonus.utils.MoveToGoal;
-import fr.naruse.spleef.utils.Utils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -26,7 +25,7 @@ public class BonusProjectileCounter extends BonusColored implements IFriendlyBon
             sheep.setTarget(p);
             Set<Entity> stream = getNearbyEntities(sheep.getLocation(), 10, 5, 10).filter(entity -> entity instanceof Projectile).collect(Collectors.toSet());
             runSync(() -> {
-                new MoveToGoal(sheep, p.getLocation()).execute(2);
+                VersionManager.getVersion().moveEntityToDestination(sheep, p.getLocation(), 2);
                 stream.forEach(entity -> entity.setVelocity(MathUtils.genVector(sheep.getLocation(), entity.getLocation()).multiply(1.5).setY(0.5)));
             });
         }

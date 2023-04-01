@@ -22,11 +22,15 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class SpleefCommands implements CommandExecutor {
     private SpleefPlugin pl;
@@ -543,6 +547,9 @@ public class SpleefCommands implements CommandExecutor {
                     pl.getConfig().set("reward.winItem", null);
                 }else{
                     pl.getConfig().set("reward.winItem", StatisticBuilder.GSON.toJson(itemStack.serialize()));
+                    Map<String, Integer> map = new HashMap<>();
+                    itemStack.getEnchantments().forEach((enchantment, integer) -> map.put(enchantment.getName(), integer));
+                    pl.getConfig().set("reward.winItemEnchants", StatisticBuilder.GSON.toJson(map));
                 }
             }else {
                 if(args.length < 3){

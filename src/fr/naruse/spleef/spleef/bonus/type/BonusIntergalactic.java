@@ -40,10 +40,11 @@ public class BonusIntergalactic extends BonusColored {
         runSync(() -> {
             startTime = System.currentTimeMillis();
             Pig pig = (Pig) finalLocation.getWorld().spawnEntity(finalLocation.add(0, 200, 0), EntityType.PIG);
-
             if(pig == null){
                 return;
             }
+
+            CollectionManager.ASYNC_ENTITY_LIST.add(pig);
             pig.setInvulnerable(true);
             pig.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999999, 10));
             CollectionManager.SECOND_THREAD_RUNNABLE_SET.add(() -> runPigTicker(pig));

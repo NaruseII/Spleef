@@ -17,6 +17,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
 public class Utils {
@@ -64,6 +65,10 @@ public class Utils {
 
         if(pl.getConfig().contains("reward.winItem")){
             WIN_ITEM = ItemStack.deserialize(StatisticBuilder.GSON.fromJson(pl.getConfig().getString("reward.winItem"), StatisticBuilder.MAP_TYPE));
+            Map<String, Object> map = StatisticBuilder.GSON.fromJson(pl.getConfig().getString("reward.winItemEnchants"), StatisticBuilder.MAP_TYPE);
+            if(map != null){
+                map.forEach((name, i) -> WIN_ITEM.addUnsafeEnchantment(Enchantment.getByName(name), (int) Double.parseDouble(i.toString())));
+            }
         }
     }
 

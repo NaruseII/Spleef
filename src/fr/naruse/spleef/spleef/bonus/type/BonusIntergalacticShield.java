@@ -7,10 +7,10 @@ import fr.naruse.api.effect.particle.FollowingParticleEffect;
 import fr.naruse.api.effect.particle.FollowingParticlePathEffect;
 import fr.naruse.api.particle.Particle;
 import fr.naruse.api.particle.sender.ParticleSender;
+import fr.naruse.api.particle.version.VersionManager;
 import fr.naruse.spleef.spleef.bonus.BonusColored;
 import fr.naruse.spleef.spleef.bonus.BonusManager;
 import fr.naruse.spleef.spleef.bonus.IFriendlyBonus;
-import fr.naruse.spleef.spleef.bonus.utils.MoveToGoal;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Pig;
@@ -46,7 +46,7 @@ public class BonusIntergalacticShield extends BonusColored implements IFriendlyB
 
             runSync(() -> {
                 sheep.setTarget(p);
-                new MoveToGoal(sheep, p.getLocation()).execute(2);
+                VersionManager.getVersion().moveEntityToDestination(sheep, p.getLocation(), 2);
             });
 
             if(!optional.isPresent()){
