@@ -307,6 +307,10 @@ public class Spleef extends BukkitRunnable implements Listener {
             if(pl.getVaultManager() != null){
                 pl.getVaultManager().giveLooseReward(p);
             }
+            if(pl.getConfig().contains("reward.looseCommand")){
+                String cmd = pl.getConfig().getString("reward.looseCommand").substring(1).replace("{player}", p.getName());
+                pl.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
+            }
         }
         spectators.remove(p);
         if(isInGame){
@@ -442,6 +446,10 @@ public class Spleef extends BukkitRunnable implements Listener {
             if(pl.getVaultManager() != null){
                 pl.getVaultManager().giveLooseReward(p);
             }
+            if(pl.getConfig().contains("reward.looseCommand")){
+                String cmd = pl.getConfig().getString("reward.looseCommand").substring(1).replace("{player}", p.getName());
+                pl.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
+            }
         }else{
             spectators.add(p);
             p.teleport(arena);
@@ -487,6 +495,10 @@ public class Spleef extends BukkitRunnable implements Listener {
             spleefPlayer.giveBackData(p);
             if(pl.getVaultManager() != null){
                 pl.getVaultManager().giveWinReward(p);
+            }
+            if(pl.getConfig().contains("reward.winCommand")){
+                String cmd = pl.getConfig().getString("reward.winCommand").substring(1).replace("{player}", p.getName());
+                pl.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
             }
             if(Utils.WIN_ITEM != null){
                 p.getInventory().addItem(Utils.WIN_ITEM);

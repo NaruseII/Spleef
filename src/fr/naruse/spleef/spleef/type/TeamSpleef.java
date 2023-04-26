@@ -147,6 +147,10 @@ public class TeamSpleef extends Spleef {
                 if(pl.getVaultManager() != null){
                     pl.getVaultManager().giveWinReward(p);
                 }
+                if(pl.getConfig().contains("reward.winCommand")){
+                    String cmd = pl.getConfig().getString("reward.winCommand").substring(1).replace("{player}", p.getName());
+                    pl.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
+                }
                 if(Utils.WIN_ITEM != null){
                     p.getInventory().addItem(Utils.WIN_ITEM);
                 }

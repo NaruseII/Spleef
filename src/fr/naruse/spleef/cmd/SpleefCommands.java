@@ -559,7 +559,35 @@ public class SpleefCommands implements CommandExecutor {
                 try{
                     number = Double.parseDouble(args[2]);
                 }catch (Exception e){
-                    return sendMessage(sender, "wrongNumber");
+
+                    if(!args[2].startsWith("/")){
+                        return sendMessage(sender, "wrongNumber");
+                    }else{
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (int i = 2; i < args.length; i++) {
+                            stringBuilder.append(args[i]).append(" ");
+                        }
+                        String fullCommand = stringBuilder.substring(0, stringBuilder.length()-1);
+
+                        // Is COMMAND
+                        if(args[1].equalsIgnoreCase("win")){
+                            if(args[2].equalsIgnoreCase("/-1")){
+                                pl.getConfig().set("reward.winCommand", null);
+                            }else{
+                                pl.getConfig().set("reward.winCommand", fullCommand);
+                            }
+                        }else if(args[1].equalsIgnoreCase("loose")){
+                            if(args[2].equalsIgnoreCase("/-1")){
+                                pl.getConfig().set("reward.looseCommand", null);
+                            }else{
+                                pl.getConfig().set("reward.looseCommand", fullCommand);
+                            }
+                        }else{
+                            return help(sender, 2);
+                        }
+                        pl.saveConfig();
+                        return sendMessage(sender, "settingSaved");
+                    }
                 }
                 if(args[1].equalsIgnoreCase("win")){
                     pl.getConfig().set("reward.win", number);
@@ -842,7 +870,9 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");
                 sendNormalMessage(sender, "§6/§7spleef list");
-                sendNormalMessage(sender, "§6/§7spleef setReward <Win, Loose, WinItem> <[Number]> §7(-1 means no reward) (WinItem select item in hand & need /spleef reload)");
+                sendNormalMessage(sender, "§6/§7spleef setReward WinItem §7(No item will delete saved item) (Select item in hand & need /spleef reload) ('{player}' for player's name)");
+                sendNormalMessage(sender, "§6/§7spleef setReward <Win, Loose> <[Number]> §7(-1 means no reward)");
+                sendNormalMessage(sender, "§6/§7spleef setReward <Win, Loose> <Command> §7('/-1' means no reward, will delete saved command | Command executed by the console)");
                 sendNormalMessage(sender, "§6/§7spleef clearStats §7(Irreversible action)");
                 sendNormalMessage(sender, "§bPage: §22/3");
             }else if(page == 3){
