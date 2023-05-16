@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import fr.naruse.api.NaruseAPIDownloader;
 import fr.naruse.spleef.database.DatabaseSQLManager;
 import fr.naruse.spleef.inventory.InventoryStatistics;
+import fr.naruse.spleef.inventory.manager.InventoryManager;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.player.SpleefPlayer;
 import fr.naruse.spleef.player.statistic.StatisticBuilder;
@@ -428,6 +429,10 @@ public class SpleefCommands implements CommandExecutor {
                 pl.getConfig().set("checkForUpdates", !pl.getConfig().getBoolean("checkForUpdates"));
                 pl.saveConfig();
                 return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(CheckForUpdates: "+pl.getConfig().getBoolean("checkForUpdates")+")");
+            } else if(args[1].equalsIgnoreCase("JoinWorldLock")){
+                pl.getConfig().set("joinWorldLock", !pl.getConfig().getBoolean("joinWorldLock"));
+                pl.saveConfig();
+                return sendNormalMessage(sender, pl.getMessageManager().get("commands.settingSaved")+" §7(JoinWorldLock: "+pl.getConfig().getBoolean("joinWorldLock")+")");
             }else{
                 return help(sender, 2);
             }
@@ -841,6 +846,15 @@ public class SpleefCommands implements CommandExecutor {
             return this.sendNormalMessage(sender, "§aSetting saved.");
         }
 
+        // MANAGER
+        if(args[0].equalsIgnoreCase("manager")){
+            if(sender instanceof Player){
+                new InventoryManager(pl, (Player) sender);
+            }
+
+            return true;
+        }
+
         return false;
     }
 
@@ -865,7 +879,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef setTimer <Start, BlockStanding> <Number>");
                 sendNormalMessage(sender, "§6/§7spleef setLang <French, English, Russian> §7(It will erase your changes)");
                 sendNormalMessage(sender, "§6/§7spleef enable <BroadcastWin, HolographicRanking, Lightnings, StandingLimit, TpToLastLoc, Snowballs," +
-                        " InstantGiveShovel, RandomSpawn, Spectator, BroadcastWinWorld, DiamondSpade, YAMLStatistics, CheckForUpdates>");
+                        " InstantGiveShovel, RandomSpawn, Spectator, BroadcastWinWorld, DiamondSpade, YAMLStatistics, CheckForUpdates, JoinWorldLock>");
                 sendNormalMessage(sender, "§6/§7spleef forceStart <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceStop <Spleef name>");
                 sendNormalMessage(sender, "§6/§7spleef forceJoin <Spleef name> <Player>");
@@ -886,6 +900,7 @@ public class SpleefCommands implements CommandExecutor {
                 sendNormalMessage(sender, "§6/§7spleef bonus <Spleef Name> <List, Enable> <[Bonus Name]>");
                 sendNormalMessage(sender, "§6/§7spleef downloadDBAPI");
                 sendNormalMessage(sender, "§6/§7spleef enableSheep <Spleef name>");
+                sendNormalMessage(sender, "§6/§7spleef manager");
                 sendNormalMessage(sender, "§bPage: §23/3");
             }
         }

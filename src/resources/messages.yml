@@ -50,6 +50,7 @@ english:
   inGame: "§cIn game."
   gameStarts: "§7§l> §2Game starts!"
   youHaveAGame: "§cYou already are in game."
+  notSameWorld: "§cYou should be on the same world as the arena."
   spadeDeliverIn: "§7§l> §aYour spade come in 5 seconds."
   playerFell: "§7§l> §d{name} §cfell!"
   playerWins: "§7§l> §d{name} §ewins this game!"
@@ -262,6 +263,7 @@ french:
   inGame: "§cPartie en cours."
   gameStarts: "§7§l> §2La partie commence!"
   youHaveAGame: "§cVous êtes déjà dans une partie."
+  notSameWorld: "§cVous devez être sur le même monde que l'arène."
   spadeDeliverIn: "§aVotre pelle arrive dans 5 secondes."
   playerFell: "§7§l> §d{name} §cest tombé!"
   playerWins: "§7§l> §d{name} §eremporte la partie!"
@@ -475,6 +477,7 @@ russian:
   inGame: §cИдет игра.
   gameStarts: §7§l> §2Начилась игра!
   youHaveAGame: §cВы уже в игре.
+  notSameWorld: "Вы должны находиться в том же мире, что и арена."
   spadeDeliverIn: §7§l> §aВам будет выдана лопата через 5 секунд.
   playerFell: §7§l> §d{name} §cумер!
   playerWins: §7§l> §d{name} §eвыиграл игру!

@@ -24,10 +24,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -234,6 +231,10 @@ public class Spleef extends BukkitRunnable implements Listener {
         }
         if(pl.getSpleefPlayerRegistry().getSpleefPlayer(p).hasSpleef()){
             p.sendMessage(getFullName() +" "+ pl.getMessageManager().get("youHaveAGame"));
+            return false;
+        }
+        if(pl.getConfig().getBoolean("joinWorldLock") && !p.getWorld().getName().equals(this.arena.getWorld().getName())) {
+            p.sendMessage(getFullName() +" "+ pl.getMessageManager().get("notSameWorld"));
             return false;
         }
 
@@ -757,6 +758,18 @@ public class Spleef extends BukkitRunnable implements Listener {
     public void fly(PlayerToggleFlightEvent e){
         if(hasPlayer(e.getPlayer()) && !e.getPlayer().hasPermission("spleef.help")){
             e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void worldSwitch(PlayerChangedWorldEvent e){
+        Player p = e.getPlayer();
+        if(this.playerInGame.contains(p) && pl.getConfig().getBoolean("joinWorldLock") && !p.getWorld().getName().equals(this.arena.getWorld().getName())) {
+            if(currentStatus == GameStatus.GAME){
+                this.makeLose(p);
+            }else{
+                this.removePlayer(p);
+            }
         }
     }
 

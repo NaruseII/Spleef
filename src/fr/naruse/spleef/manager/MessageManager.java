@@ -17,6 +17,8 @@ public class MessageManager {
                 lang = "english.";
             }else if(currentLang.equalsIgnoreCase("french")){
                 lang = "french.";
+            }else if(currentLang.equalsIgnoreCase("russian")){
+                lang = "russian.";
             }else{
                 lang = "english.";
                 pl.getLogger().warning("Lang '"+currentLang+"' can't be recognize! Using english.");
