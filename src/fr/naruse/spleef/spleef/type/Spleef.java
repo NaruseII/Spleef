@@ -765,10 +765,17 @@ public class Spleef extends BukkitRunnable implements Listener {
     public void worldSwitch(PlayerChangedWorldEvent e){
         Player p = e.getPlayer();
         if(this.playerInGame.contains(p) && pl.getConfig().getBoolean("joinWorldLock") && !p.getWorld().getName().equals(this.arena.getWorld().getName())) {
+            World world = e.getPlayer().getWorld();
+            Location location = e.getPlayer().getLocation();
+
             if(currentStatus == GameStatus.GAME){
                 this.makeLose(p);
             }else{
                 this.removePlayer(p);
+            }
+
+            if(!p.getWorld().getName().equals(world.getName())){
+                Bukkit.getScheduler().runTaskLater(this.pl, () -> p.teleport(location), 20*3);
             }
         }
     }
