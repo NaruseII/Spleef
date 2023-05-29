@@ -131,14 +131,16 @@ public class Listeners implements Listener {
     public void command(PlayerCommandPreprocessEvent e){
         Player p = e.getPlayer();
         SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
-        List<String> list = pl.getConfig().getStringList("disabledCommands").stream().map(new Function<String, String>() {
-            @Override
-            public String apply(String s) {
-                return s.toLowerCase(Locale.ROOT);
-            }
-        }).collect(Collectors.toList());
+        List<String> list = pl.getConfig().getStringList("disabledCommands").stream()
+                .map(s -> s.toLowerCase(Locale.ROOT))
+                .collect(Collectors.toList());
 
-        if(spleefPlayer != null && spleefPlayer.hasSpleef() && list.contains(e.getMessage().toLowerCase(Locale.ROOT))){
+        String firstArg = e.getMessage();
+        if(e.getMessage().contains(" ")){
+            firstArg = e.getMessage().split(" ")[0];
+        }
+
+        if(spleefPlayer != null && spleefPlayer.hasSpleef() && list.contains(firstArg.toLowerCase(Locale.ROOT))){
             e.setCancelled(true);
         }
     }
