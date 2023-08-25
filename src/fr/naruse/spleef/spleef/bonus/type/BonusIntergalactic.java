@@ -79,7 +79,7 @@ public class BonusIntergalactic extends BonusColored {
             }
 
             if(!blockBuffer.isEmpty()){
-                spleef.destroyBlock(p, blockBuffer);
+                spleef.destroyBlock(p, blockBuffer, true);
             }
 
             sendParticle(new ParticleBuffer()

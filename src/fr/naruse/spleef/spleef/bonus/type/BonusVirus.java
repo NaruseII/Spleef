@@ -108,7 +108,7 @@ public class BonusVirus extends BonusColored {
             Block block = this.infectedBlocks.get(0);
             this.infectedBlocks.remove(block);
 
-            this.spleef.destroyBlock(this.p, block);
+            this.spleef.destroyBlock(this.p, block, true);
             this.meltSmoothly();
         });
     }

@@ -53,7 +53,7 @@ public class BonusLittleLightning extends BonusColored {
         }
         runSync(() -> strikes.forEach(location -> location.getWorld().strikeLightningEffect(location)));
         if(!blockBuffer.isEmpty()){
-            spleef.destroyBlock(p, blockBuffer);
+            spleef.destroyBlock(p, blockBuffer, true);
         }
     }
 }

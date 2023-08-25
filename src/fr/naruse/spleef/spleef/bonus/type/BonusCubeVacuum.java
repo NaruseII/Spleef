@@ -170,7 +170,7 @@ public class BonusCubeVacuum extends BonusColored {
 
             this.vacuumBlock(effect, fallingBlock);
 
-            this.spleef.destroyBlock(this.p, finalNewBlock);
+            this.spleef.destroyBlock(this.p, finalNewBlock, true);
         });
     }
 

@@ -107,7 +107,7 @@ public class NaruseAPIDownloader {
         }
 
         if(!downloadFile("https://github.com/NaruseII/DBAPI/blob/master/out/artifacts/DBAPI/DBAPI.jar?raw=true", file)){
-            javaPlugin.getLogger().severe("Unable to download SecondThreadAPI");
+            javaPlugin.getLogger().severe("Unable to download DBAPI");
             Bukkit.getPluginManager().disablePlugin(javaPlugin);
             return false;
         }

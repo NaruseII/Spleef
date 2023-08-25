@@ -1,6 +1,7 @@
 package fr.naruse.spleef.spleef.type;
 
 import com.google.common.collect.Lists;
+import fr.naruse.api.MathUtils;
 import fr.naruse.api.async.ThreadGlobal;
 import fr.naruse.spleef.main.SpleefPlugin;
 import fr.naruse.spleef.spleef.GameStatus;
@@ -57,13 +58,13 @@ public class BowSpleef extends Spleef {
     @Override
     public void restart() {
         List<Player> list = Lists.newArrayList();
-        for(Player p : playerInGame){
-            list.add(p);
-        }
+        list.addAll(playerInGame);
+        list.addAll(spectators);
         for(Player p : list){
             removePlayer(p);
         }
         playerInGame.clear();
+        spectators.clear();
 
         for (Block block : blocks) {
             block.setType(Material.TNT);
@@ -71,7 +72,9 @@ public class BowSpleef extends Spleef {
         blocks.clear();
 
         currentStatus = GameStatus.WAIT;
-
+        if(bonusManager != null){
+            bonusManager.restart();
+        }
         updateSigns();
     }
 
@@ -100,20 +103,12 @@ public class BowSpleef extends Spleef {
     }
 
     private void changeNeighbours(Location location, Material origin, Material finality){
-        for (Block neighbour : getNeighbours(location)) {
+        for (Block neighbour : MathUtils.nearBlocks(location.getBlock())) {
             if(neighbour.getType() == origin){
                 neighbour.setType(finality);
                 changeNeighbours(neighbour.getLocation(), origin, finality);
             }
         }
-    }
-
-    private Block[] getNeighbours(Location location){
-        return new Block[]{location.clone().add(1, 0, 0).getBlock(), location.clone().add(1, 0, 1).getBlock(),
-                location.clone().add(0, 0, 1).getBlock(), location.clone().add(0, 0, 0).getBlock(),
-                location.clone().add(-1, 0, 0).getBlock(), location.clone().add(-1, 0, -1).getBlock(),
-                location.clone().add(0, 0, -1).getBlock(), location.clone().add(1, 0, -1).getBlock(),
-                location.clone().add(-1, 0, 1).getBlock()};
     }
 
     @EventHandler

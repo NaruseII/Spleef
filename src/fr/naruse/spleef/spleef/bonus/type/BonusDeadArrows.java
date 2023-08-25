@@ -51,7 +51,7 @@ public class BonusDeadArrows extends BonusColored {
                         hyperbol.calculate(tick);
 
                         if(hyperbol.getLocation().getBlock().getType() == Material.SNOW_BLOCK){
-                            spleef.destroyBlock(p, hyperbol.getLocation().getBlock());
+                            spleef.destroyBlock(p, hyperbol.getLocation().getBlock(), true);
                         }
                         if(hyperbol.getLocation().getY() < -280){
                             hyperbolList.remove(hyperbol);

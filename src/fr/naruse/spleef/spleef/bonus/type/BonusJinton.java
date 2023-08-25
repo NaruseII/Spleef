@@ -90,7 +90,7 @@ public class BonusJinton extends BonusColored {
                             }
                         }
 
-                        spleef.destroyBlock(p, blockBuffer);
+                        spleef.destroyBlock(p, blockBuffer, true);
 
                         effect.kill();
                     }else{

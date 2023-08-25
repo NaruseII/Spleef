@@ -75,6 +75,10 @@ public class InventoryManagerGameRules extends AbstractInventory {
                         "§aEnabled: §7Player will not be able to join an arena they are not on the same world as the arena.",
                         "§7If they teleport to another world, they will be kick from the arena they are in.",
                         "§cDisabled: §7No matter the world, players will be able to join.")));
+        inventory.addItem(ItemUtils.buildItem(Material.COMMAND, 1, "§2Snowball on Sheep Break Block", false,
+                Lists.newArrayList("§5- §7Current status: "+(pl.getConfig().getBoolean("snowballSheepBreakBlock") ? "§aEnabled" : "§cDisabled"),
+                        "§aEnabled: §7Player will receive snowballs when a sheep breaks blocks.",
+                        "§cDisabled: §7No snowballs are given when a sheep breaks a block.")));
 
         inventory.setItem(inventory.getSize()-1, ItemUtils.buildItem(Material.BARRIER, "§cBack", false));
     }
@@ -110,6 +114,8 @@ public class InventoryManagerGameRules extends AbstractInventory {
             player.performCommand("spleef enable checkForUpdates");
         }else if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("§2Join World Lock")){
             player.performCommand("spleef enable joinWorldLock");
+        }else if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase("§2Snowball on Sheep Break Block")){
+            player.performCommand("spleef enable snowballSheepBreakBlock");
         }
 
         new InventoryManagerGameRules(this.pl, player);

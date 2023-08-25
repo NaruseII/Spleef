@@ -26,6 +26,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -617,11 +618,18 @@ public class Spleef extends BukkitRunnable implements Listener {
     }
 
     public void destroyBlock(Player p, Block b){
+        this.destroyBlock(p, b, false);
+    }
+
+    public void destroyBlock(Player p, Block b, boolean fromSheep){
         Runnable runnable = () -> {
             blocks.add(b);
             b.setType(Material.AIR);
             if(p != null && pl.getConfig().getBoolean("snowballs")){
-                p.getInventory().addItem(Utils.SNOWBALL.clone());
+                if(fromSheep && !pl.getConfig().getBoolean("snowballSheepBreakBlock")){
+                    return;
+                }
+                this.giveSnowball(p);
             }
         };
         if(Bukkit.isPrimaryThread()){
@@ -635,13 +643,24 @@ public class Spleef extends BukkitRunnable implements Listener {
         this.destroyBlock(p, blockBuffer, 0);
     }
 
+    public void destroyBlock(Player p, BlockBuffer blockBuffer, boolean fromSheep){
+        this.destroyBlock(p, blockBuffer, 0, fromSheep);
+    }
+
     public void destroyBlock(Player p, BlockBuffer blockBuffer, int tickDelay){
+        this.destroyBlock(p, blockBuffer, tickDelay, false);
+    }
+
+    public void destroyBlock(Player p, BlockBuffer blockBuffer, int tickDelay, boolean fromSheep){
         Runnable runnable = () -> {
             for (Block b : blockBuffer) {
                 blocks.add(b);
                 b.setType(Material.AIR);
                 if(p != null && pl.getConfig().getBoolean("snowballs")){
-                    p.getInventory().addItem(Utils.SNOWBALL.clone());
+                    if(fromSheep && !pl.getConfig().getBoolean("snowballSheepBreakBlock")){
+                        continue;
+                    }
+                    this.giveSnowball(p);
                 }
             }
         };
@@ -666,6 +685,20 @@ public class Spleef extends BukkitRunnable implements Listener {
         }
     }
 
+    protected void giveSnowball(Player p){
+        int amount = 0;
+        for (ItemStack itemStack : p.getInventory()) {
+            if(itemStack != null && itemStack.getType() == Material.SNOW_BALL){
+                amount += itemStack.getAmount();
+            }
+        }
+
+        if(amount >= pl.getConfig().getInt("snowballMaxAmount")){
+            return;
+        }
+        p.getInventory().addItem(Utils.SNOWBALL.clone());
+    }
+
     @EventHandler
     public void chunkLoad(ChunkLoadEvent e){
         for(BlockState state : e.getChunk().getTileEntities()){
@@ -688,7 +721,7 @@ public class Spleef extends BukkitRunnable implements Listener {
             if(!hasPlayer(p) || currentStatus == GameStatus.WAIT){
                 return;
             }
-            p.getInventory().addItem(Utils.SNOWBALL.clone());
+            this.giveSnowball(p);
             if(e.getHitBlock() != null && e.getHitBlock().getType() == Material.SNOW_BLOCK){
                 Block block = e.getHitBlock();
                 blocks.add(block);

@@ -19,6 +19,7 @@ allowShowIPAsked2: false
 serverIP: "nope"
 disabledCommands:
 checkForUpdates: true
+snowballSheepBreakBlock: true
 
 timer:
   start: 30
@@ -35,5 +36,6 @@ leaveItem:
   type: BARRIER
   data: 0
 
-snowballsGivenOnBlockBreak: 16
+snowballsGivenOnBlockBreak: 4
 snowballCooldown: 0
+snowballMaxAmount: 16
