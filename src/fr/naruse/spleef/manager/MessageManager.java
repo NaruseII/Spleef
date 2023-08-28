@@ -19,9 +19,11 @@ public class MessageManager {
                 lang = "french.";
             }else if(currentLang.equalsIgnoreCase("russian")){
                 lang = "russian.";
+            }else if(currentLang.equalsIgnoreCase("german")){
+                lang = "german.";
             }else{
                 lang = "english.";
-                pl.getLogger().warning("Lang '"+currentLang+"' can't be recognize! Using english.");
+                pl.getLogger().warning("Lang '"+currentLang+"' can't be recognized! Using english.");
             }
         }
 

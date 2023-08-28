@@ -636,3 +636,261 @@ russian:
     BonusSheepRepulsion: ""
     BonusSlowness: ""
     BonusSpeed: ""
+
+german:
+  commands:
+    onlyForPlayers: §cBefehle können nur von Spielern ausgeführt werden.
+    youDontHaveThePermission: §cDu hast nicht die Berechtigung um dies zu tun.
+    wrongNumber: §cFalsche Nummer.
+    spleefCreated: §aSpleef erstellt.
+    spleefDeleted: §aSpleef gelöscht.
+    error: §4ERROR
+    spleefNotFound: §cSpleef '{name}' nicht gefunden.
+    reload: §aSpleefs neu geladen.
+    settingSaved: §aEinstellung gespeichert.
+    settingMaxSaved: §aMaximum gespeichert.
+    settingMinSaved: §aMinimum gespeichert.
+    settingLocationSaved:
+      arena: §aStandort der Arena gespeichert.
+      spawn: §aStandort des Spawns gespeichert.
+      lobby: §aStandort der Lobby gespeichert.
+    argumentNotFound: §cArgument '{arg}' nicht gefunden.
+    langChanged: §aSprache geändert.
+    alreadyExists: §cSpleef existiert bereits.
+    timerChanged: §aTimer gespeichert.
+    gameAlreadyStarted: §cSpiel läuft bereits.
+    notEnoughPlayers: §cNicht genug Spieler. ({size}/{min})
+    gameStarted: §aSpiel gestartet.
+    gameAlreadyStopped: §cDas Spiel läuft gerade nicht.
+    gameStopped: §aSpiel gestoppt.
+    playerNotFound: §cSpieler nicht gefunden.
+    playerAdded: §aSpieler wurde dem Spiel hinzugefügt.
+    playerInGame: §cDieser Spieler spielt bereits.
+    spleefOpened: §aSpleef geöffnet.
+    spleefClosed: §aSpleef geschlossen.
+    listNotGoodSpleefs: '§aFalsch konfigurierte spleefs : §c{list}'
+    listGoodSpleefs: '§aFunktionierende spleefs: §2{list}'
+    youAreNotInGame: §cDu bist nicht im Spiel.
+    statsCleared: §aStatistik gelöscht.
+    hologramSaved: §aHologramm gespeichert. §7(Kann mit dem Befehl §e/spleef enable
+      HolographicRanking aktiviert werden§7)
+    gameModeChanged: §aSpielmodus geändert.
+    checkStarted: §aÜberprüfe Updates...
+    sqlNotFound: §cSQL nicht gefunden.
+    statisticSaved: §aStatistik gespeichert.
+    disabledCommandsCleared: §aAlle Befehle sind verfügbar.
+    disabledCommands: '§aDeaktivierte Befehle:'
+    disabledCommandsIsEmpty: §cEs sind keine Befehle deaktiviert.
+    disabledCommandsAdded: §aBefehl hinzugefügt.
+    disabledCommandsRemoved: §aBefehl gelöscht.
+    bonusList: '§aBonus Liste:'
+  spleefTag: §6§l
+  leaveSpleef: §7§l> §d{name}§c verlässt das Spiel.
+  joinSpleef: §7§l> §d{name}§a betritt das Spiel.
+  inGame: §cIm Spiel.
+  gameStarts: §7§l> §2Spiel startet!
+  youHaveAGame: §cDu bist bereits im Spiel.
+  notSameWorld: §cDu musst in der selben Welt wie der, der Arena sein.
+  spadeDeliverIn: §7§l> §aDeine Schaufel ist in 5 Sekunden einsatzbereit.
+  playerFell: §7§l> §d{name} §cist heruntergefallen!
+  playerWins: §7§l> §d{name} §egewinnt das Spiel!
+  playersWins: §7§l> §d{name} §egewinnen das Spiel!
+  closed: §7§l> §cGeschlossen.
+  dontStayOnTheSameBlock: §f§l» §cNicht am selben Block stehen bleiben!
+  needToRestart: §4§lHey! §cSpleef wurde automatisch geupdatet. Damit das Update wirksam
+    wird, musst du den Server neustarten.
+  needHasAnUpdate: |-
+    §4§lHey! §cSpleef hat ein Update auf Spigot gefunden. Du verwendest zur Zeit Version §d{currentVersion}§c aber §d{newVersion}§c ist verfügbar. §c
+    Lade es hier herunter: §d{url}§c.
+  leaveItem: §cLassen
+  upToDate: §aSpleef ist up to date.
+  youCantJoinThisGameCausePermission: §cDu hast nicht die Berechtigung, um dem Spiel
+    beitreten zu können.
+  gameFull: §cSpleef ist voll.
+  gameStartsIn: §7§l> §aSpiel startet in {time} Sekunden!
+  youNeedToBeInGame: §cDu musst im Spiel sein.
+  settingShouldBeEnabled: §cEinstellung {setting} sollte aktiviert sein.
+  sign:
+    spleef:
+      isClosed:
+        line1: '{name}'
+        line2: ''
+        line3: §cGeschlossen
+        line4: ''
+      isOpened:
+        isWaiting:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3:
+            '1': §aBereit
+            '2': §4{missing} fehlt
+          line4: §aBeitreten
+        isPlaying:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3: ''
+          line4: §4Im Spiel
+    splegg:
+      isClosed:
+        line1: '{name}'
+        line2: ''
+        line3: §cGeschlossen
+        line4: ''
+      isOpened:
+        isWaiting:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3:
+            '1': §aBereit
+            '2': §4{missing} fehlt
+          line4: §5Splegg
+        isPlaying:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3: ''
+          line4: §5Splegg
+    bow:
+      isClosed:
+        line1: '{name}'
+        line2: ''
+        line3: §cGeschlossen
+        line4: ''
+      isOpened:
+        isWaiting:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3:
+            '1': §aBereit
+            '2': §4{missing} fehlt
+          line4: §5BowSpleef
+        isPlaying:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3: ''
+          line4: §5BowSpleef
+    team:
+      isClosed:
+        line1: '{name}'
+        line2: ''
+        line3: §cGeschlossen
+        line4: ''
+      isOpened:
+        isWaiting:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3:
+            '1': §aBereit
+            '2': §4{missing} fehlt
+          line4: §5Team
+        isPlaying:
+          line1: '{name}'
+          line2:
+            '3': §a{size}/{max}
+            '2': §6{size}/{max}
+            '1': §c{size}/{max}
+          line3: ''
+          line4: §5Team
+  inventory:
+    statisticsTitle: §c§l{name}'s Statistik
+    notFound: §4Statistik wurde nicht gefunden!
+    wins: '§6§lGewonnen : {value}'
+    loses: '§4§lVerloren : {value}'
+  hologram:
+    title: §6 ---- Players Ranking ----
+    format: §6#{rank} §e§l{name} §7- §a{wins} Gewinne
+  papi:
+    closed: §cGeschlossen
+    opened: §aGeöffnet
+    inGame: §cIm Spiel
+    notInGame: §aWartet
+  scoreboard:
+    scoreboardFormat: §7{name}
+    scoreboardName: '{name} §5{time}'
+  bonuses:
+    BonusMagnet: |-
+      §7Zieht alle Objekte in der Nähe an.
+      §7Radius: 12 Blöcke.
+    BonusExplosiv: §7Spawnt 5 §c§lexplosive Schafe.
+    BonusGroßerBlitz: |-
+      §7Zufällige Blitzeinschläge. (Bis zu 40 Stück)
+      §7Radius: 15 Blöcke.
+    BonusFlashbang: |-
+      §7Blendet Spieler in der Nähe für 8 Sekunden.
+      §7Radius: 10 Blöcke.
+    BonusTodespfeile: §7Spawnt 40 Schnee schmelzende Pfeile von oben.
+    BonusExplosion: |-
+      §7Schmelzende Explosion.
+      §7Radius: 5 Blöcke.
+    BonusKleineReparatur: |-
+      §7Repariert 50 zuvor zerstörte Blöcke.
+      §7Hört erst auf, wenn 50 Blöcke repariert wurden.
+    BonusRauchgranate: |-
+      §7Rauch Partikel verbergen den Boden.
+      §7Radius: 6 Blöcke.
+    BonusMinigun: |-
+      §7Verfolgt den am nähst stehenden Spieler und greift ihn mit Schneebällen an.
+      §7Detektionsradius: 50 Blöcke.
+    BonusIntergalaktisch: |-
+      §7Spawnt einen Meteoriten, welcher den Schnee schmilzt.
+      §7Radius: 6 Blöcke.
+    BonusIntergalaktischesSchild: §7Folgt dir 15 Sekunden lang. Tötet ein §a§lIntergalaktisches
+      Schaf§7 wenn es über dir erkannt wird.
+    BonusWürfelschmelze: |-
+      §73D Wachsender Würfel, welcher nach 13 Sekunden Schnee schmilzt.
+      §7Radius: Mehr als 40 Blöcke.
+    BonusKleineWürfelschmelze: |-
+      §73D Wachsender Würfel, welcher nach 13 Sekunden Schnee schmilzt.
+      §7Radius: Mehr als 10 Blöcke.
+    BonusKleinerBlitz: |-
+      §7Zufällige Blitzeinschläge. (15 Stück)
+      §7Radius: 15 Blöcke.
+    BonusMegaReparatur: |-
+      §7Repariert 400 zuvor zerstörte Blöcke.
+      §7Hört erst auf, wenn 400 Blöcke repariert wurden.
+    BonusRutschpartie: |-
+      §7Rutschendes Schaf, welches den Schnee unter sich schmilzt.
+      §7Radius: 4 Blöcke.
+    BonusSpielerTeleporter: §7Wechselt deine Position mit dem Spieler, der berührt
+      wird.
+    BonusProjektilSchild: §7Folgt dir für 8 Sekunden und wehrt Projektile ab.
+    BonusZufall: §7Spawnt zufälligen Bonus.
+    BonusObjektabwehr: |-
+      §7Wehrt Objekte ab.
+      §7Radius: 5 Blöcke.
+    BonusSchafabwehr: |-
+      §7Folgt dir für 8 Sekunden. Wehrt alle Schafe ab.
+      §7Radius: 10 Blöcke.
+    BonusVerlangsamung: |-
+      §7Verlangsamt Spieler in der Nähe für 8 Sekunden.
+      §7Radius: 10 Blöcke.
+    BonusGeschwindigkeit: |-
+      §7Beschleunigt Spieler in der Nähe für 15 Sekunden.
+      §7Radius: 10 Blöcke.
+    BonusVerfolgendeSchmelzexplosion: |-
+      §7Verfolgendes Schaf mit einer Schmelz-Explosion.
+      §7Radius: 5 Blöcke.
+    BonusVirus: §7Grünes Virus, welches zufällige Blöcke befällt. Schmilzt sie nach
+      10 sekunden.
+    BonusWürfelsauger: §710 schwebende Würfel kreisen herum und schmelzen alle Schneeblöcke
+      auf ihren Wegen.
