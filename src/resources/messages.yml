@@ -828,69 +828,69 @@ german:
     scoreboardFormat: §7{name}
     scoreboardName: '{name} §5{time}'
   bonuses:
-    BonusMagnet: |-
+    BonusAttraction: |-
       §7Zieht alle Objekte in der Nähe an.
       §7Radius: 12 Blöcke.
-    BonusExplosiv: §7Spawnt 5 §c§lexplosive Schafe.
-    BonusGroßerBlitz: |-
+    BonusBallistic: §7Spawnt 5 §c§lexplosive Schafe.
+    BonusBigLightning: |-
       §7Zufällige Blitzeinschläge. (Bis zu 40 Stück)
       §7Radius: 15 Blöcke.
-    BonusFlashbang: |-
+    BonusBlinder: |-
       §7Blendet Spieler in der Nähe für 8 Sekunden.
       §7Radius: 10 Blöcke.
-    BonusTodespfeile: §7Spawnt 40 Schnee schmelzende Pfeile von oben.
-    BonusExplosion: |-
+    BonusDeadArrows: §7Spawnt 40 Schnee schmelzende Pfeile von oben.
+    BonusExplosive: |-
       §7Schmelzende Explosion.
       §7Radius: 5 Blöcke.
-    BonusKleineReparatur: |-
+    BonusFloorFixer: |-
       §7Repariert 50 zuvor zerstörte Blöcke.
       §7Hört erst auf, wenn 50 Blöcke repariert wurden.
-    BonusRauchgranate: |-
+    BonusFloorHider: |-
       §7Rauch Partikel verbergen den Boden.
       §7Radius: 6 Blöcke.
-    BonusMinigun: |-
+    BonusGunner: |-
       §7Verfolgt den am nähst stehenden Spieler und greift ihn mit Schneebällen an.
       §7Detektionsradius: 50 Blöcke.
-    BonusIntergalaktisch: |-
+    BonusIntergalactic: |-
       §7Spawnt einen Meteoriten, welcher den Schnee schmilzt.
       §7Radius: 6 Blöcke.
-    BonusIntergalaktischesSchild: §7Folgt dir 15 Sekunden lang. Tötet ein §a§lIntergalaktisches
+    BonusIntergalacticShield: §7Folgt dir 15 Sekunden lang. Tötet ein §a§lIntergalaktisches
       Schaf§7 wenn es über dir erkannt wird.
-    BonusWürfelschmelze: |-
+    BonusJinton: |-
       §73D Wachsender Würfel, welcher nach 13 Sekunden Schnee schmilzt.
       §7Radius: Mehr als 40 Blöcke.
-    BonusKleineWürfelschmelze: |-
+    BonusLittleJinton: |-
       §73D Wachsender Würfel, welcher nach 13 Sekunden Schnee schmilzt.
       §7Radius: Mehr als 10 Blöcke.
-    BonusKleinerBlitz: |-
+    BonusLittleLightning: |-
       §7Zufällige Blitzeinschläge. (15 Stück)
       §7Radius: 15 Blöcke.
-    BonusMegaReparatur: |-
+    BonusMegaFloorFixer: |-
       §7Repariert 400 zuvor zerstörte Blöcke.
       §7Hört erst auf, wenn 400 Blöcke repariert wurden.
-    BonusRutschpartie: |-
+    BonusMelt: |-
       §7Rutschendes Schaf, welches den Schnee unter sich schmilzt.
       §7Radius: 4 Blöcke.
-    BonusSpielerTeleporter: §7Wechselt deine Position mit dem Spieler, der berührt
+    BonusPlayerTeleporter: §7Wechselt deine Position mit dem Spieler, der berührt
       wird.
-    BonusProjektilSchild: §7Folgt dir für 8 Sekunden und wehrt Projektile ab.
-    BonusZufall: §7Spawnt zufälligen Bonus.
-    BonusObjektabwehr: |-
+    BonusProjectileCounter: §7Folgt dir für 8 Sekunden und wehrt Projektile ab.
+    BonusRandom: §7Spawnt zufälligen Bonus.
+    BonusRepulsion: |-
       §7Wehrt Objekte ab.
       §7Radius: 5 Blöcke.
-    BonusSchafabwehr: |-
+    BonusSheepRepulsion: |-
       §7Folgt dir für 8 Sekunden. Wehrt alle Schafe ab.
       §7Radius: 10 Blöcke.
-    BonusVerlangsamung: |-
+    BonusSlowness: |-
       §7Verlangsamt Spieler in der Nähe für 8 Sekunden.
       §7Radius: 10 Blöcke.
-    BonusGeschwindigkeit: |-
+    BonusSpeed: |-
       §7Beschleunigt Spieler in der Nähe für 15 Sekunden.
       §7Radius: 10 Blöcke.
-    BonusVerfolgendeSchmelzexplosion: |-
+    BonusSeekerExplosive: |-
       §7Verfolgendes Schaf mit einer Schmelz-Explosion.
       §7Radius: 5 Blöcke.
     BonusVirus: §7Grünes Virus, welches zufällige Blöcke befällt. Schmilzt sie nach
       10 sekunden.
-    BonusWürfelsauger: §710 schwebende Würfel kreisen herum und schmelzen alle Schneeblöcke
+    BonusCubeVacuum: §710 schwebende Würfel kreisen herum und schmelzen alle Schneeblöcke
       auf ihren Wegen.
