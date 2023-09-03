@@ -41,29 +41,12 @@ public class NaruseAPIDownloader {
             Bukkit.getPluginManager().enablePlugin(pl);
         } catch (Exception e) {
             e.printStackTrace();
+            Bukkit.getPluginManager().disablePlugin(javaPlugin);
         }
     }
 
     public static void checkSecondThreadAPI(JavaPlugin javaPlugin){
         Plugin plugin = Bukkit.getPluginManager().getPlugin("SecondThreadAPI");
-        if(plugin != null){
-            Bukkit.getPluginManager().disablePlugin(plugin);
-            File file = new File(javaPlugin.getDataFolder().getParentFile(), "SecondThreadAPI.jar");
-            if(file.exists()){
-                file.delete();
-            }
-        }
-
-        plugin = Bukkit.getPluginManager().getPlugin("NaruseAPI");
-        if(plugin != null){
-            Bukkit.getPluginManager().disablePlugin(plugin);
-            File file = new File(javaPlugin.getDataFolder().getParentFile(), "NaruseAPI.jar");
-            if(file.exists()){
-                file.delete();
-            }
-        }
-
-        plugin = Bukkit.getPluginManager().getPlugin("NaruseSecondThreadAPI");
         if(plugin != null){
             String version = getVersion("https://raw.githubusercontent.com/NaruseII/SecondThreadAPI/master/src/plugin.yml");
             if(version.equals("error")){
@@ -101,6 +84,7 @@ public class NaruseAPIDownloader {
             Bukkit.getPluginManager().enablePlugin(pl);
         } catch (Exception e) {
             e.printStackTrace();
+            Bukkit.getPluginManager().disablePlugin(javaPlugin);
         }
     }
 
@@ -136,6 +120,7 @@ public class NaruseAPIDownloader {
             Bukkit.getPluginManager().enablePlugin(pl);
         } catch (Exception e) {
             e.printStackTrace();
+            Bukkit.getPluginManager().disablePlugin(javaPlugin);
             return false;
         }
         return true;

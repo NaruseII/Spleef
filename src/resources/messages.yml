@@ -702,7 +702,7 @@ german:
   needHasAnUpdate: |-
     §4§lHey! §cSpleef hat ein Update auf Spigot gefunden. Du verwendest zur Zeit Version §d{currentVersion}§c aber §d{newVersion}§c ist verfügbar. §c
     Lade es hier herunter: §d{url}§c.
-  leaveItem: §cLassen
+  leaveItem: §cVerlassen
   upToDate: §aSpleef ist up to date.
   youCantJoinThisGameCausePermission: §cDu hast nicht die Berechtigung, um dem Spiel
     beitreten zu können.
