@@ -64,10 +64,14 @@ public class Utils {
         }
 
         if(pl.getConfig().contains("reward.winItem")){
-            WIN_ITEM = ItemStack.deserialize(StatisticBuilder.GSON.fromJson(pl.getConfig().getString("reward.winItem"), StatisticBuilder.MAP_TYPE));
-            Map<String, Object> map = StatisticBuilder.GSON.fromJson(pl.getConfig().getString("reward.winItemEnchants"), StatisticBuilder.MAP_TYPE);
-            if(map != null){
-                map.forEach((name, i) -> WIN_ITEM.addUnsafeEnchantment(Enchantment.getByName(name), (int) Double.parseDouble(i.toString())));
+            try{
+                WIN_ITEM = ItemStack.deserialize(StatisticBuilder.GSON.fromJson(pl.getConfig().getString("reward.winItem"), StatisticBuilder.MAP_TYPE));
+                Map<String, Object> map = StatisticBuilder.GSON.fromJson(pl.getConfig().getString("reward.winItemEnchants"), StatisticBuilder.MAP_TYPE);
+                if(map != null){
+                    map.forEach((name, i) -> WIN_ITEM.addUnsafeEnchantment(Enchantment.getByName(name), (int) Double.parseDouble(i.toString())));
+                }
+            }catch (Exception e){
+                pl.getLogger().severe("Could not load WIN ITEM.");
             }
         }
     }

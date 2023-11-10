@@ -1,15 +1,20 @@
 package fr.naruse.api;
 
+import fr.naruse.api.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simple.parser.JSONParser;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class NaruseAPIDownloader {
 
