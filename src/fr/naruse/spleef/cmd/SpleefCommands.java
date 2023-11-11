@@ -668,6 +668,7 @@ public class SpleefCommands implements CommandExecutor {
         //CHECK UPDATE
         if(args[0].equalsIgnoreCase("checkUpdate")){
             SpleefUpdater.checkNewVersion(pl, true);
+            NaruseAPIDownloader.checkSecondThreadAPI(pl);
             return sendMessage(sender, "checkStarted");
         }
 
