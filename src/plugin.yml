@@ -1,8 +1,8 @@
 name: Spleef
-version: 2.2.23
+version: 2.2.24
 author: Naruse
 main: fr.naruse.spleef.main.SpleefPlugin
-softdepend: [DBAPI, Vault, HolographicDisplays, PlaceholderAPI, SecondThreadAPI, DecentHolograms]
+softdepend: [DBAPI, Vault, HolographicDisplays, PlaceholderAPI, SecondThreadAPI, DecentHolograms, PlugManX]
 commands:
   spleef:
     description: All commands for Spleef

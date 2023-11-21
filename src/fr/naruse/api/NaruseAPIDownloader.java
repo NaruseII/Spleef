@@ -1,22 +1,40 @@
 package fr.naruse.api;
 
-import fr.naruse.api.config.Configuration;
+import com.rylinaux.plugman.PlugMan;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.json.simple.parser.JSONParser;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class NaruseAPIDownloader {
+
+    public static boolean downloadPlugManX(JavaPlugin javaPlugin) {
+        String name = "PlugManX";
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(name);
+        if(plugin != null) {
+            return false;
+        }
+
+        File file = new File(javaPlugin.getDataFolder().getParentFile(), name+".jar");
+        if(!downloadFile("https://github.com/NaruseII/SecondThreadAPI/blob/master/out/artifacts/NaruseSpigotAPI/"+name+".jar?raw=true", file)) {
+            javaPlugin.getLogger().severe("Could not check online dependencies! " + name);
+            return false;
+        }
+
+        try {
+            Plugin pl = Bukkit.getPluginManager().loadPlugin(file);
+            Bukkit.getPluginManager().enablePlugin(pl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     public static void checkConfigAPI(JavaPlugin javaPlugin){
         Plugin plugin = Bukkit.getPluginManager().getPlugin("NaruseAPI");
@@ -26,7 +44,8 @@ public class NaruseAPIDownloader {
                 javaPlugin.getLogger().severe("Could not check online dependecies!");
                 return;
             }else if(!version.equalsIgnoreCase(plugin.getDescription().getVersion())){
-                Bukkit.getPluginManager().disablePlugin(plugin);
+                PlugMan.getInstance().getPluginUtil().disable(plugin);
+                PlugMan.getInstance().getPluginUtil().unload(plugin);
             }else{
                 return;
             }
@@ -42,8 +61,7 @@ public class NaruseAPIDownloader {
             return;
         }
         try {
-            Plugin pl = Bukkit.getPluginManager().loadPlugin(file);
-            Bukkit.getPluginManager().enablePlugin(pl);
+            PlugMan.getInstance().getPluginUtil().load("NaruseConfigAPI");
         } catch (Exception e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(javaPlugin);
@@ -58,7 +76,8 @@ public class NaruseAPIDownloader {
                 javaPlugin.getLogger().severe("Could not check online dependecies!");
                 return;
             }else if(!version.equalsIgnoreCase(plugin.getDescription().getVersion())){
-                Bukkit.getPluginManager().disablePlugin(plugin);
+                PlugMan.getInstance().getPluginUtil().disable(plugin);
+                PlugMan.getInstance().getPluginUtil().unload(plugin);
             }else{
                 return;
             }
@@ -85,8 +104,7 @@ public class NaruseAPIDownloader {
         }
 
         try {
-            Plugin pl = Bukkit.getPluginManager().loadPlugin(file);
-            Bukkit.getPluginManager().enablePlugin(pl);
+            PlugMan.getInstance().getPluginUtil().load("NaruseSecondThreadAPI");
         } catch (Exception e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(javaPlugin);
