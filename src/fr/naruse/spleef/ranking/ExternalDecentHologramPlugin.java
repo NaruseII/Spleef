@@ -6,7 +6,6 @@ import eu.decentsoftware.holograms.api.holograms.HologramPage;
 import fr.naruse.spleef.main.SpleefPlugin;
 
 import java.util.List;
-import java.util.Random;
 
 public class ExternalDecentHologramPlugin extends HologramPlugin<Hologram>{
 
@@ -16,7 +15,15 @@ public class ExternalDecentHologramPlugin extends HologramPlugin<Hologram>{
 
     @Override
     protected void insertLines(List<String> lines) {
-        for (int i = 0; i < this.hologram.getPages().size(); i++) {
+        int size;
+        try {
+            Object listObj = this.hologram.getClass().getMethod("getPages").invoke(this.hologram);
+            size = (int) listObj.getClass().getMethod("size").invoke(listObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        for (int i = 0; i < size; i++) {
             this.hologram.removePage(i);
         }
         HologramPage hologramPage = this.hologram.addPage();

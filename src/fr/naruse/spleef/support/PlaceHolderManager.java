@@ -107,13 +107,24 @@ public class PlaceHolderManager extends PlaceholderExpansion {
         Spleef spleef = getSpleefByName(args[0]);
         if(spleef == null){
             SpleefPlayer spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(p);
-            if(spleefPlayer == null){
+            if(spleefPlayer == null){//%spleef_win_s%
                 return "Spleef Not Found";
             }
             if(args[0].equalsIgnoreCase("win")){
                 return spleefPlayer.getStatistic(StatisticType.WIN)+"";
             }else if(args[0].equalsIgnoreCase("loose")){
                 return spleefPlayer.getStatistic(StatisticType.LOSE)+"";
+            }else{
+                OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+                spleefPlayer = pl.getSpleefPlayerRegistry().getSpleefPlayer(player);
+                if(spleefPlayer == null){
+                    return "Spleef Not Found";
+                }
+                if(args[1].equalsIgnoreCase("win")){
+                    return spleefPlayer.getStatistic(StatisticType.WIN)+"";
+                }else if(args[2].equalsIgnoreCase("loose")){
+                    return spleefPlayer.getStatistic(StatisticType.LOSE)+"";
+                }
             }
             return "Spleef Not Found";
         }
